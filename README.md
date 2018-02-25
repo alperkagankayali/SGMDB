@@ -1,4 +1,4 @@
-# SGMDB
+# SGMDB - Social Gaming Marketplace Database
 
 ### Course Information
 
@@ -23,6 +23,6 @@ Ozgur Ulusoy
 
 ### Reports
 
-* [Proposal](https://drive.google.com/drive/folders/19QUKcyrf1fbGwgXFR5BghGB6Eyip0f_Q)
-* [Design] ()
-* [Final] ()
+* [Proposal](https://drive.google.com/open?id=1s8QaVDDs9bvBjcTgf0m1TwTiGquKl0eL)
+* [Design]
+* [Final] 
