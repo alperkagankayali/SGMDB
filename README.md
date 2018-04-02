@@ -24,5 +24,5 @@ Ozgur Ulusoy
 ### Reports
 
 * [Proposal](https://drive.google.com/open?id=1s8QaVDDs9bvBjcTgf0m1TwTiGquKl0eL)
-* [Design]
+* [Design](https://drive.google.com/open?id=10YqwDZZbO86-3yMp30mkuuOPpDiGNepL)
 * [Final] 
