@@ -62,11 +62,9 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                       <div class="form-control">
                         <label class="header">Enter the company email to login:</label>
                         <div class="nl">
-<<<<<<< HEAD:php/login/login-company.php
+                          
                           <input type="text" id="c_email" name="company_email" placeholder="Company name" title="Please enter company email" required="">
-=======
-                          <input type="text" id="store_name" name="store_name" placeholder="Company Name" title="Please enter your First Name" required="">
->>>>>>> a31a0369068f06df913b9992aee561f6e847f685:php/login-company.php
+
                         </div>
                       </div>
                     </p>
