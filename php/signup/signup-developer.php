@@ -18,7 +18,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
 .nav_links {height: 50px; padding:10px}
 .search-form {margin:10px; margin-left:20px}
 .white-font {color:white}
-.background {background:url('images/bg.jpg')}
+.background {background:url('../images/bg.jpg')}
 </style>
 
 <!--*************************************************************************************************-->
@@ -45,23 +45,43 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
             <hr>
             <div class="signup-w3ls">
               <div class="signup-agile1">
-                <form action="#" method="post">
-                  <!-- Name -->
-                  <p>
+                <form action="process_developer_sign_up.php" method="post">
+                    <!-- First Name -->
+                    <p>
                     <div class="form-control">
-                      <label class="header">Name:</label>
+                      <label class="header">First name:</label>
                       <div class="nl">
 
-                        <input type="text" id="owner_type" name="owner_type" placeholder="First Middle Last" title="Please enter a valid email" required=""></div>
+                        <input type="text" id="d_f_name" name="developer_first_name" placeholder="First name" title="Please enter a valid name" required=""></div>
                       </div>
                     </p>
-                    
+
+                    <!-- Middle Name -->
+                    <p>
+                    <div class="form-control">
+                      <label class="header">Middle name:</label>
+                      <div class="nl">
+
+                        <input type="text" id="d_m_name" name="developer_mid_name" placeholder="Middle name (optional)" title="Please enter a valid name" ></div>
+                      </div>
+                    </p>
+
+                    <!-- Last Name -->
+                    <p>
+                    <div class="form-control">
+                      <label class="header">Last name:</label>
+                      <div class="nl">
+
+                        <input type="text" id="d_l_name" name="developer_last_name" placeholder="Last name" title="Please enter a valid name" required=""></div>
+                      </div>
+                    </p>
+
                     <!-- Email -->
                     <p>
                       <div class="form-control">
                         <label class="header">Email:</label>
                         <div class="nl">
-                          <input type="text" id="store_name" name="store_name" placeholder="Email" title="Please enter your First Name" required="">
+                          <input type="text" id="dev_email" name="developer_email" placeholder="Email" title="Please enter your email" required="">
                         </div>
                       </div>
                     </p>
@@ -71,7 +91,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                       <div class="form-control">
                         <label class="header">Password:</label>
                         <div class="nl">
-                          <input type="text" id="store_type" name="store_type" placeholder="Password" title="Please enter your Last Name" required="">
+                          <input type="password" id="dev_pass" name="developer_password" placeholder="Password" title="Please enter your passoword" required="">
                         </div>
                       </div>
                     </p>
@@ -81,10 +101,17 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                       <div class = "c3">
                         <label for="psw-repeat"><b>Repeat Password</b></label>
                       </div>
-                      <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+                      <input type="password" placeholder="Repeat Password" name="developer_psw_repeat" required>
                     </p>
 
                     <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+                    <!-- Log in -->
+                    <p>
+                      <div class = "c3">
+                        <a href = "../login/login-developer.php" > Developer login </a>
+                      </div>
+                    </p>
 
                     <!-- Submit -->
                     <input type="submit" class="register" value="Register">

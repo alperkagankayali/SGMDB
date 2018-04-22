@@ -5,7 +5,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="css/style-tab.css">
+<link rel="stylesheet" type="text/css" href="../css/style-tab.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -19,7 +19,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
 .nav_links {height: 50px; padding:10px}
 .search-form {margin:10px; margin-left:20px}
 .white-font {color:white}
-.background {background:url('images/bg.jpg')}
+.background {background:url('../images/bg.jpg')}
 </style>
 
 <!--*************************************************************************************************-->
@@ -42,7 +42,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
           <div class="container1">
 
             <h1>Log in to SGMDB</h1>
-              <h4> as Player </h4>
+              <h4> as Company </h4>
               <p>Please fill in this form to login.</p>
             <hr>
 
@@ -55,14 +55,18 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
 
             <div class="signup-w3ls">
               <div class="signup-agile1">
-                <form action="#" method="post">
+                <form action="process_company_login.php" method="post">
 
-                    <!-- Username -->
+                    <!-- Company email -->
                     <p>
                       <div class="form-control">
-                        <label class="header">Enter your username or email to login:</label>
+                        <label class="header">Enter the company email to login:</label>
                         <div class="nl">
-                          <input type="text" id="store_name" name="store_name" placeholder="User Name or Email" title="Please enter your First Name" required="">
+<<<<<<< HEAD:php/login/login-company.php
+                          <input type="text" id="c_email" name="company_email" placeholder="Company name" title="Please enter company email" required="">
+=======
+                          <input type="text" id="store_name" name="store_name" placeholder="Company Name" title="Please enter your First Name" required="">
+>>>>>>> a31a0369068f06df913b9992aee561f6e847f685:php/login-company.php
                         </div>
                       </div>
                     </p>
@@ -72,7 +76,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                       <div class="form-control">
                         <label class="header">Password:</label>
                         <div class="nl">
-                          <input type="text" id="store_type" name="store_type" placeholder="Password" title="Please enter your Last Name" required="">
+                          <input type="password" id="c_password" name="company_password" placeholder="Password" title="Please enter company password" required="">
                         </div>
                       </div>
                     </p>
@@ -80,7 +84,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                     <!-- Sign up -->
                     <p>
                       <div class = "c3">
-                        <a href = "signup-player.php" > Haven't sign up yet? </a>
+                        <a href = "../signup/signup-company.php" > Haven't sign up yet? </a>
                       </div>
                     </p>
 

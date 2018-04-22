@@ -1,5 +1,5 @@
 <?php
-    include("db.php");
+    include("../db.php");
     session_start();
 
     // Accessing data from input fields from login page of player
@@ -20,9 +20,6 @@
     $insert_query = "INSERT INTO player (email, username, password, firstname, middlename, lastname, birth_date, profile_picture, status, age)
                                VALUES ('$player_email', '$player_username', '$player_password','$player_first_name', '$player_mid_name', '$player_last_name', '$birthdate', '$profile_picture', 0, $age);";
 
-    // Executes the query
-    $result0 = mysqli_query($db, $insert_query);
-
     $result1 = ($player_password == $repeated_password);
 
     // Check the password match
@@ -30,23 +27,26 @@
     {
         echo "<h3> Passwords do not match! </h3>";
 
-        echo "<a href = 'login-player.php'> Go back to login page </a>";
+        echo "<a href = 'signup-player.php'> Go back to login page </a>";
     }
 
     else
     {
+        // Executes the query
+        $result0 = mysqli_query($db, $insert_query);
+        
         // Check if query is successful
         if(!$result0)
         {
             echo "<h3> This username or email is already used! </h3>";
 
-            echo "<a href = 'login-player.php'> Go back to login page </a>";
+            echo "<a href = 'signup-player.php'> Go back to login page </a>";
         }
         else
         {
-            header("location: login-player.php");
+            echo "<h3> Account is created successfully! </h3>";
 
-            exit();
+            echo "<a href = '../login/login-player.php'> Go back to login page </a>";
         }
     }
 ?>

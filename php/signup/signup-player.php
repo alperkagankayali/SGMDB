@@ -18,7 +18,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
 .nav_links {height: 50px; padding:10px}
 .search-form {margin:10px; margin-left:20px}
 .white-font {color:white}
-.background {background:url('images/bg.jpg')}
+.background {background:url('../images/bg.jpg')}
 </style>
 
 <!--*************************************************************************************************-->
@@ -130,12 +130,19 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                       <div class="form-control">
                         <label class="header">Profile Photo:</label>
                         <div class="nl">
-                          <input id="p_p_picture" type="file" name="player_picture" placeholder="Photo" required="" capture>
+                          <input id="p_p_picture" type="file" name="player_picture" placeholder="Photo" capture>
                         </div>
                       </div>
                     </p>
 
                     <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+
+                    <!-- Log in -->
+                    <p>
+                      <div class = "c3">
+                        <a href = "../login/login-player.php" > Player login </a>
+                      </div>
+                    </p>
 
                     <!-- Submit -->
                     <input type="submit" class="register" value="Register">
