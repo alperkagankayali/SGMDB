@@ -62,7 +62,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                       <div class="form-control">
                         <label class="header">Enter the developer ID to login:</label>
                         <div class="nl">
-                          <input type="text" id="store_name" name="store_name" placeholder="User Name or Email" title="Please enter your First Name" required="">
+                          <input type="text" id="store_name" name="store_name" placeholder="Developer ID" title="Please enter your First Name" required="">
                         </div>
                       </div>
                     </p>
