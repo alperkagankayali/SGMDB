@@ -13,13 +13,17 @@
     // Executing the query
     $result = mysqli_query($db, $login_query);
 
+    // Getting company name and passing it to next sessions
+    $company_name = $result->fetch_assoc();
+    $_SESSION['company_name'] = $company_name;
+
     // Number of rows
     $count_rows = mysqli_num_rows($result);
 
     // Checking whether the result of query is empty or not
     if($count_rows > 0)
     {
-        header("location: ../publish_game.php");
+        header("location: ../published_games.php");
 
         exit();
     }

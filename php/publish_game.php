@@ -33,12 +33,8 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
       <!--Nav buttons-->
       <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
       <a href="#" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
-      <a href="library.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
-      <a href="store.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
+      <a href="published_games.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Published Games</a>
       <a href="news.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
-      <a href="wish_list.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
-      <a href="cart.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
-      <a href="chat.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
       <a href="about.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
       <!--Notif button-->
@@ -47,6 +43,11 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
       <!--Search-->
       <input type="text" placeholder="Search.." name="search" class="search-form">
       <button type="submit"><i class="fa fa-search search-form"></i></button>
+
+      <!-- Logout -->
+      <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
+        <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
+      </a>
 
       <!--Profile avatar-->
       <a href="profile.html" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
@@ -100,7 +101,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                     <div class="form-control">
                       <label class="header">Price:</label>
                       <div class="nl">
-                          <input type="number" min="0" id="g_price" name="game_price" placeholder="Price..." title="Please enter your game price" required="">
+                          <input type="number" step="any" min="0" id="g_price" name="game_price" placeholder="Price..." title="Please enter your game price" required="">
                       </div>
                     </div>
                   </p>
@@ -167,7 +168,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                     <div class="form-control">
                       <label class="header">Game Icon:</label>
                       <div class="nl">
-                        <input id="g_logo" type="file" name="game_logo" placeholder="Photo" required="" capture>
+                        <input id="g_logo" type="text" name="game_logo" placeholder="URL" required="" capture>
                       </div>
                     </div>
                   </p>

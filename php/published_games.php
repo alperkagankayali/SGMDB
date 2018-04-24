@@ -1,7 +1,27 @@
+<?php
+    include("db.php");
+    session_start();
+
+    // Accessing the games of the company logged in
+    $company_name = $_SESSION['company_name']['company_name'];;
+
+    // Query for getting the games of company
+    $access_games_query = "SELECT *
+                           FROM game WHERE company_name = '$company_name'";
+
+    // Executing the query
+    $result_query = mysqli_query($db, $access_games_query);
+
+    // Number of games
+    $counter = mysqli_num_rows($result_query);
+
+?>
+
+
 <!DOCTYPE html>
 
 <html>
-<title>Your Library</title>
+<title>Published games</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,13 +52,9 @@
           <!--Nav buttons-->
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
           <a href="#" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
-          <a href="library.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
-          <a href="store.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
-          <a href="news.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
-          <a href="wish_list.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
-          <a href="cart.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
-          <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
-          <a href="about.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
+          <a href="published_games.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Published Games</a>
+          <a href="news.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
+          <a href="about.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
           <!--Notif button-->
           <button class="w3-button w3-padding-large w3-hover-white" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"></span></button>
@@ -47,8 +63,13 @@
           <input type="text" placeholder="Search.." name="search" class="search-form">
           <button type="submit"><i class="fa fa-search search-form"></i></button>
 
+          <!-- Logout -->
+          <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
+            <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
+          </a>
+
           <!--Profile avatar-->
-          <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+          <a href="" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
             <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
           </a>
 
@@ -59,7 +80,7 @@
   <div class="w3-content" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
 
     <div class="w3-panel white-font w3-border">
-      <h1><br>NEW PUBLISHED GAMES</h1>
+      <h1><br>YOUR PUBLISHED GAMES</h1>
     </div>
 
 
@@ -114,50 +135,50 @@
       <div class="w3-col m7" style="overflow:auto">
 
         <div class="w3-panel white-font">
-          <h4><br>Published Games</h4>
+
+          <h4 class="w3-left" ><br>Published Games</h4>
+          <a class="w3-right w3-button w3-border" href = "publish_game.php" ><br>Publish A Game</h4></a>
+
         </div>
 
-        <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-            <span class="w3-right w3-opacity">02.04.2018</span>
-            <h4>Assassin's Creed Origins</h4><br>
-            <div class="w3-row-padding" style="margin:0 -16px">
-                <div class="w3-half">
-                  <img src="images/ppass.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-              </div>
+
+        <!-- Displaying the games of the company -->
+        <?php
+
+            for($i = 0; $i < $counter; $i++)
+            {
+                // Obtained games
+                $games = $result_query->fetch_assoc();
+
+                $game_name = $games['game_name'];
+                $game_price = $games['game_price'];
+                $game_logo = $games['game_logo'];
+                $rating = $games['rating'];
+                $release_date = $games['release_date'];
+
+        ?>
+            <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
+                <span class="w3-right w3-opacity"><?php echo $release_date ?></span>
+
+                <?php echo "<h4>".$game_name."</h4><br>"; ?>
+
+                <div class="w3-row-padding" style="margin:0 -16px">
+                    <div class="w3-half">
+                      <img src= <?php echo $game_logo; ?> style="width:100%" alt="Nature" class="w3-margin-bottom">
+                  </div>
+                </div>
+                <hr class="w3-clear">
+
+                <p class="w3-left">Game Price = <?php echo $game_price ?> USD</p>
+                <p class="w3-right"> Rating: <?php echo $rating ?></p>
+
             </div>
-            <hr class="w3-clear">
 
-            <p>Game Price = 200 USD</p>
-            <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align">Go And BUY!</button>
-        </div>
+        <?php
 
-        <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-            <span class="w3-right w3-opacity">02.04.2018</span>
-            <h4>Witcher 3</h4><br>
-            <div class="w3-row-padding" style="margin:0 -16px">
-                <div class="w3-half">
-                  <img src="images/game1.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-              </div>
-            </div>
-            <hr class="w3-clear">
-
-            <p>Game Price = 200 USD</p>
-            <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align">Go And BUY!</button>
-        </div>
-
-        <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-            <span class="w3-right w3-opacity">02.04.2018</span>
-            <h4>Witcher 2</h4><br>
-            <div class="w3-row-padding" style="margin:0 -16px">
-                <div class="w3-half">
-                  <img src="images/witcher2.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-              </div>
-            </div>
-            <hr class="w3-clear">
-
-            <p>Game Price = 200 USD</p>
-            <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align">Go And BUY!</button>
-        </div>
+            }
+        ?>
+        <!-- End of displaying games -->
 
       <!-- End Middle Column -->
       </div>
