@@ -34,7 +34,7 @@
     {
         // Executes the query
         $result0 = mysqli_query($db, $insert_query);
-        
+
         // Check if query is successful
         if(!$result0)
         {
@@ -44,6 +44,29 @@
         }
         else
         {
+            // Creating view for getting player id
+            $create_view = "CREATE VIEW players_id AS
+                            (SELECT player_id FROM player
+                             WHERE username = '$player_username')";
+
+            mysqli_query($db, $create_view);
+
+            $access_player_query = "SELECT * FROM players_id";
+
+            // Executing the query
+            $access_exec = mysqli_query($db, $access_player_query);
+
+            // Result
+            $player = $access_exec->fetch_assoc();
+
+            $player_id = $player['player_id'];
+
+            // Inserting player info to stats
+            $insert_stats = "INSERT INTO stats (last_active_date, level, player_id)
+                             VALUES (null, 1, $player_id)";
+
+            mysqli_query($db, $insert_stats);
+
             echo "<h3> Account is created successfully! </h3>";
 
             echo "<a href = '../login/login-player.php'> Go back to login page </a>";

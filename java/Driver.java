@@ -42,15 +42,22 @@ public class Driver
 			String [] wishListAttributes = {"game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(player_id, game_name)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
 			
 			String [] cartAttributes = {"game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(player_id, game_name)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
+			
+			String [] statsAttributes = {"stats_id-INT AUTO_INCREMENT", "last_active_date-DATE", "level-INT", "player_id-INT", "PRIMARY KEY(stats_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)"};
+			
+			
 			//dropTable("player");
 			//dropTable("company");
 			//dropTable("developer");
-			dropTable("wishlist");
+			//dropTable("wishlist");
 			//dropTable("cart");
-
 			//dropTable("game");
+			dropTable("stats");
 			
-			createTable("wishlist", wishListAttributes);
+			
+			createTable("stats", statsAttributes);
+			
+			//createTable("wishlist", wishListAttributes);
 			//createTable("cart", cartAttributes);
 			//createTable("game", gameAttributes);
 			//createTable("player", playerAttributes);

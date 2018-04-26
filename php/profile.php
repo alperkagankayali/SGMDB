@@ -21,6 +21,21 @@
     $player_picture = $player['profile_picture'];
     $player_email = $player['email'];
 
+
+
+    // Acessing the stats of the player with the given player id
+    $access_stats = "SELECT * FROM stats WHERE player_id = $player_id";
+
+    // Execute the query
+    $access_result = mysqli_query($db, $access_stats);
+
+    // Result of the query
+    $stats = $access_result->fetch_assoc();
+
+
+    // STATS INFORMATION
+    $last_active_date = $stats['last_active_date'];
+    $level = $stats['level'];
 ?>
 
 <!DOCTYPE html>
@@ -82,9 +97,6 @@
 </div>
 
 
-
-
-
 <!-- Content -->
 <div class="w3-content white-font" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
     <div class="w3-panel">
@@ -94,7 +106,8 @@
    <div class="w3-panel">
     <h4><br><?php echo $player_firstname." ".$player_midname." ".$player_lastname; ?></h4>
     <h6><br><?php echo $player_email; ?></h6>
-    <h4><br>Level 22- Lion</h4>
+    <h4><br>Level <?php echo $level; ?></h4>
+    <h6><br>Last active date: <?php echo $last_active_date; ?></h6>
   </div>
 
 

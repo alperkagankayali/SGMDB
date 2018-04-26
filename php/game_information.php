@@ -142,7 +142,7 @@
         <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
           <p class="w3-center"><?php echo $game_price; ?> $</p>
           <a href="#" class="w3-button w3-block w3-theme-l1 ">Buy now</a>
-          <a href="process_adding_to_cart.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/wish.png" style="width:1%">Add to cart</a>
+          <a href="process_adding_to_cart.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/cart.png" style="width:3%">Add to cart</a>
           <a href="process_adding_to_wishlist.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/wish.png" style="width:1%">Add to wish list</a>
         </div>
 
