@@ -1,3 +1,32 @@
+<?php
+    include("db.php");
+    session_start();
+
+    // Accessing the name of the game whose link is clicked
+    $game_name = $_REQUEST['game_name'];
+
+
+
+    // Qeuery for accessing the game with the given name
+    $access_game = "SELECT * FROM game WHERE game_name = '$game_name'";
+
+    // Executing the Query
+    $result_query = mysqli_query($db, $access_game);
+
+    // Fetching the game information from the result of query
+    $game_information = $result_query->fetch_assoc();
+
+    // GAME INFORMATION
+    $game_price = $game_information['game_price'];
+    $game_logo = $game_information['game_logo'];
+    $game_platform = $game_information['game_platform'];
+    $game_category = $game_information['game_category'];
+    $game_rating = $game_information['rating'];
+    $game_sys_req = $game_information['system_requirements'];
+    $game_release_date = $game_information['release_date'];
+    $company_name = $game_information['company_name'];
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -32,13 +61,13 @@
           <!--Nav buttons-->
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
           <a href="#" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
-          <a href="library.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
-          <a href="store.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
-          <a href="news.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
-          <a href="wish_list.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
-          <a href="cart.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
-          <a href="chat.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
-          <a href="about.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
+          <a href="library.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
+          <a href="store.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
+          <a href="news.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
+          <a href="wish_list.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
+          <a href="cart.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
+          <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
+          <a href="about.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
           <!--Notif button-->
           <button class="w3-button w3-padding-large w3-hover-white" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"></span></button>
@@ -47,10 +76,15 @@
           <input type="text" placeholder="Search.." name="search" class="search-form">
           <button type="submit"><i class="fa fa-search search-form"></i></button>
 
+          <!-- Logout -->
+          <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
+            <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
+          </a>
+
           <!--Profile avatar-->
-          <a href="profile.html" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-    <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-  </a>
+          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+              <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+          </a>
       </div>
   </div>
 
@@ -72,14 +106,15 @@
       <div class="w3w3-center">
 
         <div class="w3-panel white-font">
-          <h4><br>Witcher 3</h4>
+          <h4><br><?php echo $game_name; ?></h4>
+          <h6><br><?php echo $company_name; ?></h6>
         </div>
 
         <!--Slide show-->
         <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
 
           <div class="w3-display-container mySlides">
-            <img src="images/witcher/witcher1.jpg" style="width:100%">
+            <img src=<?php echo $game_logo; ?> style="width:100%">
           </div>
           <div class="w3-display-container mySlides">
             <img src="images/witcher/witcher2.jpg" style="width:100%">
@@ -105,10 +140,10 @@
 
         <!--Buy/Play now-->
         <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-          <p class="w3-center">13.99 $</p>
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 ">Buy now</button>
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/cart.png" style="width:2%">Add to cart</button>
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/wish.png" style="width:1%">Add to wish list</button>
+          <p class="w3-center"><?php echo $game_price; ?> $</p>
+          <a href="#" class="w3-button w3-block w3-theme-l1 ">Buy now</a>
+          <a href="process_adding_to_cart.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/wish.png" style="width:1%">Add to cart</a>
+          <a href="process_adding_to_wishlist.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/wish.png" style="width:1%">Add to wish list</a>
         </div>
 
         <!--About game -->

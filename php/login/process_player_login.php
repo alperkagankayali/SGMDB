@@ -17,6 +17,12 @@
     // Number of rows
     $count_rows = mysqli_num_rows($result);
 
+    // Result
+    $player = $result->fetch_assoc();
+
+    // Creating request for player_id
+    $_SESSION['player_id'] = $player['player_id'];
+
     // Checking whether the result of query is empty or not
     if($count_rows > 0)
     {

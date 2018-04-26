@@ -1,3 +1,21 @@
+<?php
+    include("db.php");
+    session_start();
+
+    // ID of the player looged on
+    $player_id = $_SESSION['player_id'];
+
+    // Query for accessing all the games in the cart
+    $access_cart = "SELECT game_name FROM cart
+                      WHERE player_id = $player_id;";
+
+    // Executing the query
+    $access_exe = mysqli_query($db, $access_cart);
+
+    // number of games in cart
+    $counter = mysqli_num_rows($access_exe);
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -32,13 +50,13 @@
           <!--Nav buttons-->
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
           <a href="#" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
-          <a href="library.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
-          <a href="store.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
-          <a href="news.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
-          <a href="wish_list.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
-          <a href="cart.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
-          <a href="chat.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
-          <a href="about.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
+          <a href="library.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
+          <a href="store.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
+          <a href="news.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
+          <a href="wish_list.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
+          <a href="cart.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
+          <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
+          <a href="about.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
           <!--Notif button-->
           <button class="w3-button w3-padding-large w3-hover-white" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"></span></button>
@@ -47,10 +65,15 @@
           <input type="text" placeholder="Search.." name="search" class="search-form">
           <button type="submit"><i class="fa fa-search search-form"></i></button>
 
+          <!-- Logout -->
+          <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
+            <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
+          </a>
+
           <!--Profile avatar-->
-          <a href="profile.html" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-    <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-  </a>
+          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+              <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+          </a>
 
       </div>
   </div>
@@ -121,32 +144,68 @@
                 <h4><br>Games in your cart</h4>
               </div>
 
-              <div class="w3-col l3 s6">
+              <!-- 1st column -->
+              <div class="w3-col l6 s6">
+                <?php
+                    for($i = 0; $i < (int)($counter/2); $i++)
+                    {
+                        // Accessed games
+                        $games = $access_exe->fetch_assoc();
+
+                        // getting other attributes of game
+
+                        $game_name = $games['game_name'];
+
+                        $query = "SELECT * FROM game
+                                  WHERE game_name = '$game_name'";
+
+                        // execute the query
+                        $result_game = mysqli_query($db, $query);
+
+                        // result
+                        $game = $result_game->fetch_assoc();
+                ?>
                 <div class="w3-container">
-                  <a href="game_information.html"><img src="images/game1.jpg" style="width:100%"></a>
-                  <p>Witcher 3<br><b>$13.99</b></p>
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                  <p><?php echo $game_name; ?><br><?php echo $game['game_price']; ?></b>$</p>
                 </div>
+
+                <?php
+                    }
+                ?>
+
               </div>
 
-              <div class="w3-col l3 s6">
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/witcher2.jpg" style="width:100%"></a>
-                  <p>Witcher 2<br><b>$13.99</b></p>
-                </div>
-              </div>
+              <!-- 2nd column -->
+              <div class="w3-col l6 s6">
+                <?php
+                    for($i = (int)($counter/2); $i < $counter; $i++)
+                    {
+                      // Accessed games
+                      $games = $access_exe->fetch_assoc();
 
-              <div class="w3-col l3 s6">
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/heartandstone.png" style="width:100%"></a>
-                  <p>Witcher Dlc1<br><b>$13.99</b></p>
-                </div>
-              </div>
+                      // getting other attributes of game
 
-              <div class="w3-col l3 s6">
+                      $game_name = $games['game_name'];
+
+                      $query = "SELECT * FROM game
+                                WHERE game_name = '$game_name'";
+
+                      // execute the query
+                      $result_game = mysqli_query($db, $query);
+
+                      // result
+                      $game = $result_game->fetch_assoc();
+                ?>
                 <div class="w3-container">
-                  <a href="game_information.html"><img src="images/bloodandwine.jpg" style="width:100%"></a>
-                  <p>Witcher Dlc2<br><b>$13.99</b></p>
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                  <p><?php echo $game_name; ?><br><?php echo $game['game_price']; ?></b>$</p>
                 </div>
+
+                <?php
+                    }
+                ?>
+
               </div>
           </div>
           <!--End of Game grid-->
