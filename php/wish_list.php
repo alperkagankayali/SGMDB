@@ -70,10 +70,10 @@
             <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
           </a>
 
-          <!--Profile avatar-->
-          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-              <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-          </a>
+            <!--Profile avatar-->
+           <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+              <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/profil.jpg";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+           </a>
 
       </div>
   </div>
@@ -165,9 +165,10 @@
                         // result
                         $game = $result_game->fetch_assoc();
                 ?>
-                <div class="w3-container">
-                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                <div class="w3-container w3-border w3-margin">
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
                   <p><?php echo $game_name; ?><br><?php echo $game['game_price']; ?></b>$</p>
+                  <a href="process_removing_from_cart.php?game_name=<?php echo $game_name; ?>" class="w3-right w3-margin-bottom">Remove</a>
                 </div>
 
                 <?php
@@ -197,9 +198,10 @@
                       // result
                       $game = $result_game->fetch_assoc();
                 ?>
-                <div class="w3-container">
-                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                <div class="w3-container w3-border w3-margin">
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
                   <p><?php echo $game_name; ?><br><?php echo $game['game_price']; ?></b>$</p>
+                  <a href="process_removing_from_wishlist.php?game_name=<?php echo $game_name; ?>" class="w3-right w3-margin-bottom" style="color:red">Remove</a>
                 </div>
 
                 <?php
@@ -237,7 +239,6 @@
             <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
             <p><strong>Summer Sale 2018</strong></p>
             <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
-
           </div>
         </div>
 

@@ -71,9 +71,9 @@
           </a>
 
           <!--Profile avatar-->
-          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-              <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-          </a>
+         <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/profil.jpg";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+         </a>
 
       </div>
   </div>
@@ -141,7 +141,8 @@
           <div class="w3-row white-font">
 
               <div class="w3-panel white-font">
-                <h4><br>Games in your cart</h4>
+                <h4 class="w3-left"><br>Games in your cart</h4>
+                <a class="w3-right w3-button w3-border w3-theme-l4" href="event.html" >Buy all</a>
               </div>
 
               <!-- 1st column -->
@@ -165,9 +166,10 @@
                         // result
                         $game = $result_game->fetch_assoc();
                 ?>
-                <div class="w3-container">
-                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                <div class="w3-container w3-border w3-margin">
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
                   <p><?php echo $game_name; ?><br><?php echo $game['game_price']; ?></b>$</p>
+                  <a href="process_removing_from_cart.php?game_name=<?php echo $game_name; ?>" class="w3-right w3-margin-bottom" style="color:red">Remove</a>
                 </div>
 
                 <?php
@@ -197,9 +199,10 @@
                       // result
                       $game = $result_game->fetch_assoc();
                 ?>
-                <div class="w3-container">
-                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                <div class="w3-container w3-border w3-margin">
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
                   <p><?php echo $game_name; ?><br><?php echo $game['game_price']; ?></b>$</p>
+                  <a href="process_removing_from_cart.php?game_name=<?php echo $game_name; ?>" class="w3-right w3-margin-bottom" style="color:red">Remove</a>
                 </div>
 
                 <?php

@@ -22,6 +22,7 @@
 
     // Creating request for player_id
     $_SESSION['player_id'] = $player['player_id'];
+    $_SESSION['player_pp'] = $player['profile_picture'];
 
     // Checking whether the result of query is empty or not
     if($count_rows > 0)

@@ -1,3 +1,28 @@
+<?php
+    include("db.php");
+    session_start();
+
+    // Player id
+    $player_id = $_SESSION['player_id'];
+
+    // Accessing Player information
+    $access_player = "SELECT * FROM player WHERE player_id = $player_id";
+
+    // Execute the query
+    $result_query = mysqli_query($db, $access_player);
+
+    // Result of the query
+    $player = $result_query->fetch_assoc();
+
+    // Player information
+    $player_firstname = $player['firstname'];
+    $player_midname = $player['middlename'];
+    $player_lastname = $player['lastname'];
+    $player_picture = $player['profile_picture'];
+    $player_email = $player['email'];
+
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -49,9 +74,10 @@
             <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
           </a>
 
-  <a href="profile.html" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-    <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-  </a>
+          <!--Profile avatar-->
+         <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/profil.jpg";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+         </a>
  </div>
 </div>
 
@@ -64,9 +90,10 @@
     <div class="w3-panel">
     <h1><br>Profile</h1>
     </div>
-   <img align="Middle" class="w3-image" src="images/profil.jpg" alt="Me" width="400" height="300" >
+   <img align="Middle" class="w3-image" src=<?php if($player_picture != '') echo $player_picture; else echo "images/profil.jpg";?> alt="Me" width="400" height="300" >
    <div class="w3-panel">
-    <h4><br>Jason Bourne</h4>
+    <h4><br><?php echo $player_firstname." ".$player_midname." ".$player_lastname; ?></h4>
+    <h6><br><?php echo $player_email; ?></h6>
     <h4><br>Level 22- Lion</h4>
   </div>
 

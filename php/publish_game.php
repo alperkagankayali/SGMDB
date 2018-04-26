@@ -1,3 +1,9 @@
+<?php
+    include("db.php");
+    session_start();
+
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -50,9 +56,9 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
       </a>
 
       <!--Profile avatar-->
-      <a href="profile.html" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-        <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-      </a>
+       <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+          <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/profil.jpg";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+       </a>
 
     </div>
   </div>
