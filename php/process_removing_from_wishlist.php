@@ -27,7 +27,7 @@
     {
         echo "<h3> Game is succesfully removed from your wishlist! </h3>";
 
-        header("location: wishlist.php");
+        header("location: wish_list.php");
 
         exit();
     }
