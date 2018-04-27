@@ -45,6 +45,7 @@ public class Driver
 			
 			String [] statsAttributes = {"stats_id-INT AUTO_INCREMENT", "last_active_date-DATE", "level-INT", "player_id-INT", "PRIMARY KEY(stats_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)"};
 			
+			String [] walletAttributes = {"wallet_id-INT AUTO_INCREMENT", "payment_method-VARCHAR(255)", "balance-FLOAT", "card_number-INT", "expiration_date-DATE", "security_code-INT", "player_id-INT", "PRIMARY KEY(wallet_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)"};
 			
 			//dropTable("player");
 			//dropTable("company");
@@ -52,11 +53,11 @@ public class Driver
 			//dropTable("wishlist");
 			//dropTable("cart");
 			//dropTable("game");
-			dropTable("stats");
+			//dropTable("stats");
+			dropTable("wallet");
 			
-			
-			createTable("stats", statsAttributes);
-			
+			createTable("wallet", walletAttributes);
+			//createTable("stats", statsAttributes);
 			//createTable("wishlist", wishListAttributes);
 			//createTable("cart", cartAttributes);
 			//createTable("game", gameAttributes);

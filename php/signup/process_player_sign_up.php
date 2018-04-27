@@ -44,14 +44,7 @@
         }
         else
         {
-            // Creating view for getting player id
-            $create_view = "CREATE VIEW players_id AS
-                            (SELECT player_id FROM player
-                             WHERE username = '$player_username')";
-
-            mysqli_query($db, $create_view);
-
-            $access_player_query = "SELECT * FROM players_id";
+            $access_player_query = "SELECT player_id FROM player WHERE username = '$player_username'";
 
             // Executing the query
             $access_exec = mysqli_query($db, $access_player_query);

@@ -14,14 +14,14 @@
     // Result of the query
     $player = $result_query->fetch_assoc();
 
-    // Player information
+    // PLAYER INFORMATION -------------------------
     $player_firstname = $player['firstname'];
     $player_midname = $player['middlename'];
     $player_lastname = $player['lastname'];
     $player_picture = $player['profile_picture'];
     $player_email = $player['email'];
 
-
+    //***********************************************
 
     // Acessing the stats of the player with the given player id
     $access_stats = "SELECT * FROM stats WHERE player_id = $player_id";
@@ -33,9 +33,29 @@
     $stats = $access_result->fetch_assoc();
 
 
-    // STATS INFORMATION
+    // STATS INFORMATION -------------------------
     $last_active_date = $stats['last_active_date'];
     $level = $stats['level'];
+
+    //***********************************************
+
+    // Acessing the stats of the player with the given player id
+    $access_wallet = "SELECT * FROM wallet WHERE player_id = $player_id";
+
+    // Execute the query
+    $wallet_result = mysqli_query($db, $access_wallet);
+
+    // Result of the query
+    $wallet = $wallet_result->fetch_assoc();
+
+
+    // WALLET INFORMATION
+    $wallet_balance = $wallet['balance'];
+    $payment_method = $wallet['payment_method'];
+    $card_number = $wallet['card_number'];
+    $expiration_date = $wallet['expiration_date'];
+    $security_code = $wallet['security_code'];
+
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +111,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/profil.jpg";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
  </div>
 </div>
@@ -102,7 +122,7 @@
     <div class="w3-panel">
     <h1><br>Profile</h1>
     </div>
-   <img align="Middle" class="w3-image" src=<?php if($player_picture != '') echo $player_picture; else echo "images/profil.jpg";?> alt="Me" width="400" height="300" >
+   <img align="Middle" class="w3-image" src=<?php if($player_picture != '') echo $player_picture; else echo "images/icons/avatar.png";?> alt="Me" width="400" height="300" >
    <div class="w3-panel">
     <h4><br><?php echo $player_firstname." ".$player_midname." ".$player_lastname; ?></h4>
     <h6><br><?php echo $player_email; ?></h6>
@@ -118,25 +138,41 @@
     <!-- Left Column -->
     <div class="w3-col m3">
 
+      <?php
+          if(mysqli_num_rows($wallet_result) == 0)
+          {
+      ?>
+
+      <a href="add_wallet.php" class="w3-left w3-margin-bottom w3-padding w3-border w3w3-button">Add Wallet</a>
+
+      <div class="w3-card w3-round white-font">
+          <br><br><h4 class="w3-block w3-theme-l1 w3-left-align w3-left">You have no wallet!</h4>
+      </div>
+
+      <?php
+          }
+          else
+          {
+      ?>
+
       <!-- Accordion -->
       <div class="w3-card w3-round white-font">
 
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-usd fa-fw w3-margin-left w3-large w3-text-teal w3-left-align"></i>Net Balance: 25.99</button><!--needs to be revised(vertical align problem)-->
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align">Card Number: 0670 **** **** **29</button>
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Security Code: 671</button>
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Expiration Date: 7/2019</button>
-          <select class="w3-button w3-block w3-theme-l1 w3-left-align">
-            <option value="Wallet1">MasterCard 1</option>
-            <option value="Wallet2">MasterCard 2</option>
-            <option value="Wallet3">Visa 1</option>
-            <option value="Wallet4">Visa 2</option>
-          </select>
+          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-usd fa-fw w3-margin-left w3-large w3-text-teal w3-left-align"></i>Net Balance: <?php echo $wallet_balance; ?></a>
+          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align">Card Number: <?php echo $card_number; ?></a>
+          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"> Security Code: <?php echo $security_code; ?></a>
+          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"> Expiration Date: <?php echo $expiration_date; ?></a>
+          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"> Card type: <?php echo $payment_method; ?></a>
 
       </div>
+
+      <a href="process_removing_wallet.php" class="w3-left w3-margin-bottom w3-padding w3w3-button" style="color:red">Remove</a>
+
+      <?php
+         }
+      ?>
+
       <br>
-
-
-
 
     <!-- End Left Column -->
     </div>
