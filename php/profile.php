@@ -55,6 +55,10 @@
     $card_number = $wallet['card_number'];
     $expiration_date = $wallet['expiration_date'];
     $security_code = $wallet['security_code'];
+    $balance = $wallet['balance'];
+
+    // Passing wallet id
+    $_SESSION['wallet_id'] = $wallet['wallet_id'];
 
 ?>
 
@@ -158,7 +162,7 @@
       <!-- Accordion -->
       <div class="w3-card w3-round white-font">
 
-          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-usd fa-fw w3-margin-left w3-large w3-text-teal w3-left-align"></i>Net Balance: <?php echo $wallet_balance; ?></a>
+          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-usd fa-fw w3-margin-left w3-large w3-text-teal w3-left-align"></i>Net Balance: <?php echo $wallet_balance; ?> $ </a>
           <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align">Card Number: <?php echo $card_number; ?></a>
           <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"> Security Code: <?php echo $security_code; ?></a>
           <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"> Expiration Date: <?php echo $expiration_date; ?></a>
@@ -167,6 +171,7 @@
       </div>
 
       <a href="process_removing_wallet.php" class="w3-left w3-margin-bottom w3-padding w3w3-button" style="color:red">Remove</a>
+      <a href="add_balance.php?wallet_id=<?php echo $wallet['wallet_id']?>; " class="w3-right w3-margin-bottom w3-padding w3w3-button">Add Balance</a>
 
       <?php
          }
