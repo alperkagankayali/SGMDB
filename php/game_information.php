@@ -2,8 +2,10 @@
     include("db.php");
     session_start();
 
+    echo "<br><br><br>";
+
     // Accessing the name of the game whose link is clicked
-    $game_name = $_REQUEST['game_name'];
+    $game_name = $_GET['game_name'];
 
     // Accessing the player's id who logged in
     $player_id = $_SESSION['player_id'];
@@ -20,7 +22,7 @@
     // GAME INFORMATION
     $game_price = $game_information['game_price'];
     $game_logo = $game_information['game_logo'];
-    $game_platform = $game_information['game_platform'];
+    $game_platform = $game_information['platform'];
     $game_category = $game_information['game_category'];
     $game_rating = $game_information['rating'];
     $game_sys_req = $game_information['system_requirements'];
@@ -36,6 +38,17 @@
 
     // Number of rows
     $row_size = mysqli_num_rows($result_check);
+
+
+    // GETTING REVIEWS
+    $access_reviews = "SELECT review_text, review_date, player_id FROM review NATURAL JOIN writes
+                       WHERE game_name = '$game_name'";
+
+    // Executing query
+    $result_reviews = mysqli_query($db, $access_reviews);
+
+    // Number of rows
+    $counter = mysqli_num_rows($result_reviews);
 ?>
 
 <!DOCTYPE html>
@@ -247,39 +260,56 @@
             <h4>REVIEWS</h4><br>
             <hr class="w3-clear">
 
-            <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-              <span class="w3-right w3-opacity">02.04.2018</span>
-              <h4>Fuad Aghazada</h4><br>
-              <hr class="w3-clear">
+        <?php
+              for($i = 0; $i < $counter; $i++)
+              {
+                  $review = $result_reviews->fetch_assoc();
 
-              <p>Best game  I have ever played!</p>
-            </div>
+                  $review_date = $review['review_date'];
+                  $review_text = $review['review_text'];
+                  $player_id = $review['player_id'];
 
-            <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-              <span class="w3-right w3-opacity">02.05.2018</span>
-              <h4>Enes Varol</h4><br>
-              <hr class="w3-clear">
+                  // Accessing the name of the player
+                  $access_player_info = "SELECT firstname, middlename, lastname FROM player WHERE player_id = $player_id";
 
-              <p>I finished this game in an only night!</p>
-            </div>
+                  // Executing the query
+                  $access_player_exec = mysqli_query($db, $access_player_info);
 
-            <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-              <span class="w3-right w3-opacity">01.06.2018</span>
-              <h4>Eliz Tekcan</h4><br>
-              <hr class="w3-clear">
+                  $player = $access_player_exec->fetch_assoc();
 
-              <p>I did not like the game </p>
-            </div>
+                  $firstname = $player['firstname'];
+                  $midname = $player['middlename'];
+                  $lastname = $player['lastname'];
+        ?>
 
             <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-              <span class="w3-right w3-opacity">03.07.2018</span>
-              <h4>Alper Kağan Kayalı</h4><br>
+              <span class="w3-right w3-opacity"><?php echo $review_date; ?></span>
+              <h4><?php echo $firstname." ".$midname." ".$lastname; ?></h4><br>
               <hr class="w3-clear">
-
-              <p>Enes Varol, how is it possible?! </p>
+              <p><?php echo $review_text; ?></p>
             </div>
-
+        <?php
+              }
+        ?>
         </div>
+
+        <!-- Write a review if the game is in your library -->
+        <?php
+              if($row_size != 0)
+              {
+        ?>
+
+        <form action="process_adding_review.php?game_name=<?php echo $game_name; ?>" method="post">
+          <div class="w3-container w3-center w3-card w3-border w3-round w3-margin white-font w3w3-center">
+              <input class="w3-margin" type="text" id="text_review" name="review_text" placeholder="Write a Review" style="width: 80%">
+              <input type="submit" class="send" value="Send">
+          </div>
+        </form>
+
+        <?php
+              }
+        ?>
+
 
       <!-- End Middle Column -->
       </div>

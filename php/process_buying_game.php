@@ -72,8 +72,14 @@
             // Executing the query
             mysqli_query($db, $insert_to_library);
 
+            // STEP 6: Adding the game experience
+            $insert_game_exp = "INSERT INTO game_experience (experience, play_hour, game_name, player_id)
+                                VALUES (0, 0, '$game_name', $player_id)";
 
-            // SET 6: deleting from wishlist and cart
+            // Executing the query
+            mysqli_query($db, $insert_game_exp);
+
+            // SET 7: deleting from wishlist and cart
             $remove_cart = "DELETE FROM cart WHERE player_id = $player_id AND game_name = '$game_name'";
 
             mysqli_query($db, $remove_cart);
@@ -82,7 +88,7 @@
 
             mysqli_query($db, $remove_wishlist);
 
-            // SET 7: increasing the level of player
+            // SET 8: increasing the level of player
             $update_level = "UPDATE stats SET level = level + 1 WHERE player_id = $player_id";
 
             mysqli_query($db, $update_level);

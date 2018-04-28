@@ -60,6 +60,16 @@
     // Passing wallet id
     $_SESSION['wallet_id'] = $wallet['wallet_id'];
 
+
+    // GAME EXPERIENCE INFORMATION
+    $game_exp_query = "SELECT * FROM game_experience WHERE player_id = $player_id";
+
+    // executing the query
+    $game_exp_exe = mysqli_query($db, $game_exp_query);
+
+    // Number of tuples
+    $counter = mysqli_num_rows($game_exp_exe);
+
 ?>
 
 <!DOCTYPE html>
@@ -188,26 +198,49 @@
 
 
       <div class="w3-container w3-card w3-round w3-margin"><br>
-        <img src="images/ppass.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+
+        <?php
+              for($i = 0; $i < $counter; $i++)
+              {
+                  // Accessed experience
+                  $game_exp = $game_exp_exe->fetch_assoc();
+
+                  $experience = $game_exp['experience'];
+                  $play_hour = $game_exp['play_hour'];
+                  $game_name = $game_exp['game_name'];
+
+                  // Accessing game information (logo)
+                  $game_exp = "SELECT game_logo FROM game WHERE game_name = '$game_name'";
+
+                  // Executing the query
+                  $access_logo_exe = mysqli_query($db, $game_exp);
+
+                  // Result
+                  $game_access_logo = $access_logo_exe->fetch_assoc();
+
+                  $game_logo = $game_access_logo['game_logo'];
+        ?>
+
+        <img src=<?php echo $game_logo; ?> alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
         <!--<span class="w3-right w3-opacity">1 min</span><-->
-        <h4>Assassin's Creed Origins</h4><br>
+        <h4><?php echo $game_name; ?></h4><br>
         <hr class="w3-clear">
-        <p>Gameplay Time: 3 hours</p>
-        <p>Gained Experience: 500</p>
+        <p>Gameplay Time: <?php echo $play_hour; ?> hours</p>
+        <p>Gained Experience: <?php echo $experience; ?> XP</p>
           <div class="w3-row-padding" style="margin:0 -16px">
             <div class="w3-half">
-              <img src="images/assassgameplay.jpg" style="width:100%" alt="Gameplay Screenshot" class="w3-margin-bottom">
+              <img src=<?php echo $game_logo; ?> style="width:100%" alt="Gameplay Screenshot" class="w3-margin-bottom">
             </div>
         </div>
 
+        <?php
+              }
+        ?>
+
       </div>
-
-
 
     <!-- End Middle Column -->
     </div>
-
-
 
   <!-- End Grid -->
   </div>

@@ -53,6 +53,11 @@ public class Driver
 			
 			String [] libraryAttributes = {"game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(player_id, game_name)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
 			
+			String [] reviewAttributes = { "review_id-INT AUTO_INCREMENT", "review_text-TEXT", "review_date-DATE", "PRIMARY KEY(review_id)"};
+			
+			String [] writesAttributes = { "review_id-INT NOT NULL", "game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(review_id, game_name, player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)", "FOREIGN KEY(review_id) REFERENCES review(review_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)"};
+			
+			String [] gameExpAttributes = { "experience-INT", "play_hour-FLOAT", "game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(game_name, player_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
 			//dropTable("player");
 			//dropTable("company");
 			//dropTable("developer");
@@ -61,15 +66,21 @@ public class Driver
 			//dropTable("game");
 			//dropTable("stats");
 			//dropTable("wallet");
+//			dropTable("buyGame");
+//			dropTable("payment");
+//			dropTable("library");
+//			dropTable("writes");
+//			dropTable("review");
+			dropTable("game_experience");
+//			
+			createTable("game_experience", gameExpAttributes);
 			
-			
-			dropTable("buyGame");
-			dropTable("payment");
-			dropTable("library");
-			
-			createTable("library", libraryAttributes);
-			createTable("payment", paymentAttributes);
-			createTable("buyGame", buyGameAttributes);
+//			createTable("review", reviewAttributes);
+//			createTable("writes", writesAttributes);
+//			
+//			createTable("library", libraryAttributes);
+//			createTable("payment", paymentAttributes);
+//			createTable("buyGame", buyGameAttributes);
 			//createTable("wallet", walletAttributes);
 			//createTable("stats", statsAttributes);
 			//createTable("wishlist", wishListAttributes);
