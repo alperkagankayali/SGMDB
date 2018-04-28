@@ -1,3 +1,21 @@
+<?php
+    include("db.php");
+    session_start();
+
+    // ID of the player looged on
+    $player_id = $_SESSION['player_id'];
+
+    // Query for accessing all the games in the library
+    $access_library = "SELECT game_name FROM library
+                      WHERE player_id = $player_id;";
+
+    // Executing the query
+    $access_exe = mysqli_query($db, $access_library);
+
+    // number of games in library
+    $counter = mysqli_num_rows($access_exe);
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -119,58 +137,78 @@
       <!-- Middle Column -->
       <div class="w3-col m7">
 
-          <!--Game grid-->
-          <div class="w3-row white-font">
+        <!--Game grid-->
+        <div class="w3-row white-font">
 
-              <div class="w3-panel white-font">
-                <h4><br>Your games</h4>
+            <div class="w3-panel white-font">
+              <h4><br>Your games</h4>
+            </div>
+
+            <!-- 1st column -->
+            <div class="w3-col l6 s6">
+              <?php
+                  for($i = 0; $i < (int)($counter/2); $i++)
+                  {
+                      // Accessed games
+                      $games = $access_exe->fetch_assoc();
+
+                      // getting other attributes of game
+
+                      $game_name = $games['game_name'];
+
+                      $query = "SELECT * FROM game
+                                WHERE game_name = '$game_name'";
+
+                      // execute the query
+                      $result_game = mysqli_query($db, $query);
+
+                      // result
+                      $game = $result_game->fetch_assoc();
+              ?>
+              <div class="w3-container w3-border w3-margin">
+                <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                <p><?php echo $game_name; ?></p>
               </div>
 
-              <div class="w3-col l3 s6">
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/game1.jpg" style="width:100%"></a>
-                  <p>Witcher 3<br></p>
-                </div>
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/witcher2.jpg" style="width:100%"></a>
-                  <p>Witcher 2<br></p>
-                </div>
+              <?php
+                  }
+              ?>
+
+            </div>
+
+            <!-- 2nd column -->
+            <div class="w3-col l6 s6">
+              <?php
+                  for($i = (int)($counter/2); $i < $counter; $i++)
+                  {
+                    // Accessed games
+                    $games = $access_exe->fetch_assoc();
+
+                    // getting other attributes of game
+
+                    $game_name = $games['game_name'];
+
+                    $query = "SELECT * FROM game
+                              WHERE game_name = '$game_name'";
+
+                    // execute the query
+                    $result_game = mysqli_query($db, $query);
+
+                    // result
+                    $game = $result_game->fetch_assoc();
+              ?>
+              <div class="w3-container w3-border w3-margin">
+                <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                <p><?php echo $game_name; ?></p>
               </div>
 
-              <div class="w3-col l3 s6">
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/heartandstone.png" style="width:100%"></a>
-                  <p>Witcher Dlc1<br></p>
-                </div>
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/bloodandwine.jpg" style="width:100%"></a>
-                  <p>Witcher Dlc2<br></p>
-                </div>
-              </div>
+              <?php
+                  }
+              ?>
 
-              <div class="w3-col l3 s6">
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/game2.jpg" style="width:100%"></a>
-                  <p>Rocket League<br></p>
-                </div>
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/game3.jpg" style="width:100%"></a>
-                  <p>Euro Truck<br></p>
-                </div>
-              </div>
+            </div>
 
-              <div class="w3-col l3 s6">
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/sanandreas.jpg" style="width:100%"></a>
-                  <p>Gta Sanandreas<br></p>
-                </div>
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/gta5.jpg" style="width:100%"></a>
-                  <p>Gta 5<br></p>
-                </div>
-              </div>
-          </div>
-          <!--End of Game grid-->
+        </div>
 
       <!-- End Middle Column -->
       </div>

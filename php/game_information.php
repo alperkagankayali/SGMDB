@@ -5,7 +5,8 @@
     // Accessing the name of the game whose link is clicked
     $game_name = $_REQUEST['game_name'];
 
-
+    // Accessing the player's id who logged in
+    $player_id = $_SESSION['player_id'];
 
     // Qeuery for accessing the game with the given name
     $access_game = "SELECT * FROM game WHERE game_name = '$game_name'";
@@ -25,6 +26,16 @@
     $game_sys_req = $game_information['system_requirements'];
     $game_release_date = $game_information['release_date'];
     $company_name = $game_information['company_name'];
+
+
+    // CHECKING if teh game is in the user's library
+    $check_library = "SELECT * FROM library WHERE player_id = $player_id AND game_name = '$game_name';";
+
+    // Executing the query
+    $result_check = mysqli_query($db, $check_library);
+
+    // Number of rows
+    $row_size = mysqli_num_rows($result_check);
 ?>
 
 <!DOCTYPE html>
@@ -140,10 +151,26 @@
 
         <!--Buy/Play now-->
         <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
+
+          <?php
+                if($row_size == 0)
+                {
+          ?>
+
           <p class="w3-center"><?php echo $game_price; ?> $</p>
-          <a href="#" class="w3-button w3-block w3-theme-l1 ">Buy now</a>
+          <a href="process_buying_game.php?game_name=<?php echo $game_name;?>&game_price=<?php echo $game_price; ?>" class="w3-button w3-block w3-theme-l1 ">Buy now</a>
           <a href="process_adding_to_cart.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/cart.png" style="width:3%">Add to cart</a>
           <a href="process_adding_to_wishlist.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/wish.png" style="width:1%">Add to wish list</a>
+
+          <?php
+                }
+                else
+                {
+          ?>
+          <a href="#" class="w3-button w3-block w3-border w3-theme-l1 w3-margin-bottom">Play</a>
+          <?php
+                }
+          ?>
         </div>
 
         <!--About game -->

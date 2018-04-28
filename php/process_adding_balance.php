@@ -40,8 +40,8 @@
     }
     else
     {
-      echo "<h3> Entered card information is wrong! </h3>";
+        echo "<h3> Entered card information is wrong! </h3>";
 
-      echo "<a href = 'profile.php'> Go back to profile </a>";
+        echo "<a href = 'profile.php'> Go back to profile </a>";
     }
 ?>

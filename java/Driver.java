@@ -47,6 +47,12 @@ public class Driver
 			
 			String [] walletAttributes = {"wallet_id-INT AUTO_INCREMENT", "payment_method-VARCHAR(255)", "balance-FLOAT", "card_number-INT", "expiration_date-DATE", "security_code-INT", "player_id-INT", "PRIMARY KEY(wallet_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)"};
 			
+			String [] paymentAttributes = {"payment_id-INT AUTO_INCREMENT", "payment_date-DATE", "cost-FLOAT", "wallet_id-INT", "PRIMARY KEY(payment_id)", "FOREIGN KEY(wallet_id) REFERENCES wallet(wallet_id)"};
+			
+			String [] buyGameAttributes = {"player_id-INT NOT NULL", "payment_id-INT NOT NULL", "game_name-VARCHAR(255) NOT NULL", "PRIMARY KEY(player_id, payment_id, game_name)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(payment_id) REFERENCES payment(payment_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
+			
+			String [] libraryAttributes = {"game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(player_id, game_name)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
+			
 			//dropTable("player");
 			//dropTable("company");
 			//dropTable("developer");
@@ -54,9 +60,17 @@ public class Driver
 			//dropTable("cart");
 			//dropTable("game");
 			//dropTable("stats");
-			dropTable("wallet");
+			//dropTable("wallet");
 			
-			createTable("wallet", walletAttributes);
+			
+			dropTable("buyGame");
+			dropTable("payment");
+			dropTable("library");
+			
+			createTable("library", libraryAttributes);
+			createTable("payment", paymentAttributes);
+			createTable("buyGame", buyGameAttributes);
+			//createTable("wallet", walletAttributes);
 			//createTable("stats", statsAttributes);
 			//createTable("wishlist", wishListAttributes);
 			//createTable("cart", cartAttributes);
