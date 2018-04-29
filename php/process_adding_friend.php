@@ -19,4 +19,6 @@
 
       // Execute the query
       mysqli_query($db, $insert_friend);
+
+      header("location: chat.php");
 ?>
