@@ -19,7 +19,7 @@
 
     $wallet_id = $wallet['wallet_id'];
 
-    if($wallet_id == null)
+    if(mysqli_num_rows($result_query) == 0)
     {
        echo "<h3> You do not have any wallet! </h3> <a href = 'profile.php'> Go to your profile </a>";
     }

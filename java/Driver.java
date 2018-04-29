@@ -58,6 +58,8 @@ public class Driver
 			String [] writesAttributes = { "review_id-INT NOT NULL", "game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(review_id, game_name, player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)", "FOREIGN KEY(review_id) REFERENCES review(review_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)"};
 			
 			String [] gameExpAttributes = { "experience-INT", "play_hour-FLOAT", "game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(game_name, player_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
+			
+			String [] friendshipAttributes = { "player_id1-INT NOT NULL", "player_id2-INT NOT NULL", "since_date-DATE NOT NULL", "PRIMARY KEY(player_id1, player_id2)", "FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)"};
 			//dropTable("player");
 			//dropTable("company");
 			//dropTable("developer");
@@ -71,9 +73,11 @@ public class Driver
 //			dropTable("library");
 //			dropTable("writes");
 //			dropTable("review");
-			dropTable("game_experience");
+//			dropTable("game_experience");
+			dropTable("friendship");
 //			
-			createTable("game_experience", gameExpAttributes);
+//			createTable("game_experience", gameExpAttributes);
+			createTable("friendship", friendshipAttributes);
 			
 //			createTable("review", reviewAttributes);
 //			createTable("writes", writesAttributes);
