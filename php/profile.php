@@ -180,7 +180,6 @@
 
       </div>
 
-      <a href="process_removing_wallet.php" class="w3-left w3-margin-bottom w3-padding w3w3-button" style="color:red">Remove</a>
       <a href="add_balance.php?wallet_id=<?php echo $wallet['wallet_id']?>; " class="w3-right w3-margin-bottom w3-padding w3w3-button">Add Balance</a>
 
       <?php

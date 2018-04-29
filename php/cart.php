@@ -142,12 +142,16 @@
 
               <div class="w3-panel white-font">
                 <h4 class="w3-left"><br>Games in your cart</h4>
-                <a class="w3-right w3-button w3-border w3-theme-l4" href="event.html" >Buy all</a>
+                <a class="w3-right w3-button w3-border w3-theme-l4" href="process_buying_from_cart.php">Buy all</a>
+
               </div>
 
               <!-- 1st column -->
               <div class="w3-col l6 s6">
                 <?php
+                    // Executing the query
+                    $access_exe = mysqli_query($db, $access_cart);
+
                     for($i = 0; $i < (int)($counter/2); $i++)
                     {
                         // Accessed games

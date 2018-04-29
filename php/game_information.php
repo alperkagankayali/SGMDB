@@ -2,8 +2,6 @@
     include("db.php");
     session_start();
 
-    echo "<br><br><br>";
-
     // Accessing the name of the game whose link is clicked
     $game_name = $_GET['game_name'];
 
@@ -171,7 +169,7 @@
           ?>
 
           <p class="w3-center"><?php echo $game_price; ?> $</p>
-          <a href="process_buying_game.php?game_name=<?php echo $game_name;?>&game_price=<?php echo $game_price; ?>" class="w3-button w3-block w3-theme-l1 ">Buy now</a>
+          <a href="process_buying_from_store.php?game_name=<?php echo $game_name; ?>&game_price=<?php echo $game_price; ?>" class="w3-button w3-block w3-theme-l1 ">Buy now</a>
           <a href="process_adding_to_cart.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/cart.png" style="width:3%">Add to cart</a>
           <a href="process_adding_to_wishlist.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/wish.png" style="width:1%">Add to wish list</a>
 

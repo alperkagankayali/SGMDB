@@ -8,10 +8,6 @@
     // Accessing player id
     $player_id = $_SESSION['player_id'];
 
-    // Accessing the game name and price
-    $game_name = $_GET['game_name'];
-    $game_price = $_GET['game_price'];
-
     // Query for accessing the balance of the wallet
     $access_balance_query = "SELECT wallet_id, balance FROM wallet WHERE player_id = $player_id;";
 
@@ -23,15 +19,22 @@
 
     $wallet_id = $wallet['wallet_id'];
 
-    // Controls
     if($wallet_id == null)
     {
-       echo "<h3> You do not have any wallet! </h3>";
-
-       echo "<a href = 'profile.php'> Go to your profile </a>";
+       echo "<h3> You do not have any wallet! </h3> <a href = 'profile.php'> Go to your profile </a>";
     }
-    else
+
+    // Buying method
+    function buyGame($game_name, $game_price)
     {
+        global $date;
+        global $wallet_id;
+        global $wallet;
+        global $db;
+        global $player_id;
+
+        // Controls
+
         if($game_price <= $wallet['balance'])
         {
             // STEP 1: Inserting payment to the selected game
@@ -94,20 +97,12 @@
             mysqli_query($db, $update_level);
 
             // SUCCESSFUL PURCHASE
-            echo "<h3> Successful purchase! </h3>";
-
-            echo "<a href = 'store.php'> Go back to store! </a>";
+            return "<h3> Successful purchase! </h3> <a href = 'library.php'> Go back to your library </a>";
         }
         else
         {
-            echo "<h3> You do not have enough balance! </h3>";
-
-            echo "<a href = 'profile.php'> Go to your profile </a>";
+            return "<h3> You do not have enough balance! </h3> <a href = 'profile.php'> Go back to your profile </a>";
         }
 
     }
-
-
-
-
 ?>
