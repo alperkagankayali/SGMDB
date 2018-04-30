@@ -20,5 +20,10 @@
       // Execute the query
       mysqli_query($db, $insert_friend);
 
+      $insert_friend = "INSERT INTO friendship (player_id1, player_id2, since_date) VALUES ($player_id2, $player_id1, '$since_date')";
+
+      // Execute the query
+      mysqli_query($db, $insert_friend);
+
       header("location: chat.php");
 ?>

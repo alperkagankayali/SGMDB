@@ -181,10 +181,12 @@
                 else
                 {
           ?>
-          <a href="#" class="w3-button w3-block w3-border w3-theme-l1 w3-margin-bottom">Play</a>
+          <a href="gameplay.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-border w3-theme-l1 w3-margin-bottom">Play</a>
+          <a href="online_friendlist.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-border w3-theme-l1 w3-margin-bottom">Play With Friends </a>
           <?php
                 }
           ?>
+          <a href="friendlist.php?game_name=<?php echo $game_name; ?>&game_price=<?php echo $game_price; ?>" class="w3-button w3-block w3-border w3-theme-l1 w3-margin-bottom"><img src="images/icons/gift.png" style="width:2%">Buy as a Gift</a>
         </div>
 
         <!--About game -->

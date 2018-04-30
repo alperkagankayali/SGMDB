@@ -5,6 +5,9 @@
       $access_cart = "SELECT game_name FROM cart
                       WHERE player_id = $player_id;";
 
+      // Accessing the player id
+      $player_id = $_SESSION['player_id'];
+
       // Executing the query
       $access_exe = mysqli_query($db, $access_cart);
 
@@ -45,7 +48,7 @@
               $game_name = $game['game_name'];
               $game_price = $prices[$j];
 
-              $result = buyGame($game_name, $game_price);
+              $result = buyGame($game_name, $game_price, $player_id);
 
               if($j == ($counter - 1))
               {

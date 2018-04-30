@@ -25,13 +25,12 @@
     }
 
     // Buying method
-    function buyGame($game_name, $game_price)
+    function buyGame($game_name, $game_price, $player_id)
     {
         global $date;
         global $wallet_id;
         global $wallet;
         global $db;
-        global $player_id;
 
         // Controls
 

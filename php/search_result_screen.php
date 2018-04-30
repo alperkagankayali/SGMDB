@@ -210,10 +210,16 @@
                         <a href="process_adding_friend.php?username=<?php echo $player['username']; ?>" class="w3-right w3-margin-bottom">Add Friend</a>
                   <?php
                         }
+                        else if($player_id2 == $player_id)
+                        {
+                  ?>
+                        <p class="w3-right w3-margin-bottom">You</p>
+                  <?php
+                        }
                         else
                         {
                     ?>
-                      <p class="w3-right w3-margin-bottom">Your Friend</p>
+                        <p class="w3-right w3-margin-bottom">Your Friend</p>
                   <?php
                         }
                     ?>
@@ -252,16 +258,22 @@
                   <h5><?php echo $player_email ?></h5>
 
                   <?php
-                        if($count == 0)
+                        if($player_id2 == $player_id)
                         {
                     ?>
+                        <p class="w3-right w3-margin-bottom">You</p>
+                  <?php
+                        }
+                        if($player_id2 != $player_id && $count == 0)
+                        {
+                  ?>
                         <a href="process_adding_friend.php?username=<?php echo $player['username']; ?>" class="w3-right w3-margin-bottom">Add Friend</a>
                   <?php
                         }
-                        else
+                        if($count != 0)
                         {
                     ?>
-                      <p class="w3-right w3-margin-bottom">Your Friend</p>
+                        <p class="w3-right w3-margin-bottom">Your Friend</p>
                   <?php
                         }
                     ?>

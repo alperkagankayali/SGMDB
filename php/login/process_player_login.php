@@ -31,10 +31,13 @@
     if($count_rows > 0)
     {
         // inserting the last-active date
-        $insert_date = "UPDATE stats SET last_active_date = '$date' WHERE player_id='".$player['player_id']."' ";
+        $update_date = "UPDATE stats SET last_active_date = '$date' WHERE player_id='".$player['player_id']."' ";
+
+        $update_status = "UPDATE player SET status = 1 WHERE player_id='".$player['player_id']."' ";
 
         // Executing the query
-        mysqli_query($db, $insert_date);
+        mysqli_query($db, $update_date);
+        mysqli_query($db, $update_status);
 
         header("location: ../store.php");
 
