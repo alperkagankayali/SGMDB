@@ -60,6 +60,12 @@ public class Driver
 			String [] gameExpAttributes = { "experience-INT", "play_hour-FLOAT", "game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(game_name, player_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
 			
 			String [] friendshipAttributes = { "player_id1-INT NOT NULL", "player_id2-INT NOT NULL", "since_date-DATE NOT NULL", "PRIMARY KEY(player_id1, player_id2)", "FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)"};
+			
+			String [] playAttributes = {"session_id-INT AUTO_INCREMENT", "player_id1-INT NOT NULL", "player_id2-INT", "game_name-VARCHAR(255) NOT NULL", "session_date-DATE NOT NULL", "PRIMARY KEY(session_id)", "FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
+			
+			String [] notificationAttributes = {"notification_id-INT AUTO_INCREMENT", "notification_text-VARCHAR(255)", "notification_date-DATE", "notification_status-INT", "PRIMARY KEY(notification_id)"};
+			
+			String [] notifyAttributes = {"notification_id-INT NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(notification_id, player_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(notification_id) REFERENCES notification(notification_id)"};
 			//dropTable("player");
 			//dropTable("company");
 			//dropTable("developer");
@@ -74,10 +80,19 @@ public class Driver
 //			dropTable("writes");
 //			dropTable("review");
 //			dropTable("game_experience");
-			dropTable("friendship");
+//			dropTable("friendship");
+//			dropTable("play");
 //			
+			dropTable("notify");
+			dropTable("notification");
+			
+			
+			createTable("notification", notificationAttributes);
+			createTable("notify", notifyAttributes);
+			
+//			createTable("play", playAttributes);
 //			createTable("game_experience", gameExpAttributes);
-			createTable("friendship", friendshipAttributes);
+//			createTable("friendship", friendshipAttributes);
 			
 //			createTable("review", reviewAttributes);
 //			createTable("writes", writesAttributes);
