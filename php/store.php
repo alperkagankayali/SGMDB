@@ -2,8 +2,34 @@
     include("db.php");
     session_start();
 
-    // Query for accessing all the games in the system
-    $access_query = "SELECT * FROM game";
+    if(isset($_GET['category']))
+    {
+        // category chosen
+        $category = $_GET['category'];
+
+        if($category != "Free to play")
+        {
+            // Query for accessing all the games with the given category in the system
+            $access_query = "SELECT * FROM game WHERE game_category = '$category'";
+        }
+        else
+        {
+            // Query for accessing all free games in the system
+            $access_query = "SELECT * FROM game WHERE game_price = 0";
+        }
+    }
+    else if(!isset($_GET['category']) && isset($_GET['platform']))
+    {
+        // platform chosen
+        $platform = $_GET['platform'];
+
+        $access_query = "SELECT * FROM game WHERE platform LIKE '%$platform%'";
+    }
+    else
+    {
+        // Query for accessing all the games in the system
+        $access_query = "SELECT * FROM game";
+    }
 
     // Executing the Query
     $result_query = mysqli_query($db, $access_query);
@@ -105,17 +131,17 @@
         <!-- Accordion -->
         <div class="w3-card w3-round white-font">
             <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Free to Play</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Action</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Adventure</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Casual</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Indie</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Multiplayer</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Racing</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> RPG</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Simulation</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Sports</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Strategy</button>
+                <a href="store.php?category=Free to play" class="w3-button w3-block w3-theme-l1 w3-left-align"> Free to Play</a>
+                <a href="store.php?category=Action" class="w3-button w3-block w3-theme-l1 w3-left-align"> Action</a>
+                <a href="store.php?category=Adventure" class="w3-button w3-block w3-theme-l1 w3-left-align"> Adventure</a>
+                <a href="store.php?category=Casual" class="w3-button w3-block w3-theme-l1 w3-left-align"> Casual</a>
+                <a href="store.php?category=Indie" class="w3-button w3-block w3-theme-l1 w3-left-align"> Indie</a>
+                <a href="store.php?category=Multiplayer" class="w3-button w3-block w3-theme-l1 w3-left-align"> Multiplayer</a>
+                <a href="store.php?category=Racing" class="w3-button w3-block w3-theme-l1 w3-left-align"> Racing</a>
+                <a href="store.php?category=RPG" class="w3-button w3-block w3-theme-l1 w3-left-align"> RPG</a>
+                <a href="store.php?category=Simulation" class="w3-button w3-block w3-theme-l1 w3-left-align"> Simulation</a>
+                <a href="store.php?category=Sports" class="w3-button w3-block w3-theme-l1 w3-left-align"> Sports</a>
+                <a href="store.php?category=Strategy" class="w3-button w3-block w3-theme-l1 w3-left-align"> Strategy</a>
             </div>
         </div>
 
@@ -128,9 +154,9 @@
         <!-- Accordion -->
         <div class="w3-card w3-round white-font">
             <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Windows</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> MacOS</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Linux</button>
+                <a href="store.php?platform=Windows" class="w3-button w3-block w3-theme-l1 w3-left-align"> Windows</a>
+                <a href="store.php?platform=Mac" class="w3-button w3-block w3-theme-l1 w3-left-align"> MacOS</a>
+                <a href="store.php?platform=Linux" class="w3-button w3-block w3-theme-l1 w3-left-align"> Linux</a>
             </div>
         </div>
 
@@ -172,7 +198,15 @@
           <div class="w3-row white-font">
 
               <div class="w3-panel white-font">
-                <h4><br>All games</h4>
+                <h4><br><?php
+                          if(isset($_GET['category']))
+                              echo $category;
+                          else if(isset($_GET['platform']))
+                              echo $platform;
+                          else
+                              echo "All games"?>
+                </h4>
+                <hr>
               </div>
 
               <!-- 1st column -->
