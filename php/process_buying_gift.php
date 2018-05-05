@@ -18,7 +18,7 @@
       // Accessing receiver's username
       $buyes_username = mysqli_query($db, "SELECT username FROM player WHERE player_id = $player_id")->fetch_assoc()['username'];
 
-      // Adding notification
+      // ADDING NOTIFICATION
       $notification_text = "$buyes_username"." bought you $game_name as a gift!";
 
       // Inserting into notification

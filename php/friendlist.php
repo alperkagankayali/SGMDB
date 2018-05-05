@@ -8,11 +8,11 @@
     $game_name = $_GET['game_name'];
     $game_price = $_GET['game_price'];
 
-    // Access all friends of the player
+    // Access all friends of the player, who do not have the chosen game
     $access_friends = "SELECT F.player_id2 FROM friendship as F
                       WHERE F.player_id1 = $player_id AND
                       NOT EXISTS (SELECT * FROM library as L
-                                  WHERE L.player_id = F.player_id2)";
+                                  WHERE L.player_id = F.player_id2 AND L.game_name = '$game_name')";
 
     // Execute the query
     $result_query = mysqli_query($db, $access_friends);
@@ -64,7 +64,7 @@
           <div class="w3-dropdown-hover w3-hide-small">
               <?php include("process_notification.php");?>
           </div>
-          
+
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
             <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">

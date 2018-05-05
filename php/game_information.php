@@ -70,6 +70,7 @@
     .search-form {margin:10px; margin-left:20px}
     .white-font {color:white}
     .background {background:url('images/bg.jpg')}
+    .checked { color: orange; }
 </style>
 
 <!--*************************************************************************************************-->
@@ -95,7 +96,7 @@
           <div class="w3-dropdown-hover w3-hide-small">
               <?php include("process_notification.php");?>
           </div>
-          
+
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
             <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
@@ -189,6 +190,62 @@
                 }
           ?>
           <a href="friendlist.php?game_name=<?php echo $game_name; ?>&game_price=<?php echo $game_price; ?>" class="w3-button w3-block w3-border w3-theme-l1 w3-margin-bottom"><img src="images/icons/gift.png" style="width:2%">Buy as a Gift</a>
+        </div>
+
+        <!-- Rating -->
+        <div class="w3-container w3-card w3-border w3-round w3-margin white-font w3w3-center"><br>
+            <h4>RATING</h4><br>
+
+            <div class="w3-container w3-margin-bottom w3-center">
+
+              <!-- Rating stars -->
+              <?php
+                  for($k = 0; $k < 5; $k++)
+                  {
+                      if($k < $game_rating)
+                      {
+
+              ?>
+              <span class="fa fa-star checked"></span>
+              <?php
+                      }
+                      else
+                      {
+
+              ?>
+              <span class="fa fa-star"></span>
+              <?php
+                      }
+                }
+              ?>
+
+              <!-- Give a rating the game is in your library -->
+              <?php
+                    if($row_size != 0)
+                    {
+              ?>
+
+              <form action="process_game_rating.php?game_name=<?php echo $game_name; ?>" method="post">
+                <div class="w3-container w3-center w3-card w3-round w3-margin white-font w3-center">
+                    <div class="nl">
+                      <label class="header">Give a rating:</label>
+                      <select name="rating" class="w3-margin">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                      </select>
+                    </div>
+                    <input type="submit" class="send" value="RATE">
+                </div>
+              </form>
+
+              <?php
+                    }
+              ?>
+
+            </div>
         </div>
 
         <!--About game -->

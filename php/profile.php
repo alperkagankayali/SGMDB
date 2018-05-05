@@ -115,7 +115,7 @@
           <div class="w3-dropdown-hover w3-hide-small">
               <?php include("process_notification.php");?>
           </div>
-          
+
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
             <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
@@ -224,17 +224,20 @@
                   $game_logo = $game_access_logo['game_logo'];
         ?>
 
-        <img src=<?php echo $game_logo; ?> alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <!--<span class="w3-right w3-opacity">1 min</span><-->
-        <h4><?php echo $game_name; ?></h4><br>
-        <hr class="w3-clear">
-        <p>Gameplay Time: <?php echo $play_hour; ?> hours</p>
-        <p>Gained Experience: <?php echo $experience; ?> XP</p>
-          <div class="w3-row-padding" style="margin:0 -16px">
-            <div class="w3-half">
-              <img src=<?php echo $game_logo; ?> style="width:100%" alt="Gameplay Screenshot" class="w3-margin-bottom">
-            </div>
-        </div>
+        <div class="w3-container w3-card w3-margin w3-border">
+
+          <img src=<?php echo $game_logo; ?> alt="Avatar" class="w3-left w3-circle w3-margin- w3-margin" style="width:60px">
+          <h4><?php echo $game_name; ?></h4><br>
+          <hr class="w3-clear">
+          <p>Gameplay Time: <?php echo $play_hour; ?> hours</p>
+          <p>Gained Experience: <?php echo $experience; ?> XP</p>
+            <div class="w3-row-padding" style="margin:0 -16px">
+              <div class="w3-half">
+                <img src=<?php echo $game_logo; ?> style="width:100%" alt="Gameplay Screenshot" class="w3-margin-bottom">
+              </div>
+          </div>
+
+      </div>
 
         <?php
               }
