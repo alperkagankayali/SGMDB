@@ -37,7 +37,7 @@ public class Driver
 			
 			String [] developerAttributes = {"developer_id-INT AUTO_INCREMENT", "developer_email-VARCHAR(255) UNIQUE", "developer_password-CHAR(255)", "developer_firstname-VARCHAR(255)", "developer_midname-VARCHAR(255)", "developer_lastname-VARCHAR(255)", "PRIMARY KEY(developer_id)" };
 			
-			String [] gameAttributes = {"game_name-VARCHAR(255)", "game_price-FLOAT", "platform-VARCHAR(255)", "game_category-VARCHAR(255)", "game_logo-VARCHAR(255)", "rating-FLOAT", "system_requirements-VARCHAR(255)", "release_date-DATE", "company_name-VARCHAR(255)", "PRIMARY KEY(game_name)", "FOREIGN KEY(company_name) REFERENCES company(company_name)"};
+			String [] gameAttributes = {"game_name-VARCHAR(255)", "game_price-FLOAT", "platform-VARCHAR(255)", "game_category-VARCHAR(255)", "game_logo-VARCHAR(255)", "rating-FLOAT", "num_of_ratings-INT", "system_requirements-VARCHAR(255)", "release_date-DATE", "company_name-VARCHAR(255)", "PRIMARY KEY(game_name)", "FOREIGN KEY(company_name) REFERENCES company(company_name)"};
 			
 			String [] wishListAttributes = {"game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(player_id, game_name)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
 			
@@ -66,48 +66,52 @@ public class Driver
 			String [] notificationAttributes = {"notification_id-INT AUTO_INCREMENT", "notification_text-VARCHAR(255)", "notification_date-DATE", "notification_status-INT", "PRIMARY KEY(notification_id)"};
 			
 			String [] notifyAttributes = {"notification_id-INT NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(notification_id, player_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(notification_id) REFERENCES notification(notification_id)"};
-			//dropTable("player");
-			//dropTable("company");
-			//dropTable("developer");
-			//dropTable("wishlist");
-			//dropTable("cart");
-			//dropTable("game");
-			//dropTable("stats");
-			//dropTable("wallet");
-//			dropTable("buyGame");
-//			dropTable("payment");
-//			dropTable("library");
+			
+			String [] messageAttributes = {"player_id1-INT NOT NULL", "player_id2-INT NOT NULL", "message_date-DATE NOT NULL", "message_text-TEXT", "FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)"};
+			
+//			dropTable("player");
+//			dropTable("company");
+//			dropTable("developer");	
+//			dropTable("notify");
+//			dropTable("notification");
 //			dropTable("writes");
 //			dropTable("review");
+//			dropTable("wishlist");
+//			dropTable("cart");			
+//			dropTable("library");		
+//			dropTable("payment");
+//			dropTable("buyGame");
+//			dropTable("wallet");
+//			dropTable("stats");
 //			dropTable("game_experience");
 //			dropTable("friendship");
 //			dropTable("play");
-//			
-			dropTable("notify");
-			dropTable("notification");
+//			dropTable("game");
 			
+			dropTable("message");
 			
-			createTable("notification", notificationAttributes);
-			createTable("notify", notifyAttributes);
+			createTable("message", messageAttributes);
 			
+//			createTable("developer", developerAttributes);
+//			createTable("company", companyAttributes);
+//			createTable("player", playerAttributes);
 //			createTable("play", playAttributes);
-//			createTable("game_experience", gameExpAttributes);
 //			createTable("friendship", friendshipAttributes);
-			
+//			createTable("game_experience", gameExpAttributes);
+//			createTable("stats", statsAttributes);
+//			createTable("buyGame", buyGameAttributes);
+//			createTable("payment", paymentAttributes);
+//			createTable("wallet", walletAttributes);
+//			createTable("library", libraryAttributes);
+//			createTable("cart", cartAttributes);
+//			createTable("wishlist", wishListAttributes);
+//			createTable("game", gameAttributes);
 //			createTable("review", reviewAttributes);
 //			createTable("writes", writesAttributes);
-//			
-//			createTable("library", libraryAttributes);
-//			createTable("payment", paymentAttributes);
-//			createTable("buyGame", buyGameAttributes);
-			//createTable("wallet", walletAttributes);
-			//createTable("stats", statsAttributes);
-			//createTable("wishlist", wishListAttributes);
-			//createTable("cart", cartAttributes);
-			//createTable("game", gameAttributes);
-			//createTable("player", playerAttributes);
-			//createTable("company", companyAttributes);
-			//createTable("developer", developerAttributes);
+//			createTable("notification", notificationAttributes);
+//			createTable("notify", notifyAttributes);	
+			
+	
 			
 	
 		}
