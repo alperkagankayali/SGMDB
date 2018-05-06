@@ -140,120 +140,121 @@
     <div class="w3-panel">
     <h1><br>Profile</h1>
     </div>
-   <img align="Middle" class="w3-image" src=<?php if($player_picture != '') echo $player_picture; else echo "images/icons/avatar.png";?> alt="Me" width="400" height="300" >
-   <div class="w3-panel">
-    <h4><br><?php echo $player_firstname." ".$player_midname." ".$player_lastname; ?></h4>
-    <h6><br><?php echo $player_email; ?></h6>
-    <h4><br>Level <?php echo $level; ?></h4>
-    <h6><br>Last active date: <?php echo $last_active_date; ?></h6>
-  </div>
 
+    <img align="Middle" class="w3-image" src=<?php if($player_picture != '') echo $player_picture; else echo "images/icons/avatar.png";?> alt="Me" width="400" height="300" >
 
-  <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
-  <!-- The Grid -->
-  <div class="w3-row">
-    <!-- Left Column -->
-    <div class="w3-col m3">
-
-      <?php
-          if(mysqli_num_rows($wallet_result) == 0)
-          {
-      ?>
-
-      <a href="add_wallet.php" class="w3-left w3-margin-bottom w3-padding w3-border w3w3-button">Add Wallet</a>
-
-      <div class="w3-card w3-round white-font">
-          <br><br><h4 class="w3-block w3-theme-l1 w3-left-align w3-left">You have no wallet!</h4>
-      </div>
-
-      <?php
-          }
-          else
-          {
-      ?>
-
-      <!-- Accordion -->
-      <div class="w3-card w3-round white-font">
-
-          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-usd fa-fw w3-margin-left w3-large w3-text-teal w3-left-align"></i>Net Balance: <?php echo $wallet_balance; ?> $ </a>
-          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align">Card Number: <?php echo $card_number; ?></a>
-          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"> Security Code: <?php echo $security_code; ?></a>
-          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"> Expiration Date: <?php echo $expiration_date; ?></a>
-          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"> Card type: <?php echo $payment_method; ?></a>
-
-      </div>
-
-      <a href="add_balance.php?wallet_id=<?php echo $wallet['wallet_id']?>; " class="w3-right w3-margin-bottom w3-padding w3w3-button">Add Balance</a>
-
-      <?php
-         }
-      ?>
-
-      <br>
-
-    <!-- End Left Column -->
+    <div class="w3-panel">
+      <h4><br><?php echo $player_firstname." ".$player_midname." ".$player_lastname; ?></h4>
+      <h6><br><?php echo $player_email; ?></h6>
+      <h4><br>Level <?php echo $level; ?></h4>
+      <h6><br>Last active date: <?php echo $last_active_date; ?></h6>
     </div>
 
-    <!-- Middle Column -->
-    <div class="w3-col m7">
 
+      <!-- Page Container -->
+    <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+      <!-- The Grid -->
+      <div class="w3-row">
+        <!-- Left Column -->
+        <div class="w3-col m3">
 
-
-      <div class="w3-container w3-card w3-round w3-margin"><br>
-
-        <?php
-              for($i = 0; $i < $counter; $i++)
+          <?php
+              if(mysqli_num_rows($wallet_result) == 0)
               {
-                  // Accessed experience
-                  $game_exp = $game_exp_exe->fetch_assoc();
+          ?>
 
-                  $experience = $game_exp['experience'];
-                  $play_hour = $game_exp['play_hour'];
-                  $game_name = $game_exp['game_name'];
+          <a href="add_wallet.php" class="w3-left w3-margin-bottom w3-padding w3-border w3w3-button">Add Wallet</a>
 
-                  // Accessing game information (logo)
-                  $game_exp = "SELECT game_logo FROM game WHERE game_name = '$game_name'";
-
-                  // Executing the query
-                  $access_logo_exe = mysqli_query($db, $game_exp);
-
-                  // Result
-                  $game_access_logo = $access_logo_exe->fetch_assoc();
-
-                  $game_logo = $game_access_logo['game_logo'];
-        ?>
-
-        <div class="w3-container w3-card w3-margin w3-border">
-
-          <img src=<?php echo $game_logo; ?> alt="Avatar" class="w3-left w3-circle w3-margin- w3-margin" style="width:60px">
-          <h4><?php echo $game_name; ?></h4><br>
-          <hr class="w3-clear">
-          <p>Gameplay Time: <?php echo $play_hour; ?> hours</p>
-          <p>Gained Experience: <?php echo $experience; ?> XP</p>
-            <div class="w3-row-padding" style="margin:0 -16px">
-              <div class="w3-half">
-                <img src=<?php echo $game_logo; ?> style="width:100%" alt="Gameplay Screenshot" class="w3-margin-bottom">
-              </div>
+          <div class="w3-card w3-round white-font">
+              <br><br><h4 class="w3-block w3-theme-l1 w3-left-align w3-left">You have no wallet!</h4>
           </div>
 
-      </div>
-
-        <?php
+          <?php
               }
-        ?>
+              else
+              {
+          ?>
 
+          <!-- Accordion -->
+          <div class="w3-card w3-round white-font">
+
+              <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-usd fa-fw w3-margin-left w3-large w3-text-teal w3-left-align"></i>Net Balance: <?php echo $wallet_balance; ?> $ </a>
+              <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align">Card Number: <?php echo $card_number; ?></a>
+              <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"> Security Code: <?php echo $security_code; ?></a>
+              <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"> Expiration Date: <?php echo $expiration_date; ?></a>
+              <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"> Card type: <?php echo $payment_method; ?></a>
+
+          </div>
+
+          <a href="add_balance.php?wallet_id=<?php echo $wallet['wallet_id']?>; " class="w3-right w3-margin-bottom w3-padding w3w3-button">Add Balance</a>
+
+          <?php
+             }
+          ?>
+
+          <br>
+
+        <!-- End Left Column -->
+        </div>
+
+        <!-- Middle Column -->
+        <div class="w3-col m7">
+
+
+
+          <div class="w3-container w3-card w3-round w3-margin"><br>
+
+            <?php
+                  for($i = 0; $i < $counter; $i++)
+                  {
+                      // Accessed experience
+                      $game_exp = $game_exp_exe->fetch_assoc();
+
+                      $experience = $game_exp['experience'];
+                      $play_hour = $game_exp['play_hour'];
+                      $game_name = $game_exp['game_name'];
+
+                      // Accessing game information (logo)
+                      $game_exp = "SELECT game_logo FROM game WHERE game_name = '$game_name'";
+
+                      // Executing the query
+                      $access_logo_exe = mysqli_query($db, $game_exp);
+
+                      // Result
+                      $game_access_logo = $access_logo_exe->fetch_assoc();
+
+                      $game_logo = $game_access_logo['game_logo'];
+            ?>
+
+            <div class="w3-container w3-card w3-margin w3-border">
+
+              <img src=<?php echo $game_logo; ?> alt="Avatar" class="w3-left w3-circle w3-margin- w3-margin" style="width:60px">
+              <h4><?php echo $game_name; ?></h4><br>
+              <hr class="w3-clear">
+              <p>Gameplay Time: <?php echo $play_hour; ?> hours</p>
+              <p>Gained Experience: <?php echo $experience; ?> XP</p>
+                <div class="w3-row-padding" style="margin:0 -16px">
+                  <div class="w3-half">
+                    <img src=<?php echo $game_logo; ?> style="width:100%" alt="Gameplay Screenshot" class="w3-margin-bottom">
+                  </div>
+              </div>
+
+          </div>
+
+            <?php
+                  }
+            ?>
+
+          </div>
+
+        <!-- End Middle Column -->
+        </div>
+
+      <!-- End Grid -->
       </div>
-
-    <!-- End Middle Column -->
-    </div>
-
-  <!-- End Grid -->
-  </div>
 
 <!-- End Page Container -->
 </div>
-
 
 
 
