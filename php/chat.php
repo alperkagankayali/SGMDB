@@ -115,7 +115,7 @@
           <!--<span class="w3-right w3-opacity">1 min</span><-->
           <h4><?php echo $firstname." ".$midname." ".$lastname; ?></h4><br>
           <hr class="w3-clear">
-          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align">Go to chat ></a>
+          <a href="chat_screen.php?receiver_id=<?php echo $player_id2; ?>&receiver_pp=<?php if($profile_picture != null) echo $profile_picture; else echo "images/icons/avatar.png";?>" class="w3-button w3-block w3-theme-l1 w3-left-align">Go to chat ></a>
         </div>
 
       <?php

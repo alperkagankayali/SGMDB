@@ -36,6 +36,13 @@
 
     // Number of games
     $counter = mysqli_num_rows($result_query);
+
+    // For Image Slider - Top 3 Games with most ratings
+    $top_games_sql = "SELECT * FROM game ORDER BY rating DESC";
+
+    $access_top_games = mysqli_query($db, $top_games_sql);
+
+    $num_rows = mysqli_num_rows($access_top_games);
 ?>
 
 
@@ -167,15 +174,23 @@
           <!-- Slideshow -->
           <div class="w3-container">
 
+            <?php
+                  for($c = 0; $c < 3; $c++)
+                  {
+                     $top_games = $access_top_games->fetch_assoc();
+
+                     $top_game_name = $top_games['game_name'];
+                     $top_game_logo = $top_games['game_logo'];
+                     $top_game_price = $top_games['game_price'];
+            ?>
+
             <div class="w3-display-container mySlides">
-              <img src="images/game1.jpg" style="width:100%">
+              <a href="game_information.php?game_name=<?php echo $top_game_name; ?>"><img src="<?php echo $top_game_logo; ?>" style="width:100%"></img></a>
             </div>
-            <div class="w3-display-container mySlides">
-              <img src="images/game2.jpg" style="width:100%">
-            </div>
-            <div class="w3-display-container mySlides">
-              <img src="images/game3.jpg" style="width:100%">
-            </div>
+
+            <?php
+                  }
+            ?>
 
             <!-- Slideshow next/previous buttons -->
             <div class="w3-container background white-font w3-padding w3-xlarge">
