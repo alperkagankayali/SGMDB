@@ -73,7 +73,7 @@
           <div class="w3-dropdown-hover w3-hide-small">
               <?php include("process_notification.php");?>
           </div>
-          
+
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
             <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">

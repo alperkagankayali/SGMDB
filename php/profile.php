@@ -70,6 +70,11 @@
     // Number of tuples
     $counter = mysqli_num_rows($game_exp_exe);
 
+    /*
+        Here we will be a query for reports
+    */
+
+    $arr = array(10, 0, 10, 2, 200, 30, 1, 1, 3, 1, 4, 3);
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +86,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" type="text/css" href="css/bar_chart.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 <style>
     html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
@@ -150,7 +158,6 @@
       <h6><br>Last active date: <?php echo $last_active_date; ?></h6>
     </div>
 
-
       <!-- Page Container -->
     <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
       <!-- The Grid -->
@@ -200,7 +207,10 @@
         <!-- Middle Column -->
         <div class="w3-col m7">
 
+          <!-- Chart -->
+          <div id="chartContainer" style="height: 370px; width: 100%; margin: 0px auto; margin-left: 45px"></div>
 
+          <br>
 
           <div class="w3-container w3-card w3-round w3-margin"><br>
 
@@ -260,33 +270,42 @@
 
 
 <script>
-// Slideshow
-var slideIndex = 1;
-showDivs(slideIndex);
 
-function plusDivs(n) {
-  showDivs(slideIndex += n);
-}
+    window.onload = function () {
 
-function currentDiv(n) {
-  showDivs(slideIndex = n);
-}
+    var a = <?php echo json_encode($arr); ?>;
 
-function showDivs(n) {
-  var i;
-  var x = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("demodots");
-  if (n > x.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = x.length} ;
-  for (i = 0; i < x.length; i++) {
-     x[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-     dots[i].className = dots[i].className.replace(" w3-white", "");
-  }
-  x[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " w3-white";
-}
+    var chart = new CanvasJS.Chart("chartContainer", {
+
+          animationEnabled: true,
+        	theme: "light2", // "light1", "light2", "dark1", "dark2"
+        	title:{
+        		text: "Your Monthly Purchases"
+        	},
+        	axisY: {
+        		title: "Purchases of Player ($)"
+        	},
+        	data: [{
+        		type: "column",
+        		dataPoints: [
+        			{ y: a[0],  label: "Jan" },
+        			{ y: a[1],  label: "Feb" },
+        			{ y: a[2],  label: "Mar" },
+        			{ y: a[3],  label: "Apr" },
+        			{ y: a[4],  label: "May" },
+        			{ y: a[5],  label: "June" },
+        			{ y: a[6],  label: "July" },
+        			{ y: a[7],  label: "Aug" },
+              { y: a[8],  label: "Sep" },
+              { y: a[9],  label: "Oct" },
+              { y: a[10], label: "Nov" },
+              { y: a[11], label: "Dec" }
+        		]
+        	}]
+        });
+      chart.render();
+
+    }
 </script>
 
 </body>

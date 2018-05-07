@@ -6,9 +6,6 @@
     $company_name = $_SESSION['company_name']['company_name'];
     $company_rating = $_SESSION['company_name']['rating'];
     $company_logo = $_SESSION['company_name']['company_logo'];
-
-
-
 ?>
 
 <!DOCTYPE html>
