@@ -1,8 +1,43 @@
 <?php
     include("db.php");
     session_start();
+    
+    // Checking for page interval
+    $max_filled = null;
+    $min_filled = null;
 
-    if(isset($_GET['category']))
+    if(isset($_POST['max_price']))
+    {
+        if(mysqli_escape_string($db, $_POST['max_price'] != ''))
+          $max_filled = (mysqli_escape_string($db, $_POST['max_price']) !== null);
+    }
+    if(isset($_POST['min_price']))
+    {
+        if(mysqli_escape_string($db, $_POST['min_price'] != ''))
+          $min_filled = (mysqli_escape_string($db, $_POST['min_price']) !== null);
+    }
+
+    if($max_filled && $min_filled)
+    {
+        $max_price = mysqli_escape_string($db, $_POST['max_price']);
+        $min_price = mysqli_escape_string($db, $_POST['min_price']);
+
+        $access_query = "SELECT * FROM game WHERE game_price BETWEEN $min_price AND $max_price";
+
+    }
+    else if($max_filled && !$min_filled)
+    {
+        $max_price = mysqli_escape_string($db, $_POST['max_price']);
+
+        $access_query = "SELECT * FROM game WHERE game_price <= $max_price";
+    }
+    else if($min_filled && !$max_filled)
+    {
+        $min_price = mysqli_escape_string($db, $_POST['min_price']);
+
+        $access_query = "SELECT * FROM game WHERE game_price >= $min_price";
+    }
+    else if(isset($_GET['category']))                     // Category sorting
     {
         // category chosen
         $category = $_GET['category'];
@@ -133,7 +168,7 @@
           <h4><br><u>Categories<u></h4>
         </div>
 
-        <!-- Accordion -->
+        <!-- Category -->
         <div class="w3-card w3-round white-font">
             <div>
                 <a href="store.php?category=Free to play" class="w3-button w3-block w3-theme-l1 w3-left-align"> Free to Play</a>
@@ -152,6 +187,22 @@
 
         <br>
 
+        <!-- Price Interval -->
+        <div class="w3-panel white-font">
+          <h4><br><u>Price Interval<u></h4>
+        </div>
+
+        <div class="w3-card w3-round white-font">
+            <form action = "store.php" method = "post">
+                <input name = "min_price" type = "number" placeholder = "Min" step="any" min="0" style = "width: 20%"></input>
+                <input name = "max_price" type = "number" placeholder = "Max" step="any" min="0" style = "width: 20%"></input>
+                <input type = "submit" value = "Submit">
+            </form>
+        </div>
+
+        <br>
+
+        <!-- PLatform -->
         <div class="w3-panel white-font">
           <h4><br><u>Platforms<u></h4>
         </div>
