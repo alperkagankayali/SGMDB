@@ -2,19 +2,27 @@
     include("db.php");
     session_start();
 
-    // Acessing the player id who has logged on
     $player_id = $_SESSION['player_id'];
 
-    // Access all friends of the player
-    $access_friends = "SELECT player_id2 FROM friendship WHERE player_id1 = $player_id";
+    // Access info about friend that message will be sent
+    $send_id = $_GET['send_id'];
+    $me = "SELECT * FROM player WHERE player_id = $player_id";
+    $you = "SELECT * FROM player WHERE player_id = $send_id";
+    $all_msg= "SELECT * FROM message WHERE player_id2 = $send_id AND player_id1 = $player_id union SELECT * FROM message WHERE player_id1 = $send_id AND player_id2 = $player_id ORDER BY time ASC";
 
     // Execute the query
-    $result_query = mysqli_query($db, $access_friends);
+    //$info = mysqli_query($db, $send_message_to);
+    $messages = mysqli_query($db, $all_msg);
+    $me = mysqli_query($db, $me);
+    $you = mysqli_query($db, $you);
+    //$messages_sent = mysqli_query($db, $previous_messages_sent);
+    //$messages_received = mysqli_query($db, $previous_messages_received);
 
+    $you= mysqli_fetch_array($you);
+    $me= mysqli_fetch_array($me);
     // Number of rows
-    $counter = mysqli_num_rows($result_query);
-
-
+    //$counter = mysqli_num_rows($info); //should be 1
+    $msg_count = mysqli_num_rows($messages); 
 ?>
 
 <!DOCTYPE html>
@@ -38,6 +46,50 @@
     .search-form {margin:10px; margin-left:20px}
     .white-font {color:white}
     .background {background:url('images/bg.jpg')}
+    .container {
+    border: 2px solid #dedede;
+    background-color: darkturquoise;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.container::after {
+    content: "";
+    clear: both;
+    display: table;
+    border-color: #ccc;
+    background-color: #fff;
+}
+
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+.container img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+.container img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right:0;
+}
+
+.time-right {
+    float: right;
+    color: #aaa;
+}
+
+.time-left {
+    float: left;
+    color: #999;
+}
 </style>
 <body class="background">
 
@@ -86,7 +138,7 @@
 <!-- Content -->
 <div class="w3-content white-font" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
     <div class="w3-panel">
-    <h1><br>Chat</h1>
+    <h1><br>Chat with <?php echo $you['username'];?></h1>
     </div>
 
 
@@ -97,13 +149,43 @@
   <div class="w3-row">
     <!-- Middle Column -->
     <div class="w3-col m7">
+      <?php
 
+      //echo $msg_count;
+      for($i = 0; $i < $msg_count; $i++)
+      {
+          $row = mysqli_fetch_array($messages);
+          if($row['player_id1'] == $player_id){ //sent
+              echo "<div class=\"container darker\">";
+              echo "<img src=";
+              if($me['profile_picture'] != null) 
+                echo $me['profile_picture'];
+              else 
+                echo "images/icons/avatar.png";
+              echo "alt=\"Avatar\" class=\"right\" style=\"width:60px\">";
+              echo "<p>"." ".$row['text']." "."</p>";
+              echo "<span class=\"time-right\">";
+              echo $row['time'];
+              echo "</span>";
+              echo "</div>";
+          }
+          else if($row['player_id2'] == $player_id){ //received
+              echo "<div class=\"container darker\">";
+              echo "<img src=";
+              if($you['profile_picture'] != null) 
+                echo $you['profile_picture']; 
+              else 
+                echo "images/icons/avatar.png";
+              echo "alt=\"Avatar\" class=\"w3-left w3-circle w3-margin-right\" style=\"width:60px\">";
+              echo "<p>"." ".$row['text']." "."</p>";
+              echo "<span class=\"time-left\">";
+              echo $row['time'];
+              echo "</span>";
+              echo "</div>";
+          } 
 
-  <!-- TO DOOO-->
-  <?php
-      $var = $_GET['send_id'];
-    echo $var;
-  ?>
+      }
+      ?>
 
 
     <!-- End Middle Column -->
