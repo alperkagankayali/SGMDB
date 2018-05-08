@@ -2,7 +2,10 @@
     include("db.php");
     session_start();
 
-     // Query for getting the games of company
+    // Accessing the games of the company logged in
+    $company_name = $_SESSION['company_name']['company_name'];
+
+    // Query for getting the games of company
     $access_news_query = "SELECT *
                            FROM news;";
 
@@ -11,7 +14,9 @@
 
     // Number of news
     $counter = mysqli_num_rows($result_query);
+
 ?>
+
 
 <!DOCTYPE html>
 
@@ -46,36 +51,20 @@
 
           <!--Nav buttons-->
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-          <a href="#" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
-          <a href="library.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
-          <a href="store.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
-          <a href="news.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
-          <a href="wish_list.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
-          <a href="cart.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
-          <a href="chat.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
-          <a href="about.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
+          <a href="published_games.php" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
+          <a href="published_games.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Published Games</a>
+          <a href="news_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
+          <a href="about_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
-          <!--Notif button-->
-          <div class="w3-dropdown-hover w3-hide-small">
-              <?php include("process_notification.php");?>
-          </div>
-          
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
             <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
           </a>
 
           <!--Profile avatar-->
-         <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-         </a>
-
-         <!--Search-->
-         <form class="w3-bar-item w3-right" action="search_result_screen.php" method="post">
-           <input type="text" placeholder="Search.." name="search" class="search-form">
-           <button type="submit"><i class="fa fa-search search-form"></i></button>
-         </form>
-
+          <a href="company_profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+            <img src=<?php if ($_SESSION['company_name']['company_logo'] != '') echo $_SESSION['company_name']['company_logo']; else echo "images/icons/company_logo.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+          </a>
       </div>
   </div>
 
@@ -83,7 +72,7 @@
   <div class="w3-content" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
 
     <div class="w3-panel white-font w3-border">
-      <h1 style="margin:20px"><br>NEWS</h1>
+      <h1><br>YOUR PUBLISHED GAMES</h1>
     </div>
 
 
@@ -136,7 +125,7 @@
       </div>
 
       <!-- Middle Column -->
-       <div class="w3-col m7" style="overflow:auto">
+      <div class="w3-col m7" style="overflow:auto">
 
         <div class="w3-panel white-font">
           <h4><br>Latest News</h4>
@@ -156,6 +145,8 @@
                 </div>";
             }
         ?>
+
+
 
       <!-- End Middle Column -->
       </div>

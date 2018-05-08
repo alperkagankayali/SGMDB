@@ -1,15 +1,70 @@
 <?php
     include("db.php");
     session_start();
-
-    // Query for accessing all the games in the system
-    $access_query = "SELECT * FROM game";
-
+    
+    // Checking for page interval
+    $max_filled = null;
+    $min_filled = null;
+    if(isset($_POST['max_price']))
+    {
+        if(mysqli_escape_string($db, $_POST['max_price'] != ''))
+          $max_filled = (mysqli_escape_string($db, $_POST['max_price']) !== null);
+    }
+    if(isset($_POST['min_price']))
+    {
+        if(mysqli_escape_string($db, $_POST['min_price'] != ''))
+          $min_filled = (mysqli_escape_string($db, $_POST['min_price']) !== null);
+    }
+    if($max_filled && $min_filled)
+    {
+        $max_price = mysqli_escape_string($db, $_POST['max_price']);
+        $min_price = mysqli_escape_string($db, $_POST['min_price']);
+        $access_query = "SELECT * FROM game WHERE game_price BETWEEN $min_price AND $max_price";
+    }
+    else if($max_filled && !$min_filled)
+    {
+        $max_price = mysqli_escape_string($db, $_POST['max_price']);
+        $access_query = "SELECT * FROM game WHERE game_price <= $max_price";
+    }
+    else if($min_filled && !$max_filled)
+    {
+        $min_price = mysqli_escape_string($db, $_POST['min_price']);
+        $access_query = "SELECT * FROM game WHERE game_price >= $min_price";
+    }
+    else if(isset($_GET['category']))                     // Category sorting
+    {
+        // category chosen
+        $category = $_GET['category'];
+        if($category != "Free to play")
+        {
+            // Query for accessing all the games with the given category in the system
+            $access_query = "SELECT * FROM game WHERE game_category = '$category'";
+        }
+        else
+        {
+            // Query for accessing all free games in the system
+            $access_query = "SELECT * FROM game WHERE game_price = 0";
+        }
+    }
+    else if(!isset($_GET['category']) && isset($_GET['platform']))
+    {
+        // platform chosen
+        $platform = $_GET['platform'];
+        $access_query = "SELECT * FROM game WHERE platform LIKE '%$platform%'";
+    }
+    else
+    {
+        // Query for accessing all the games in the system
+        $access_query = "SELECT * FROM game";
+    }
     // Executing the Query
     $result_query = mysqli_query($db, $access_query);
-
     // Number of games
     $counter = mysqli_num_rows($result_query);
+    // For Image Slider - Top 3 Games with most ratings
+    $top_games_sql = "SELECT * FROM game ORDER BY rating DESC";
+    $access_top_games = mysqli_query($db, $top_games_sql);
+    $num_rows = mysqli_num_rows($access_top_games);
 ?>
 
 
@@ -52,15 +107,13 @@
           <a href="news.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
           <a href="wish_list.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
           <a href="cart.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
-          <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
+          <a href="chat.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
           <a href="about.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
           <!--Notif button-->
-          <button class="w3-button w3-padding-large w3-hover-white" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"></span></button>
-
-          <!--Search-->
-          <input type="text" placeholder="Search.." name="search" class="search-form">
-          <button type="submit"><i class="fa fa-search search-form"></i></button>
+          <div class="w3-dropdown-hover w3-hide-small">
+              <?php include("process_notification.php");?>
+          </div>
 
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
@@ -68,9 +121,15 @@
           </a>
 
           <!--Profile avatar-->
-         <a href="profile.html" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-    <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-  </a>
+         <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+         </a>
+
+         <!--Search-->
+         <form class="w3-bar-item w3-right" action="search_result_screen.php" method="post">
+           <input type="text" placeholder="Search.." name="search" class="search-form">
+           <button type="submit"><i class="fa fa-search search-form"></i></button>
+         </form>
 
       </div>
   </div>
@@ -96,25 +155,41 @@
           <h4><br><u>Categories<u></h4>
         </div>
 
-        <!-- Accordion -->
+        <!-- Category -->
         <div class="w3-card w3-round white-font">
             <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Free to Play</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Action</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Adventure</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Casual</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Indie</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Multiplayer</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Racing</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> RPG</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Simulation</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Sports</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Strategy</button>
+                <a href="store.php?category=Free to play" class="w3-button w3-block w3-theme-l1 w3-left-align"> Free to Play</a>
+                <a href="store.php?category=Action" class="w3-button w3-block w3-theme-l1 w3-left-align"> Action</a>
+                <a href="store.php?category=Adventure" class="w3-button w3-block w3-theme-l1 w3-left-align"> Adventure</a>
+                <a href="store.php?category=Casual" class="w3-button w3-block w3-theme-l1 w3-left-align"> Casual</a>
+                <a href="store.php?category=Indie" class="w3-button w3-block w3-theme-l1 w3-left-align"> Indie</a>
+                <a href="store.php?category=Multiplayer" class="w3-button w3-block w3-theme-l1 w3-left-align"> Multiplayer</a>
+                <a href="store.php?category=Racing" class="w3-button w3-block w3-theme-l1 w3-left-align"> Racing</a>
+                <a href="store.php?category=RPG" class="w3-button w3-block w3-theme-l1 w3-left-align"> RPG</a>
+                <a href="store.php?category=Simulation" class="w3-button w3-block w3-theme-l1 w3-left-align"> Simulation</a>
+                <a href="store.php?category=Sports" class="w3-button w3-block w3-theme-l1 w3-left-align"> Sports</a>
+                <a href="store.php?category=Strategy" class="w3-button w3-block w3-theme-l1 w3-left-align"> Strategy</a>
             </div>
         </div>
 
         <br>
 
+        <!-- Price Interval -->
+        <div class="w3-panel white-font">
+          <h4><br><u>Price Interval<u></h4>
+        </div>
+
+        <div class="w3-card w3-round white-font">
+            <form action = "store.php" method = "post">
+                <input name = "min_price" type = "number" placeholder = "Min" step="any" min="0" style = "width: 20%"></input>
+                <input name = "max_price" type = "number" placeholder = "Max" step="any" min="0" style = "width: 20%"></input>
+                <input type = "submit" value = "Submit">
+            </form>
+        </div>
+
+        <br>
+
+        <!-- PLatform -->
         <div class="w3-panel white-font">
           <h4><br><u>Platforms<u></h4>
         </div>
@@ -122,9 +197,9 @@
         <!-- Accordion -->
         <div class="w3-card w3-round white-font">
             <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Windows</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> MacOS</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Linux</button>
+                <a href="store.php?platform=Windows" class="w3-button w3-block w3-theme-l1 w3-left-align"> Windows</a>
+                <a href="store.php?platform=Mac" class="w3-button w3-block w3-theme-l1 w3-left-align"> MacOS</a>
+                <a href="store.php?platform=Linux" class="w3-button w3-block w3-theme-l1 w3-left-align"> Linux</a>
             </div>
         </div>
 
@@ -137,15 +212,22 @@
           <!-- Slideshow -->
           <div class="w3-container">
 
+            <?php
+                  for($c = 0; $c < 3; $c++)
+                  {
+                     $top_games = $access_top_games->fetch_assoc();
+                     $top_game_name = $top_games['game_name'];
+                     $top_game_logo = $top_games['game_logo'];
+                     $top_game_price = $top_games['game_price'];
+            ?>
+
             <div class="w3-display-container mySlides">
-              <img src="images/game1.jpg" style="width:100%">
+              <a href="game_information.php?game_name=<?php echo $top_game_name; ?>"><img src="<?php echo $top_game_logo; ?>" style="width:100%"></img></a>
             </div>
-            <div class="w3-display-container mySlides">
-              <img src="images/game2.jpg" style="width:100%">
-            </div>
-            <div class="w3-display-container mySlides">
-              <img src="images/game3.jpg" style="width:100%">
-            </div>
+
+            <?php
+                  }
+            ?>
 
             <!-- Slideshow next/previous buttons -->
             <div class="w3-container background white-font w3-padding w3-xlarge">
@@ -166,7 +248,15 @@
           <div class="w3-row white-font">
 
               <div class="w3-panel white-font">
-                <h4><br>All games</h4>
+                <h4><br><?php
+                          if(isset($_GET['category']))
+                              echo $category;
+                          else if(isset($_GET['platform']))
+                              echo $platform;
+                          else
+                              echo "All games"?>
+                </h4>
+                <hr>
               </div>
 
               <!-- 1st column -->
@@ -177,7 +267,6 @@
                       {
                           // Accessed games
                           $games = $result_query->fetch_assoc();
-
                           $game_name = $games['game_name'];
                           $game_logo = $games['game_logo'];
                           $game_price = $games['game_price'];
@@ -202,7 +291,6 @@
                       {
                           // Accessed games
                           $games = $result_query->fetch_assoc();
-
                           $game_name = $games['game_name'];
                           $game_logo = $games['game_logo'];
                           $game_price = $games['game_price'];
@@ -265,21 +353,17 @@
 
   <!--Scripts-->
   <script>
-
       // Slideshow
       var slideIndex = 1;
       showDivs(slideIndex);
-
       function plusDivs(n)
       {
         showDivs(slideIndex += n);
       }
-
       function currentDiv(n)
       {
         showDivs(slideIndex = n);
       }
-
       function showDivs(n)
       {
         var i;
@@ -295,7 +379,6 @@
         {
            dots[i].className = dots[i].className.replace(" w3-white", "");
         }
-
         x[slideIndex-1].style.display = "block";
         dots[slideIndex-1].className += " w3-white";
       }

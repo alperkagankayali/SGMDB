@@ -10,6 +10,8 @@
     $insert_cart = "INSERT INTO cart (game_name, player_id)
                     VALUES ('$game_name', $player_id)";
 
+    
+
     // Executing the query
     $insert_exec = mysqli_query($db, $insert_cart);
 

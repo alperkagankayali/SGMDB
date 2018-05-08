@@ -2,21 +2,28 @@
     include("db.php");
     session_start();
 
-     // Query for getting the games of company
-    $access_news_query = "SELECT *
-                           FROM news;";
+    echo "<br><br><br>";
 
-    // Executing the query
-    $result_query = mysqli_query($db, $access_news_query);
+    // Access the id of the player 1 - sender player & player 2 - receiver player
+    $sender_id = $_SESSION['player_id'];
+    $receiver_id = $_GET['receiver_id'];
+    $sender_pp = null;
+    $receiver_pp = $_GET['receiver_pp'];
 
-    // Number of news
-    $counter = mysqli_num_rows($result_query);
+    $receiver_username = mysqli_query($db, "SELECT username FROM player WHERE player_id = $receiver_id")->fetch_assoc()['username'];
+
+    if($_SESSION['player_pp'] != '') $sender_pp = $_SESSION['player_pp']; else $sender_pp = "images/icons/avatar.png";
+
+    // Messages between sender and receiver
+    $messages_exec = mysqli_query($db, "SELECT * FROM message WHERE (player_id1 = $sender_id AND player_id2 = $receiver_id) OR (player_id1 = $receiver_id AND player_id2 = $sender_id)");
+
+    $num_rows = mysqli_num_rows($messages_exec);
 ?>
 
 <!DOCTYPE html>
 
 <html>
-<title>News</title>
+<title>Chat Screen</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,6 +41,17 @@
     .search-form {margin:10px; margin-left:20px}
     .white-font {color:white}
     .background {background:url('images/bg.jpg')}
+    .container {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px; padding: 10px; margin: 10px 0; }
+
+    .darker { border-color: #ccc;background-color: #ddd;}
+    .container::after {content: ""; clear: both; display: table;}
+    .container img { float: left; max-width: 60px; width: 100%; margin-right: 20px; border-radius: 50%; }
+    .container img.right { float: right; margin-left: 20px; margin-right:0;}
+    .time-right {float: right; color: #aaa;}
+    .time-left {float: left; color: #999;}
 </style>
 
 <!--*************************************************************************************************-->
@@ -59,7 +77,7 @@
           <div class="w3-dropdown-hover w3-hide-small">
               <?php include("process_notification.php");?>
           </div>
-          
+
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
             <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
@@ -83,112 +101,75 @@
   <div class="w3-content" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
 
     <div class="w3-panel white-font w3-border">
-      <h1 style="margin:20px"><br>NEWS</h1>
+      <h1 style="margin:20px"><br>CHAT CONTENT</h1>
     </div>
 
 
-    <!-- Page Container -->
+  <!-- Page Container -->
   <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
 
     <!-- The Grid -->
     <div class="w3-row">
 
-      <!-- Left Column -->
-      <div class="w3-col m3">
-
-        <div class="w3-panel white-font">
-          <h4><br><u>Categories<u></h4>
-        </div>
-
-        <!-- Accordion -->
-        <div class="w3-card w3-round white-font">
-            <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Free to Play</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Action</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Adventure</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Casual</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Indie</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Multiplayer</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Racing</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> RPG</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Simulation</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Sports</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Strategy</button>
-            </div>
-        </div>
-
-        <br>
-
-        <div class="w3-panel white-font">
-          <h4><br><u>Platforms<u></h4>
-        </div>
-
-        <!-- Accordion -->
-        <div class="w3-card w3-round white-font">
-            <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Windows</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> MacOS</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Linux</button>
-            </div>
-        </div>
-
-      <!-- End Left Column -->
-      </div>
-
       <!-- Middle Column -->
-       <div class="w3-col m7" style="overflow:auto">
+      <div class="w3w3-center">
 
-        <div class="w3-panel white-font">
-          <h4><br>Latest News</h4>
-        </div>
+          <div class="w3-row white-font" style="overflow: scroll">
 
-        <?php
-            for($i = 0; $i < $counter; $i++)
-            {
-              $news = $result_query->fetch_assoc();
-              echo "<div class=\"w3-container w3-card w3-border w3-round w3-margin white-font\"><br>";
-            //<span class=\"w3-right w3-opacity\">02.04.2018</span>";
-              echo " <h4>". $news['header']."</h4><br>";
-              echo   "<hr class=\"w3-clear\">";
-              echo "<p>". $news['text'] ."</p>";
-              echo  "<div class=\"w3-row-padding\" style=\"margin:0 -16px\">
-                </div>
-                </div>";
-            }
-        ?>
+              <div class="w3-panel white-font">
+                <h4 class="w3-left"><br>Chat with <u><?php echo $receiver_username; ?></u></h4>
+                <a href="process_clearing_chat.php?sender_id=<?php echo $sender_id; ?>&receiver_id=<?php echo $receiver_id; ?>" class="w3-right"> Clear Chat </a>
+              </div>
+
+              <?php
+                  for($i = 0; $i < $num_rows; $i++)
+                  {
+                      $messages = $messages_exec->fetch_assoc();
+
+                      $message_text = $messages['message_text'];
+                      $message_date = $messages['message_date'];
+                      $sender = $messages['player_id1'];
+                      $receiver = $messages['player_id2'];
+
+                      if($sender == $sender_id)
+                      {
+              ?>
+
+              <div class="container darker background">
+                <img src=<?php echo $sender_pp; ?> alt="Avatar" class="right" style="width:100%;">
+                <p class="w3-right"><?php echo $message_text; ?></p>
+                <span class="time-left w3-margin-top"><?php echo $message_date; ?></span>
+              </div>
+
+              <?php
+                      }
+                      else
+                      {
+              ?>
+
+              <div class="container background">
+                <img src=<?php echo $receiver_pp; ?> alt="Avatar" style="width:100%;">
+                <p><?php echo $message_text; ?></p>
+                <span class="time-right w3-margin-top"><?php echo $message_date; ?></span>
+              </div>
+
+              <?php
+                      }
+                  }
+              ?>
+
+          </div>
 
       <!-- End Middle Column -->
       </div>
 
-      <!-- Right Column -->
-      <div class="w3-col m2">
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
-
-          </div>
+      <!--Message send-->
+      <form action="process_send_message.php?sender_id=<?php echo $sender_id; ?>&receiver_id=<?php echo $receiver_id; ?>&receiver_pp=<?php echo $receiver_pp; ?>" method="post">
+        <div class="w3-container w3-center w3-card w3-round w3-margin white-font w3w3-center">
+            <input class="w3-margin" type="text" id="text_review" name="chat_field" placeholder="Write a message..." style="width: 80%">
+            <input type="submit" class="send" value="Send">
         </div>
-
-        <br>
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
-
-          </div>
-        </div>
-
-      <!-- End Right Column -->
-      </div>
+      </form>
 
     <!-- End Grid -->
     </div>
@@ -196,6 +177,8 @@
   <!-- End Page Container -->
   </div>
 
+  <!-- End Container -->
+  </div>
   <!--*************************************************************************************************-->
 
   <!--Scripts-->

@@ -1,3 +1,51 @@
+<?php
+    include("db.php");
+    session_start();
+
+    // ID of the player looged on
+    $player_id = $_SESSION['player_id'];
+
+    // Category sorting
+    if(isset($_GET['category']))
+    {
+        // category chosen
+        $category = $_GET['category'];
+
+        if($category != "Free to play")
+        {
+            // Query for accessing all the games with the given category in the library
+            $access_library = "SELECT L.game_name FROM game as G NATURAL JOIN library as L
+                               WHERE G.game_category = '$category' AND L.player_id = $player_id";
+        }
+        else
+        {
+            // Query for accessing all free games in the library
+            $access_library = "SELECT L.game_name FROM game as G NATURAL JOIN library as L
+                               WHERE G.game_price = 0 AND L.player_id = $player_id";
+        }
+    }
+    else if(!isset($_GET['category']) && isset($_GET['platform']))
+    {
+        // platform chosen
+        $platform = $_GET['platform'];
+
+        $access_library = "SELECT L.game_name FROM game as G NATURAL JOIN library as L
+                           WHERE G.platform LIKE '%$platform%' AND L.player_id = $player_id";
+    }
+    else
+    {
+        // Query for accessing all the games in the library
+        $access_library = "SELECT game_name FROM library
+                          WHERE player_id = $player_id;";
+    }
+
+    // Executing the query
+    $access_exe = mysqli_query($db, $access_library);
+
+    // number of games in library
+    $counter = mysqli_num_rows($access_exe);
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -37,15 +85,13 @@
           <a href="news.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
           <a href="wish_list.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
           <a href="cart.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
-          <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
+          <a href="chat.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
           <a href="about.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
           <!--Notif button-->
-          <button class="w3-button w3-padding-large w3-hover-white" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"></span></button>
-
-          <!--Search-->
-          <input type="text" placeholder="Search.." name="search" class="search-form">
-          <button type="submit"><i class="fa fa-search search-form"></i></button>
+          <div class="w3-dropdown-hover w3-hide-small">
+              <?php include("process_notification.php");?>
+          </div>
 
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
@@ -53,9 +99,15 @@
           </a>
 
           <!--Profile avatar-->
-          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-              <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-          </a>
+         <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+         </a>
+
+         <!--Search-->
+         <form class="w3-bar-item w3-right" action="search_result_screen.php" method="post">
+           <input type="text" placeholder="Search.." name="search" class="search-form">
+           <button type="submit"><i class="fa fa-search search-form"></i></button>
+         </form>
 
       </div>
   </div>
@@ -84,17 +136,17 @@
         <!-- Accordion -->
         <div class="w3-card w3-round white-font">
             <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Free to Play</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Action</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Adventure</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Casual</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Indie</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Multiplayer</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Racing</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> RPG</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Simulation</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Sports</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Strategy</button>
+                <a href="library.php?category=Free to play" class="w3-button w3-block w3-theme-l1 w3-left-align"> Free to Play</a>
+                <a href="library.php?category=Action" class="w3-button w3-block w3-theme-l1 w3-left-align"> Action</a>
+                <a href="library.php?category=Adventure" class="w3-button w3-block w3-theme-l1 w3-left-align"> Adventure</a>
+                <a href="library.php?category=Casual" class="w3-button w3-block w3-theme-l1 w3-left-align"> Casual</a>
+                <a href="library.php?category=Indie" class="w3-button w3-block w3-theme-l1 w3-left-align"> Indie</a>
+                <a href="library.php?category=Multiplayer" class="w3-button w3-block w3-theme-l1 w3-left-align"> Multiplayer</a>
+                <a href="library.php?category=Racing" class="w3-button w3-block w3-theme-l1 w3-left-align"> Racing</a>
+                <a href="library.php?category=RPG" class="w3-button w3-block w3-theme-l1 w3-left-align"> RPG</a>
+                <a href="library.php?category=Simulation" class="w3-button w3-block w3-theme-l1 w3-left-align"> Simulation</a>
+                <a href="library.php?category=Sports" class="w3-button w3-block w3-theme-l1 w3-left-align"> Sports</a>
+                <a href="library.php?category=Strategy" class="w3-button w3-block w3-theme-l1 w3-left-align"> Strategy</a>
             </div>
         </div>
 
@@ -107,9 +159,9 @@
         <!-- Accordion -->
         <div class="w3-card w3-round white-font">
             <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Windows</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> MacOS</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Linux</button>
+                <a href="library.php?platform=Windows" class="w3-button w3-block w3-theme-l1 w3-left-align"> Windows</a>
+                <a href="library.php?platform=Mac" class="w3-button w3-block w3-theme-l1 w3-left-align"> MacOS</a>
+                <a href="library.php?platform=Linux" class="w3-button w3-block w3-theme-l1 w3-left-align"> Linux</a>
             </div>
         </div>
 
@@ -119,58 +171,86 @@
       <!-- Middle Column -->
       <div class="w3-col m7">
 
-          <!--Game grid-->
-          <div class="w3-row white-font">
+        <!--Game grid-->
+        <div class="w3-row white-font">
 
-              <div class="w3-panel white-font">
-                <h4><br>Your games</h4>
+            <div class="w3-panel white-font">
+              <h4><br><?php
+                        if(isset($_GET['category']))
+                            echo $category;
+                        else if(isset($_GET['platform']))
+                            echo $platform;
+                        else
+                            echo "Your games"?>
+              </h4>
+              <hr>
+            </div>
+
+            <!-- 1st column -->
+            <div class="w3-col l6 s6">
+              <?php
+                  for($i = 0; $i < (int)($counter/2); $i++)
+                  {
+                      // Accessed games
+                      $games = $access_exe->fetch_assoc();
+
+                      // getting other attributes of game
+
+                      $game_name = $games['game_name'];
+
+                      $query = "SELECT * FROM game
+                                WHERE game_name = '$game_name'";
+
+                      // execute the query
+                      $result_game = mysqli_query($db, $query);
+
+                      // result
+                      $game = $result_game->fetch_assoc();
+              ?>
+              <div class="w3-container w3-border w3-margin">
+                <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                <p><?php echo $game_name; ?></p>
               </div>
 
-              <div class="w3-col l3 s6">
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/game1.jpg" style="width:100%"></a>
-                  <p>Witcher 3<br></p>
-                </div>
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/witcher2.jpg" style="width:100%"></a>
-                  <p>Witcher 2<br></p>
-                </div>
+              <?php
+                  }
+              ?>
+
+            </div>
+
+            <!-- 2nd column -->
+            <div class="w3-col l6 s6">
+              <?php
+                  for($i = (int)($counter/2); $i < $counter; $i++)
+                  {
+                    // Accessed games
+                    $games = $access_exe->fetch_assoc();
+
+                    // getting other attributes of game
+
+                    $game_name = $games['game_name'];
+
+                    $query = "SELECT * FROM game
+                              WHERE game_name = '$game_name'";
+
+                    // execute the query
+                    $result_game = mysqli_query($db, $query);
+
+                    // result
+                    $game = $result_game->fetch_assoc();
+              ?>
+              <div class="w3-container w3-border w3-margin">
+                <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                <p><?php echo $game_name; ?></p>
               </div>
 
-              <div class="w3-col l3 s6">
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/heartandstone.png" style="width:100%"></a>
-                  <p>Witcher Dlc1<br></p>
-                </div>
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/bloodandwine.jpg" style="width:100%"></a>
-                  <p>Witcher Dlc2<br></p>
-                </div>
-              </div>
+              <?php
+                  }
+              ?>
 
-              <div class="w3-col l3 s6">
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/game2.jpg" style="width:100%"></a>
-                  <p>Rocket League<br></p>
-                </div>
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/game3.jpg" style="width:100%"></a>
-                  <p>Euro Truck<br></p>
-                </div>
-              </div>
+            </div>
 
-              <div class="w3-col l3 s6">
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/sanandreas.jpg" style="width:100%"></a>
-                  <p>Gta Sanandreas<br></p>
-                </div>
-                <div class="w3-container">
-                  <a href="game_information.html"><img src="images/gta5.jpg" style="width:100%"></a>
-                  <p>Gta 5<br></p>
-                </div>
-              </div>
-          </div>
-          <!--End of Game grid-->
+        </div>
 
       <!-- End Middle Column -->
       </div>

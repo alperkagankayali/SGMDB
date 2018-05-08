@@ -1,3 +1,20 @@
+<?php
+    include("db.php");
+    session_start();
+
+    // Acessing the player id who has logged on
+    $player_id = $_SESSION['player_id'];
+
+    // Access all friends of the player
+    $access_friends = "SELECT player_id2 FROM friendship WHERE player_id1 = $player_id";
+
+    // Execute the query
+    $result_query = mysqli_query($db, $access_friends);
+
+    // Number of rows
+    $counter = mysqli_num_rows($result_query);
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -29,25 +46,34 @@
           <!--Nav buttons-->
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
           <a href="#" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
-          <a href="library.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
-          <a href="store.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
-          <a href="news.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
-          <a href="wish_list.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
-          <a href="cart.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
-          <a href="chat.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
-          <a href="about.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
+          <a href="library.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
+          <a href="store.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
+          <a href="news.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
+          <a href="wish_list.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
+          <a href="cart.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
+          <a href="chat.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
+          <a href="about.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
           <!--Notif button-->
-          <button class="w3-button w3-padding-large w3-hover-white" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"></span></button>
+          <div class="w3-dropdown-hover w3-hide-small">
+              <?php include("process_notification.php");?>
+          </div>
 
-          <!--Search-->
-          <input type="text" placeholder="Search.." name="search" class="search-form">
-          <button type="submit"><i class="fa fa-search search-form"></i></button>
+          <!-- Logout -->
+          <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
+            <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
+          </a>
 
           <!--Profile avatar-->
-          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-              <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-          </a>
+         <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+         </a>
+
+         <!--Search-->
+         <form class="w3-bar-item w3-right" action="search_result_screen.php" method="post">
+           <input type="text" placeholder="Search.." name="search" class="search-form">
+           <button type="submit"><i class="fa fa-search search-form"></i></button>
+         </form>
  </div>
 </div>
 
@@ -71,67 +97,39 @@
     <div class="w3-col m7">
 
 
+      <?php
+          for($i = 0; $i < $counter; $i++)
+          {
+              // Result
+              $result = $result_query->fetch_assoc();
 
-      <div class="w3-container w3-card w3-round w3-margin"><br>
-        <img src="images/insan1.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <!--<span class="w3-right w3-opacity">1 min</span><-->
-        <h4>Eser Şahin</h4><br>
-        <hr class="w3-clear">
-        <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align">Go to chat ></button>
-      </div>
-       <div class="w3-container w3-card w3-round w3-margin"><br>
-        <img src="images/insan2.jpg" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <!--<span class="w3-right w3-opacity">1 min</span><-->
-        <h4>Mustafa Ceceli</h4><br>
-        <hr class="w3-clear">
-        <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align">Go to chat ></button>
-      </div>
+              $player_id2 = $result['player_id2'];
 
+              $firstname = mysqli_query($db, "SELECT firstname FROM player WHERE player_id = $player_id2")->fetch_assoc()['firstname'];
+              $midname = mysqli_query($db, "SELECT middlename FROM player WHERE player_id = $player_id2")->fetch_assoc()['middlename'];
+              $lastname = mysqli_query($db, "SELECT lastname FROM player WHERE player_id = $player_id2")->fetch_assoc()['lastname'];
+              $profile_picture = mysqli_query($db, "SELECT profile_picture FROM player WHERE player_id = $player_id2")->fetch_assoc()['profile_picture'];
+      ?>
+        <div class="w3-container w3-card w3-round w3-margin"><br>
+          <img src=<?php if($profile_picture != null) echo $profile_picture; else echo "images/icons/avatar.png";?> alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+          <!--<span class="w3-right w3-opacity">1 min</span><-->
+          <h4><?php echo $firstname." ".$midname." ".$lastname; ?></h4><br>
+          <hr class="w3-clear">
+          <a href="chat_screen.php?receiver_id=<?php echo $player_id2; ?>&receiver_pp=<?php if($profile_picture != null) echo $profile_picture; else echo "images/icons/avatar.png";?>" class="w3-button w3-block w3-theme-l1 w3-left-align">Go to chat ></a>
+        </div>
+
+      <?php
+          }
+      ?>
 
     <!-- End Middle Column -->
     </div>
-
-
 
   <!-- End Grid -->
   </div>
 
 <!-- End Page Container -->
 </div>
-
-
-
-
-
-<script>
-// Slideshow
-var slideIndex = 1;
-showDivs(slideIndex);
-
-function plusDivs(n) {
-  showDivs(slideIndex += n);
-}
-
-function currentDiv(n) {
-  showDivs(slideIndex = n);
-}
-
-function showDivs(n) {
-  var i;
-  var x = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("demodots");
-  if (n > x.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = x.length} ;
-  for (i = 0; i < x.length; i++) {
-     x[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-     dots[i].className = dots[i].className.replace(" w3-white", "");
-  }
-  x[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " w3-white";
-}
-</script>
 
 </body>
 </html>

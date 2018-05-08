@@ -1,3 +1,9 @@
+<?php
+    include("db.php");
+    session_start();
+
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -37,15 +43,13 @@
           <a href="news.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
           <a href="wish_list.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
           <a href="cart.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
-          <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
+          <a href="chat.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
           <a href="about.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
           <!--Notif button-->
-          <button class="w3-button w3-padding-large w3-hover-white" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"></span></button>
-
-          <!--Search-->
-          <input type="text" placeholder="Search.." name="search" class="search-form">
-          <button type="submit"><i class="fa fa-search search-form"></i></button>
+          <div class="w3-dropdown-hover w3-hide-small">
+              <?php include("process_notification.php");?>
+          </div>
 
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
@@ -53,9 +57,15 @@
           </a>
 
           <!--Profile avatar-->
-          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-              <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-          </a>
+         <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+         </a>
+
+         <!--Search-->
+         <form class="w3-bar-item w3-right" action="search_result_screen.php" method="post">
+           <input type="text" placeholder="Search.." name="search" class="search-form">
+           <button type="submit"><i class="fa fa-search search-form"></i></button>
+         </form>
 
       </div>
   </div>

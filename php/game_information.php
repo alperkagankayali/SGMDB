@@ -3,9 +3,10 @@
     session_start();
 
     // Accessing the name of the game whose link is clicked
-    $game_name = $_REQUEST['game_name'];
+    $game_name = $_GET['game_name'];
 
-
+    // Accessing the player's id who logged in
+    $player_id = $_SESSION['player_id'];
 
     // Qeuery for accessing the game with the given name
     $access_game = "SELECT * FROM game WHERE game_name = '$game_name'";
@@ -19,12 +20,33 @@
     // GAME INFORMATION
     $game_price = $game_information['game_price'];
     $game_logo = $game_information['game_logo'];
-    $game_platform = $game_information['game_platform'];
+    $game_platform = $game_information['platform'];
     $game_category = $game_information['game_category'];
     $game_rating = $game_information['rating'];
     $game_sys_req = $game_information['system_requirements'];
     $game_release_date = $game_information['release_date'];
     $company_name = $game_information['company_name'];
+
+
+    // CHECKING if teh game is in the user's library
+    $check_library = "SELECT * FROM library WHERE player_id = $player_id AND game_name = '$game_name';";
+
+    // Executing the query
+    $result_check = mysqli_query($db, $check_library);
+
+    // Number of rows
+    $row_size = mysqli_num_rows($result_check);
+
+
+    // GETTING REVIEWS
+    $access_reviews = "SELECT review_text, review_date, player_id FROM review NATURAL JOIN writes
+                       WHERE game_name = '$game_name'";
+
+    // Executing query
+    $result_reviews = mysqli_query($db, $access_reviews);
+
+    // Number of rows
+    $counter = mysqli_num_rows($result_reviews);
 ?>
 
 <!DOCTYPE html>
@@ -48,6 +70,7 @@
     .search-form {margin:10px; margin-left:20px}
     .white-font {color:white}
     .background {background:url('images/bg.jpg')}
+    .checked { color: orange; }
 </style>
 
 <!--*************************************************************************************************-->
@@ -66,15 +89,13 @@
           <a href="news.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
           <a href="wish_list.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
           <a href="cart.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
-          <a href="#" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
+          <a href="chat.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
           <a href="about.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
           <!--Notif button-->
-          <button class="w3-button w3-padding-large w3-hover-white" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"></span></button>
-
-          <!--Search-->
-          <input type="text" placeholder="Search.." name="search" class="search-form">
-          <button type="submit"><i class="fa fa-search search-form"></i></button>
+          <div class="w3-dropdown-hover w3-hide-small">
+              <?php include("process_notification.php");?>
+          </div>
 
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
@@ -82,9 +103,16 @@
           </a>
 
           <!--Profile avatar-->
-          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-              <img src="images/profil.jpg" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-          </a>
+         <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+         </a>
+
+         <!--Search-->
+         <form class="w3-bar-item w3-right" action="search_result_screen.php" method="post">
+           <input type="text" placeholder="Search.." name="search" class="search-form">
+           <button type="submit"><i class="fa fa-search search-form"></i></button>
+         </form>
+
       </div>
   </div>
 
@@ -140,10 +168,84 @@
 
         <!--Buy/Play now-->
         <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
+
+          <?php
+                if($row_size == 0)
+                {
+          ?>
+
           <p class="w3-center"><?php echo $game_price; ?> $</p>
-          <a href="#" class="w3-button w3-block w3-theme-l1 ">Buy now</a>
-          <a href="process_adding_to_cart.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/wish.png" style="width:1%">Add to cart</a>
+          <a href="process_buying_from_store.php?game_name=<?php echo $game_name; ?>&game_price=<?php echo $game_price; ?>" class="w3-button w3-block w3-theme-l1 ">Buy now</a>
+          <a href="process_adding_to_cart.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/cart.png" style="width:3%">Add to cart</a>
           <a href="process_adding_to_wishlist.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/wish.png" style="width:1%">Add to wish list</a>
+
+          <?php
+                }
+                else
+                {
+          ?>
+          <a href="gameplay.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-border w3-theme-l1 w3-margin-bottom">Play</a>
+          <a href="online_friendlist.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-border w3-theme-l1 w3-margin-bottom">Play With Friends </a>
+          <?php
+                }
+          ?>
+          <a href="friendlist.php?game_name=<?php echo $game_name; ?>&game_price=<?php echo $game_price; ?>" class="w3-button w3-block w3-border w3-theme-l1 w3-margin-bottom"><img src="images/icons/gift.png" style="width:2%">Buy as a Gift</a>
+        </div>
+
+        <!-- Rating -->
+        <div class="w3-container w3-card w3-border w3-round w3-margin white-font w3w3-center"><br>
+            <h4>RATING</h4><br>
+
+            <div class="w3-container w3-margin-bottom w3-center">
+
+              <!-- Rating stars -->
+              <?php
+                  for($k = 0; $k < 5; $k++)
+                  {
+                      if($k < $game_rating)
+                      {
+
+              ?>
+              <span class="fa fa-star checked"></span>
+              <?php
+                      }
+                      else
+                      {
+
+              ?>
+              <span class="fa fa-star"></span>
+              <?php
+                      }
+                }
+              ?>
+
+              <!-- Give a rating the game is in your library -->
+              <?php
+                    if($row_size != 0)
+                    {
+              ?>
+
+              <form action="process_game_rating.php?game_name=<?php echo $game_name; ?>" method="post">
+                <div class="w3-container w3-center w3-card w3-round w3-margin white-font w3-center">
+                    <div class="nl">
+                      <label class="header">Give a rating:</label>
+                      <select name="rating" class="w3-margin">
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                      </select>
+                    </div>
+                    <input type="submit" class="send" value="RATE">
+                </div>
+              </form>
+
+              <?php
+                    }
+              ?>
+
+            </div>
         </div>
 
         <!--About game -->
@@ -220,39 +322,56 @@
             <h4>REVIEWS</h4><br>
             <hr class="w3-clear">
 
-            <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-              <span class="w3-right w3-opacity">02.04.2018</span>
-              <h4>Fuad Aghazada</h4><br>
-              <hr class="w3-clear">
+        <?php
+              for($i = 0; $i < $counter; $i++)
+              {
+                  $review = $result_reviews->fetch_assoc();
 
-              <p>Best game  I have ever played!</p>
-            </div>
+                  $review_date = $review['review_date'];
+                  $review_text = $review['review_text'];
+                  $player_id = $review['player_id'];
 
-            <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-              <span class="w3-right w3-opacity">02.05.2018</span>
-              <h4>Enes Varol</h4><br>
-              <hr class="w3-clear">
+                  // Accessing the name of the player
+                  $access_player_info = "SELECT firstname, middlename, lastname FROM player WHERE player_id = $player_id";
 
-              <p>I finished this game in an only night!</p>
-            </div>
+                  // Executing the query
+                  $access_player_exec = mysqli_query($db, $access_player_info);
 
-            <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-              <span class="w3-right w3-opacity">01.06.2018</span>
-              <h4>Eliz Tekcan</h4><br>
-              <hr class="w3-clear">
+                  $player = $access_player_exec->fetch_assoc();
 
-              <p>I did not like the game </p>
-            </div>
+                  $firstname = $player['firstname'];
+                  $midname = $player['middlename'];
+                  $lastname = $player['lastname'];
+        ?>
 
             <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-              <span class="w3-right w3-opacity">03.07.2018</span>
-              <h4>Alper Kağan Kayalı</h4><br>
+              <span class="w3-right w3-opacity"><?php echo $review_date; ?></span>
+              <h4><?php echo $firstname." ".$midname." ".$lastname; ?></h4><br>
               <hr class="w3-clear">
-
-              <p>Enes Varol, how is it possible?! </p>
+              <p><?php echo $review_text; ?></p>
             </div>
-
+        <?php
+              }
+        ?>
         </div>
+
+        <!-- Write a review if the game is in your library -->
+        <?php
+              if($row_size != 0)
+              {
+        ?>
+
+        <form action="process_adding_review.php?game_name=<?php echo $game_name; ?>" method="post">
+          <div class="w3-container w3-center w3-card w3-border w3-round w3-margin white-font w3w3-center">
+              <input class="w3-margin" type="text" id="text_review" name="review_text" placeholder="Write a Review" style="width: 80%">
+              <input type="submit" class="send" value="Send">
+          </div>
+        </form>
+
+        <?php
+              }
+        ?>
+
 
       <!-- End Middle Column -->
       </div>
