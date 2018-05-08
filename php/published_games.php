@@ -53,6 +53,8 @@
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
           <a href="published_games.php" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
           <a href="published_games.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Published Games</a>
+          <a href="news_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
+          <a href="about_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
@@ -126,9 +128,12 @@
 
         <div class="w3-panel white-font">
 
-          <h4 class="w3-left" ><br>Published Games</h4>
+          
           <a class="w3-right w3-button w3-border" href = "publish_game.php" ><br>Publish A Game</h4></a>
+          <a class="w3-right w3-button w3-border" href = "publish_bundle.php" ><br>Publish Bundle</h4></a>
+          <a class="w3-right w3-button w3-border" href = "publish_news.php" ><br>Publish News</h4></a>
 
+          <h4 class="w3-left" ><br>Published Games</h4>
         </div>
 
 
@@ -168,6 +173,47 @@
 
             }
         ?>
+
+        <!-- Display bundles-->
+
+          <div class="w3-panel white-font">
+            <h4 class="w3-left" ><br>Bundles</h4>
+          </div>
+        <?php
+              $sql_get_all_bundles = "SELECT DISTINCT bundle_id, game_name FROM gameBundle NATURAL JOIN game WHERE company_name = \"$company_name\" ORDER BY bundle_id";
+              $result_query = mysqli_query($db, $sql_get_all_bundles);
+
+              $sql_bundle_count = "SELECT DISTINCT bundle_id FROM gameBundle;";
+              $bundle_ids = mysqli_query($db, $sql_bundle_count);
+              $bundle_count = mysqli_num_rows($bundle_ids);
+              //var_dump($bundle_count);
+
+              for($i = 0; $i < $bundle_count; $i++)
+              {
+                $bundle_id = $bundle_ids->fetch_assoc();
+                //echo $bundle_id['bundle_id'];
+                $sql_get_bundles = "SELECT DISTINCT * FROM game NATURAL JOIN gameBundle WHERE bundle_id = " .$bundle_id['bundle_id']. ";";
+                $games = mysqli_query($db, $sql_get_bundles);
+                $game_count = mysqli_num_rows($games);
+                echo "<div class=\"w3-container w3-card w3-border w3-round w3-margin white-font\"><br>
+                <span class=\"w3-right w3-opacity\"></span>";
+                $game_price = 0;
+                for($j = 0; $j < $game_count; $j++)
+                {
+                  $game = $games->fetch_assoc();
+                  $game_price += $game['game_price'];
+                  echo "<h5>".$game['game_name']."</h5><br>";
+                  //echo "<p class=\"w3-left\">".$game['game_name']."</p><br>";
+                }
+                echo "<hr class=\"w3-clear\">";
+
+                echo "<p class=\"w3-left\">Bundle Price = ".$game_price." USD</p>";
+
+                echo "</div>";        
+              }
+
+        ?>
+
         <!-- End of displaying games -->
 
       <!-- End Middle Column -->
