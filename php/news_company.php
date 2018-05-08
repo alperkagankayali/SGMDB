@@ -72,7 +72,7 @@
   <div class="w3-content" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
 
     <div class="w3-panel white-font w3-border">
-      <h1><br>YOUR PUBLISHED GAMES</h1>
+      <h1><br>LATEST NEWS</h1>
     </div>
 
 
@@ -126,10 +126,6 @@
 
       <!-- Middle Column -->
       <div class="w3-col m7" style="overflow:auto">
-
-        <div class="w3-panel white-font">
-          <h4><br>Latest News</h4>
-        </div>
 
         <?php
             for($i = 0; $i < $counter; $i++)
