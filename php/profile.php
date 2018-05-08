@@ -2,8 +2,6 @@
     include("db.php");
     session_start();
 
-    echo "<br><br><br><br><br>";
-
     $current_year = date("Y");
 
     // Player id
@@ -97,13 +95,34 @@
     {
         $arr_1 = $report_query_1_exec->fetch_assoc();
 
-        $report_array_1[(int)$arr_1['month'] - 1] = round($arr_1['sum(cost)']);
+        $report_array_1[(int)$arr_1['month'] - 1] = round($arr_1['sum(cost)']) + 0;
     }
 
     /*
-        Remaining
+        Monthly sessions by the player
     */
+    $report_query_2 = "
+                      SELECT month, count(session_id)
+                      FROM (
 
+                            SELECT MONTH(session_date) as month, session_id
+                            FROM play
+                            WHERE player_id1 = $player_id AND YEAR(session_date) = $current_year
+
+                            ) as temp
+
+                      GROUP BY month;";
+
+    $report_query_2_exec = mysqli_query($db, $report_query_2);
+
+    $report_array_2 = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+    for($b = 0; $b < mysqli_num_rows($report_query_2_exec); $b++)
+    {
+        $arr_2 = $report_query_2_exec->fetch_assoc();
+
+        $report_array_2[(int)$arr_2['month'] - 1] = $arr_2['count(session_id)'] + 0;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -237,7 +256,12 @@
         <div class="w3-col m7">
 
           <!-- Chart -->
-          <div id="chartContainer" style="height: 370px; width: 100%; margin: 0px auto; margin-left: 45px"></div>
+          <div id="chartContainer1" style="height: 370px; width: 100%; margin: 0px auto; margin-left: 45px"></div>
+
+          <br>
+          <br>
+
+          <div id="chartContainer2" style="height: 370px; width: 100%; margin: 0px auto; margin-left: 45px"></div>
 
           <br>
 
@@ -300,14 +324,13 @@
 
 <script>
 
-    window.onload = function () {
-
     var a = <?php echo json_encode($report_array_1); ?>;
+    var c = <?php echo json_encode($report_array_2); ?>;
 
-    var chart = new CanvasJS.Chart("chartContainer", {
+    var chart1 = new CanvasJS.Chart("chartContainer1", {
 
           animationEnabled: true,
-        	theme: "light2", // "light1", "light2", "dark1", "dark2"
+        	theme: "dark2", // "light1", "light2", "dark1", "dark2"
         	title:{
         		text: "Your Monthly Purchases"
         	},
@@ -332,9 +355,39 @@
         		]
         	}]
         });
-      chart.render();
 
-    }
+    var chart2 = new CanvasJS.Chart("chartContainer2", {
+
+          animationEnabled: true,
+          theme: "dark2", // "light1", "light2", "dark1", "dark2"
+          title:{
+            text: "Your Monthly Session"
+          },
+          axisY: {
+            title: "Number of times of playing game"
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { y: c[0],  label: "Jan" },
+              { y: c[1],  label: "Feb" },
+              { y: c[2],  label: "Mar" },
+              { y: c[3],  label: "Apr" },
+              { y: c[4],  label: "May" },
+              { y: c[5],  label: "June" },
+              { y: c[6],  label: "July" },
+              { y: c[7],  label: "Aug" },
+              { y: c[8],  label: "Sep" },
+              { y: c[9],  label: "Oct" },
+              { y: c[10], label: "Nov" },
+              { y: c[11], label: "Dec" }
+            ]
+          }]
+        });
+
+    chart1.render();
+    chart2.render();
+
 </script>
 
 </body>

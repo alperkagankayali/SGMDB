@@ -1,13 +1,48 @@
 <?php
     include("db.php");
     session_start();
+
     // Accessing the games of the company logged in
     $company_name = $_SESSION['company_name']['company_name'];
-    // Query for getting the games of company
-    $access_games_query = "SELECT *
-                           FROM game WHERE company_name = '$company_name'";
+
+    // Category sorting
+    if(isset($_GET['category']))
+    {
+        // category chosen
+        $category = $_GET['category'];
+
+        if($category != "Free to play")
+        {
+            // Query for accessing all the games with the given category in the store by the company
+            $access_games_query = "SELECT * FROM game
+                                  WHERE game_category = '$category' AND company_name = '$company_name'";
+        }
+        else
+        {
+            // Query for accessing all free games in the store by the company
+            $access_games_query = "SELECT * FROM game
+                                   WHERE game_price = 0 AND company_name = '$company_name'";
+        }
+    }
+    else if(!isset($_GET['category']) && isset($_GET['platform']))
+    {
+        // platform chosen
+        $platform = $_GET['platform'];
+
+        $access_games_query = "SELECT * FROM game
+                               WHERE platform LIKE '%$platform%' AND company_name = '$company_name'";
+    }
+    else
+    {
+        // Query for getting the games of company
+        $access_games_query = "SELECT *
+                               FROM game WHERE company_name = '$company_name'";
+    }
+
+
     // Executing the query
     $result_query = mysqli_query($db, $access_games_query);
+
     // Number of games
     $counter = mysqli_num_rows($result_query);
 ?>
@@ -87,17 +122,17 @@
         <!-- Accordion -->
         <div class="w3-card w3-round white-font">
             <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Free to Play</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Action</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Adventure</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Casual</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Indie</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Multiplayer</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Racing</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> RPG</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Simulation</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Sports</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Strategy</button>
+              <a href="published_games.php?category=Free to play" class="w3-button w3-block w3-theme-l1 w3-left-align"> Free to Play</a>
+              <a href="published_games.php?category=Action" class="w3-button w3-block w3-theme-l1 w3-left-align"> Action</a>
+              <a href="published_games.php?category=Adventure" class="w3-button w3-block w3-theme-l1 w3-left-align"> Adventure</a>
+              <a href="published_games.php?category=Casual" class="w3-button w3-block w3-theme-l1 w3-left-align"> Casual</a>
+              <a href="published_games.php?category=Indie" class="w3-button w3-block w3-theme-l1 w3-left-align"> Indie</a>
+              <a href="published_games.php?category=Multiplayer" class="w3-button w3-block w3-theme-l1 w3-left-align"> Multiplayer</a>
+              <a href="published_games.php?category=Racing" class="w3-button w3-block w3-theme-l1 w3-left-align"> Racing</a>
+              <a href="published_games.php?category=RPG" class="w3-button w3-block w3-theme-l1 w3-left-align"> RPG</a>
+              <a href="published_games.php?category=Simulation" class="w3-button w3-block w3-theme-l1 w3-left-align"> Simulation</a>
+              <a href="published_games.php?category=Sports" class="w3-button w3-block w3-theme-l1 w3-left-align"> Sports</a>
+              <a href="published_games.php?category=Strategy" class="w3-button w3-block w3-theme-l1 w3-left-align"> Strategy</a>
             </div>
         </div>
 
@@ -110,9 +145,9 @@
         <!-- Accordion -->
         <div class="w3-card w3-round white-font">
             <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Windows</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> MacOS</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Linux</button>
+              <a href="published_games.php?platform=Windows" class="w3-button w3-block w3-theme-l1 w3-left-align"> Windows</a>
+              <a href="published_games.php?platform=Mac" class="w3-button w3-block w3-theme-l1 w3-left-align"> MacOS</a>
+              <a href="published_games.php?platform=Linux" class="w3-button w3-block w3-theme-l1 w3-left-align"> Linux</a>
             </div>
         </div>
 
@@ -123,12 +158,23 @@
 
         <div class="w3-panel white-font">
 
-          
-          <a class="w3-right w3-button w3-border" href = "publish_game.php" ><br>Publish A Game</h4></a>
-          <a class="w3-right w3-button w3-border" href = "publish_bundle.php" ><br>Publish Bundle</h4></a>
-          <a class="w3-right w3-button w3-border" href = "publish_news.php" ><br>Publish News</h4></a>
 
-          <h4 class="w3-left" ><br>Published Games</h4>
+          <a class="w3-right w3-button w3-border" href = "publish_game.php" style = "margin: 3px" ><br>Publish A Game</h4></a>
+          <a class="w3-right w3-button w3-border" href = "publish_bundle.php" style = "margin: 3px"><br>Publish Bundle</h4></a>
+          <a class="w3-right w3-button w3-border" href = "publish_news.php" style = "margin: 3px"><br>Publish News</h4></a>
+
+          <br><br>
+
+          <h4><br><?php
+                    if(isset($_GET['category']))
+                        echo $category;
+                    else if(isset($_GET['platform']))
+                        echo $platform;
+                    else
+                        echo "Published Games"?>
+          </h4>
+
+
         </div>
 
 
@@ -151,7 +197,7 @@
 
                 <div class="w3-row-padding" style="margin:0 -16px">
                     <div class="w3-half">
-                      <img src= <?php echo $game_logo; ?> style="width:100%" alt="Nature" class="w3-margin-bottom">
+                      <a href="game_monthly_sale_information.php?game_name=<?php echo $game_name; ?>"><img src=<?php echo $game_logo; ?> style="width:100%" alt="Nature" class="w3-margin-bottom"></a>
                   </div>
                 </div>
                 <hr class="w3-clear">
@@ -167,9 +213,9 @@
 
         <!-- Display bundles-->
 
-          <div class="w3-panel white-font">
-            <h4 class="w3-left" ><br>Bundles</h4>
-          </div>
+        <div class="w3-panel white-font">
+          <h4 class="w3-left" ><br>Bundles</h4>
+        </div>
         <?php
               $sql_get_all_bundles = "SELECT DISTINCT bundle_id, game_name FROM gameBundle NATURAL JOIN game WHERE company_name = \"$company_name\" ORDER BY bundle_id";
               $result_query = mysqli_query($db, $sql_get_all_bundles);
@@ -184,9 +230,11 @@
                 $sql_get_bundles = "SELECT DISTINCT * FROM game NATURAL JOIN gameBundle WHERE bundle_id = " .$bundle_id['bundle_id']. ";";
                 $games = mysqli_query($db, $sql_get_bundles);
                 $game_count = mysqli_num_rows($games);
+
                 echo "<div class=\"w3-container w3-card w3-border w3-round w3-margin white-font\"><br>
                 <span class=\"w3-right w3-opacity\"></span>";
                 $game_price = 0;
+
                 for($j = 0; $j < $game_count; $j++)
                 {
                   $game = $games->fetch_assoc();
@@ -194,10 +242,11 @@
                   echo "<h5>".$game['game_name']."</h5><br>";
                   //echo "<p class=\"w3-left\">".$game['game_name']."</p><br>";
                 }
+
                 echo "<hr class=\"w3-clear\">";
                 echo "<p class=\"w3-left\">Bundle Price = ".$game_price." USD</p>";
                 echo "<p class=\"w3-right\"><a href=\"process_remove_bundle.php?bundle_id=".$bundle_id['bundle_id']."\" class=\"w3-left w3-margin-bottom w3-padding w3-border w3w3-button\">Remove Bundle</a></p>";
-                echo "</div>";        
+                echo "</div>";
               }
         ?>
 
@@ -205,6 +254,7 @@
 
       <!-- End Middle Column -->
       </div>
+
       <!-- Right Column -->
       <div class="w3-col m2">
 
