@@ -2,6 +2,10 @@
     include("db.php");
     session_start();
 
+    echo "<br><br><br><br><br>";
+
+    $current_year = date("Y");
+
     // Player id
     $player_id = $_SESSION['player_id'];
 
@@ -71,10 +75,35 @@
     $counter = mysqli_num_rows($game_exp_exe);
 
     /*
-        Here we will be a query for reports
+        Monthly purchases by the player
+    */
+    $report_query_1 = "
+                      SELECT month, sum(cost)
+                      FROM (
+
+                            SELECT MONTH(payment_date) as month, cost
+                            FROM payment NATURAL JOIN buyGame
+                            WHERE player_id = $player_id AND YEAR(payment_date) = $current_year
+
+                            ) as temp
+
+                      GROUP BY month;";
+
+    $report_query_1_exec = mysqli_query($db, $report_query_1);
+
+    $report_array_1 = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+    for($a = 0; $a < mysqli_num_rows($report_query_1_exec); $a++)
+    {
+        $arr_1 = $report_query_1_exec->fetch_assoc();
+
+        $report_array_1[(int)$arr_1['month'] - 1] = round($arr_1['sum(cost)']);
+    }
+
+    /*
+        Remaining
     */
 
-    $arr = array(10, 0, 10, 2, 200, 30, 1, 1, 3, 1, 4, 3);
 ?>
 
 <!DOCTYPE html>
@@ -273,7 +302,7 @@
 
     window.onload = function () {
 
-    var a = <?php echo json_encode($arr); ?>;
+    var a = <?php echo json_encode($report_array_1); ?>;
 
     var chart = new CanvasJS.Chart("chartContainer", {
 
