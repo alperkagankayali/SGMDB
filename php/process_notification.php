@@ -24,7 +24,7 @@
         $notifications = $access_notif_exe->fetch_assoc();
         $notification_id = $notifications['notification_id'];
 ?>
-      <a href="#" value="<?php mysqli_query($db, "UPDATE notification SET notification_status = 1 WHERE notification_id = $notification_id"); ?>" class="w3-bar-item w3-button"><?php echo $notifications['notification_text']; ?><span class="w3-right w3-small"><?php echo $notifications['notification_date']; ?></span></a>
+      <a href="process_read_notification.php?notif=<?php echo $notification_id; ?>&notif_text=<?php echo $notifications['notification_text']; ?>" class="w3-bar-item w3-button"><?php echo $notifications['notification_text']; ?><span class="w3-right w3-small"><?php echo $notifications['notification_date']; ?></span></a>
 
 <?php
     }
