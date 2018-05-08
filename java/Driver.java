@@ -88,9 +88,9 @@ public class Driver
 //			dropTable("play");
 //			dropTable("game");
 			
-			dropTable("message");
-			
-			createTable("message", messageAttributes);
+//			dropTable("message");
+//			
+//			createTable("message", messageAttributes);
 			
 //			createTable("developer", developerAttributes);
 //			createTable("company", companyAttributes);
@@ -111,7 +111,28 @@ public class Driver
 //			createTable("notification", notificationAttributes);
 //			createTable("notify", notifyAttributes);	
 			
-	
+			String trigger = "CREATE TRIGGER updateBuyGame AFTER INSERT ON library "
+						   + "FOR EACH ROW "
+						   + "BEGIN "
+						   + "UPDATE stats SET level = level + 1 WHERE player_id = new.player_id; "
+						   + ""
+						   + "INSERT INTO payment (payment_date, cost, wallet_id) VALUES (CURDATE(), (SELECT game_price FROM game WHERE game_name = new.game_name), (SELECT wallet_id FROM wallet WHERE player_id = new.player_id)); "
+						   + ""
+						   + "INSERT INTO buyGame (player_id, game_name, payment_id) VALUES (new.player_id,  new.game_name, (SELECT LAST_INSERT_ID())); "
+						   + ""
+						   + "UPDATE wallet SET balance = balance - (SELECT game_price FROM game WHERE game_name = new.game_name) WHERE player_id = new.player_id; "
+						   + ""
+						   + "INSERT INTO game_experience (experience, play_hour, game_name, player_id) VALUES (0, 0, new.game_name, new.player_id); "
+						   + ""
+						   + "DELETE FROM cart WHERE player_id = new.player_id AND game_name = new.game_name; "
+						   + ""
+						   + "DELETE FROM wishlist WHERE player_id = new.player_id AND game_name = new.game_name; "
+						   + ""
+						   + "END";
+			
+			PreparedStatement createTrigger1 = accessConnection().prepareStatement(trigger);
+			
+			createTrigger1.executeUpdate();
 			
 	
 		}
