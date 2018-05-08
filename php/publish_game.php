@@ -40,8 +40,8 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
       <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
       <a href="#" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
       <a href="published_games.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Published Games</a>
-      <a href="news_company.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
-      <a href="about_company.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
+      <a href="news_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
+      <a href="about_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
       <!--Notif button
       <button class="w3-button w3-padding-large w3-hover-white" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"></span></button>-->

@@ -1,20 +1,15 @@
 <?php
     include("db.php");
     session_start();
-
     // Accessing the games of the company logged in
     $company_name = $_SESSION['company_name']['company_name'];
-
     // Query for getting the games of company
     $access_games_query = "SELECT *
                            FROM game WHERE company_name = '$company_name'";
-
     // Executing the query
     $result_query = mysqli_query($db, $access_games_query);
-
     // Number of games
     $counter = mysqli_num_rows($result_query);
-
 ?>
 
 
@@ -139,18 +134,15 @@
 
         <!-- Displaying the games of the company -->
         <?php
-
             for($i = 0; $i < $counter; $i++)
             {
                 // Obtained games
                 $games = $result_query->fetch_assoc();
-
                 $game_name = $games['game_name'];
                 $game_price = $games['game_price'];
                 $game_logo = $games['game_logo'];
                 $rating = $games['rating'];
                 $release_date = $games['release_date'];
-
         ?>
             <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
                 <span class="w3-right w3-opacity"><?php echo $release_date ?></span>
@@ -170,7 +162,6 @@
             </div>
 
         <?php
-
             }
         ?>
 
@@ -182,12 +173,10 @@
         <?php
               $sql_get_all_bundles = "SELECT DISTINCT bundle_id, game_name FROM gameBundle NATURAL JOIN game WHERE company_name = \"$company_name\" ORDER BY bundle_id";
               $result_query = mysqli_query($db, $sql_get_all_bundles);
-
-              $sql_bundle_count = "SELECT DISTINCT bundle_id FROM gameBundle;";
+              $sql_bundle_count = "SELECT DISTINCT bundle_id FROM gameBundle NATURAL JOIN game WHERE company_name = \"$company_name\";";
               $bundle_ids = mysqli_query($db, $sql_bundle_count);
               $bundle_count = mysqli_num_rows($bundle_ids);
               //var_dump($bundle_count);
-
               for($i = 0; $i < $bundle_count; $i++)
               {
                 $bundle_id = $bundle_ids->fetch_assoc();
@@ -206,12 +195,10 @@
                   //echo "<p class=\"w3-left\">".$game['game_name']."</p><br>";
                 }
                 echo "<hr class=\"w3-clear\">";
-
                 echo "<p class=\"w3-left\">Bundle Price = ".$game_price." USD</p>";
-
+                echo "<p class=\"w3-right\"><a href=\"process_remove_bundle.php?bundle_id=".$bundle_id['bundle_id']."\" class=\"w3-left w3-margin-bottom w3-padding w3-border w3w3-button\">Remove Bundle</a></p>";
                 echo "</div>";        
               }
-
         ?>
 
         <!-- End of displaying games -->
@@ -258,21 +245,17 @@
 
   <!--Scripts-->
   <script>
-
       // Slideshow
       var slideIndex = 1;
       showDivs(slideIndex);
-
       function plusDivs(n)
       {
         showDivs(slideIndex += n);
       }
-
       function currentDiv(n)
       {
         showDivs(slideIndex = n);
       }
-
       function showDivs(n)
       {
         var i;
@@ -288,7 +271,6 @@
         {
            dots[i].className = dots[i].className.replace(" w3-white", "");
         }
-
         x[slideIndex-1].style.display = "block";
         dots[slideIndex-1].className += " w3-white";
       }
