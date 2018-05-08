@@ -1,7 +1,7 @@
 <?php
     include("../db.php");
     session_start();
-
+    var_dump($_FILES);
     // Accessing data from input fields from login page of player
     $player_first_name = mysqli_escape_string($db, $_POST['player_first_name']);
     $player_mid_name = mysqli_escape_string($db, $_POST['player_mid_name']);
@@ -11,14 +11,53 @@
     $player_password = mysqli_escape_string($db, $_POST['player_password']);
     $birthdate = mysqli_escape_string($db, $_POST['player_b_date']);
     $repeated_password = mysqli_escape_string($db, $_POST['psw-repeat']);
-    $profile_picture = mysqli_escape_string($db, $_POST['player_picture']);
+
+
+
+    //This is for uploading the image into the hizliresim.com and getting the web address into the db.
+    $file = $_FILES['player_picture'];
+
+    $fileName = $_FILES['player_picture']['name'];
+    $fileTmpName = $_FILES['player_picture']['tmp_name'];
+    $fileSize = $_FILES['player_picture']['size'];
+    $fileError = $_FILES['player_picture']['error'];
+    $fileType = $_FILES['player_picture']['type'];
+
+    $fileExt = explode('.', $fileName);
+    $fileActualExt = strtolower(end($fileExt));
+
+    $allowed = array('jpg', 'jpeg', 'png', 'pdf');
+
+    if(in_array($fileActualExt, $allowed)){
+        if($fileError === 0){
+            if($fileSize < 900000){
+                $FileNameNew = uniqid('', true).".".$fileActualExt; 
+                $fileDestination = 'uploads/'.$FileNameNew;
+                move_uploaded_file($fileTmpName, $fileDestination);
+                echo"upload successful!";
+                //header("Location: ~/php/login/login-player.php?uploadsucesss");
+            }
+            else{
+                echo 'Your file is too big';
+            }
+        }
+        else{
+            echo 'Something went wrong';
+        }
+    }
+    else{
+        echo 'You can\'t upload that!';
+    }
+    
+
+    //$profile_picture = mysqli_escape_string($db, $_POST['player_picture']);
 
     // Calculating age of the player
     $age = 2018 - explode('-', $birthdate)[0];
 
     // Inserting query for player table
     $insert_query = "INSERT INTO player (email, username, password, firstname, middlename, lastname, birth_date, profile_picture, status, age)
-                               VALUES ('$player_email', '$player_username', '$player_password','$player_first_name', '$player_mid_name', '$player_last_name', '$birthdate', '$profile_picture', 0, $age);";
+                               VALUES ('$player_email', '$player_username', '$player_password','$player_first_name', '$player_mid_name', '$player_last_name', '$birthdate', '$FileNameNew', 0, $age);";
 
     $result1 = ($player_password == $repeated_password);
 

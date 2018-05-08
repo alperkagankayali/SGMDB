@@ -69,6 +69,7 @@ public class Driver
 			
 			String [] messageAttributes = {"player_id1-INT NOT NULL", "player_id2-INT NOT NULL", "message_date-DATE NOT NULL", "message_text-TEXT", "FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)"};
 			
+			String [] eventAttributes = {"event_id-INT AUTO_INCREMENT","start_date-DATE", "end_date-DATE", "event_image-VARCHAR(255)", "event_type-VARCHAR(255)", "PRIMARY KEY(event_id)"};
 //			dropTable("player");
 //			dropTable("company");
 //			dropTable("developer");	
@@ -87,6 +88,7 @@ public class Driver
 //			dropTable("friendship");
 //			dropTable("play");
 //			dropTable("game");
+//			dropTable("event");
 			
 //			dropTable("message");
 //			
@@ -110,6 +112,7 @@ public class Driver
 //			createTable("writes", writesAttributes);
 //			createTable("notification", notificationAttributes);
 //			createTable("notify", notifyAttributes);	
+//			createTable("event", eventAttributes);
 			
 			String trigger = "CREATE TRIGGER updateBuyGame AFTER INSERT ON library "
 						   + "FOR EACH ROW "
