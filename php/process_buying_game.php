@@ -19,11 +19,6 @@
 
     $wallet_id = $wallet['wallet_id'];
 
-    if(mysqli_num_rows($result_query) == 0)
-    {
-       echo "<h3> You do not have any wallet! </h3> <a href = 'profile.php'> Go to your profile </a>";
-    }
-
     // Buying method
     function buyGame($game_name, $game_price, $player_id)
     {
@@ -33,8 +28,11 @@
         global $db;
 
         // Controls
-
-        if($game_price <= $wallet['balance'])
+        if($wallet_id == null)
+        {
+            return "<h3> You do not have any wallet! </h3> <a href = 'profile.php'> Go to your profile </a>";
+        }
+        else if($game_price <= $wallet['balance'])
         {
             // Adding the game to the library
             $insert_to_library = "INSERT INTO library (game_name, player_id)
@@ -48,6 +46,7 @@
         }
         else
         {
+
             return "<h3> You do not have enough balance! </h3> <a href = 'profile.php'> Go back to your profile </a>";
         }
 

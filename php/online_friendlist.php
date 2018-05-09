@@ -14,8 +14,6 @@
 
     // Number of rows
     $counter = mysqli_num_rows($result_query);
-
-    $friends_id = array();
 ?>
 
 
@@ -116,10 +114,6 @@
 
               if($firstname == null)
                   continue;
-
-              array_push($friends_id, $player_id2);
-
-              $_SESSION['player_ids'] = $friends_id;
       ?>
 
         <div class="w3-container w3-card w3-round w3-margin"><br>

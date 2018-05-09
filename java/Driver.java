@@ -45,7 +45,7 @@ public class Driver
 			
 			String [] statsAttributes = {"stats_id-INT AUTO_INCREMENT", "last_active_date-DATE", "level-INT", "player_id-INT", "PRIMARY KEY(stats_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)"};
 			
-			String [] walletAttributes = {"wallet_id-INT AUTO_INCREMENT", "payment_method-VARCHAR(255)", "balance-FLOAT", "card_number-INT", "expiration_date-DATE", "security_code-INT", "player_id-INT", "PRIMARY KEY(wallet_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)"};
+			String [] walletAttributes = {"wallet_id-INT AUTO_INCREMENT", "payment_method-VARCHAR(255)", "balance-FLOAT", "card_number-VARCHAR(255)", "expiration_date-DATE", "security_code-INT", "player_id-INT", "PRIMARY KEY(wallet_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)"};
 			
 			String [] paymentAttributes = {"payment_id-INT AUTO_INCREMENT", "payment_date-DATE", "cost-FLOAT", "wallet_id-INT", "PRIMARY KEY(payment_id)", "FOREIGN KEY(wallet_id) REFERENCES wallet(wallet_id)"};
 			
@@ -61,7 +61,7 @@ public class Driver
 			
 			String [] friendshipAttributes = { "player_id1-INT NOT NULL", "player_id2-INT NOT NULL", "since_date-DATE NOT NULL", "PRIMARY KEY(player_id1, player_id2)", "FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)"};
 			
-			String [] playAttributes = {"session_id-INT AUTO_INCREMENT", "player_id1-INT NOT NULL", "player_id2-INT", "game_name-VARCHAR(255) NOT NULL", "session_date-DATE NOT NULL", "PRIMARY KEY(session_id)", "FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
+			String [] playAttributes = {"session_id-INT", "player_id1-INT NOT NULL", "player_id2-INT", "game_name-VARCHAR(255) NOT NULL", "session_date-DATE NOT NULL", "session_time-TIME(6) NOT NULL", "PRIMARY KEY(session_id, player_id1, player_id2, session_date, session_time)", "FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
 			
 			String [] notificationAttributes = {"notification_id-INT AUTO_INCREMENT", "notification_text-VARCHAR(255)", "notification_date-DATE", "notification_status-INT", "PRIMARY KEY(notification_id)"};
 			
@@ -70,49 +70,49 @@ public class Driver
 			String [] messageAttributes = {"player_id1-INT NOT NULL", "player_id2-INT NOT NULL", "message_date-DATE NOT NULL", "message_text-TEXT", "FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)"};
 			
 			String [] eventAttributes = {"event_id-INT AUTO_INCREMENT","start_date-DATE", "end_date-DATE", "event_image-VARCHAR(255)", "event_type-VARCHAR(255)", "PRIMARY KEY(event_id)"};
+
+
+//			dropTable("writes");
+//			dropTable("wishlist");
+//			dropTable("cart");			
+//			dropTable("library");
+//			dropTable("game_experience");
+//			dropTable("play");
+//			dropTable("buyGame");
+//			dropTable("game");
+//			dropTable("stats");
+//			dropTable("payment");
+//			dropTable("wallet");
+//			dropTable("friendship");
+//			dropTable("notify");
+//			dropTable("message");
 //			dropTable("player");
 //			dropTable("company");
 //			dropTable("developer");	
-//			dropTable("notify");
-//			dropTable("notification");
-//			dropTable("writes");
 //			dropTable("review");
-//			dropTable("wishlist");
-//			dropTable("cart");			
-//			dropTable("library");		
-//			dropTable("payment");
-//			dropTable("buyGame");
-//			dropTable("wallet");
-//			dropTable("stats");
-//			dropTable("game_experience");
-//			dropTable("friendship");
-//			dropTable("play");
-//			dropTable("game");
+//			dropTable("notification");
 //			dropTable("event");
-			
-//			dropTable("message");
-//			
-//			createTable("message", messageAttributes);
-			
+
+//			createTable("event", eventAttributes);
+//			createTable("notification", notificationAttributes);
+//			createTable("review", reviewAttributes);
 //			createTable("developer", developerAttributes);
 //			createTable("company", companyAttributes);
 //			createTable("player", playerAttributes);
-//			createTable("play", playAttributes);
+//			createTable("message", messageAttributes);
+//			createTable("notify", notifyAttributes);	
 //			createTable("friendship", friendshipAttributes);
-//			createTable("game_experience", gameExpAttributes);
-//			createTable("stats", statsAttributes);
-//			createTable("buyGame", buyGameAttributes);
-//			createTable("payment", paymentAttributes);
 //			createTable("wallet", walletAttributes);
+//			createTable("payment", paymentAttributes);
+//			createTable("stats", statsAttributes);
+//			createTable("game", gameAttributes);
+//			createTable("buyGame", buyGameAttributes);
+//			createTable("play", playAttributes);
+//			createTable("game_experience", gameExpAttributes);
 //			createTable("library", libraryAttributes);
 //			createTable("cart", cartAttributes);
 //			createTable("wishlist", wishListAttributes);
-//			createTable("game", gameAttributes);
-//			createTable("review", reviewAttributes);
 //			createTable("writes", writesAttributes);
-//			createTable("notification", notificationAttributes);
-//			createTable("notify", notifyAttributes);	
-//			createTable("event", eventAttributes);
 			
 			String trigger = "CREATE TRIGGER updateBuyGame AFTER INSERT ON library "
 						   + "FOR EACH ROW "
@@ -135,7 +135,7 @@ public class Driver
 			
 			PreparedStatement createTrigger1 = accessConnection().prepareStatement(trigger);
 			
-			createTrigger1.executeUpdate();
+			//createTrigger1.executeUpdate();
 			
 	
 		}

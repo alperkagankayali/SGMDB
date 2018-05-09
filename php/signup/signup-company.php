@@ -89,7 +89,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                       <div class="form-control">
                         <label class="header">Company logo:</label>
                         <div class="nl">
-                          <input id="p_p_picture" type="text" name="player_picture" placeholder="Logo URL" capture>
+                          <input id="p_p_picture" type="text" name="company_logo" placeholder="Logo URL" capture>
                         </div>
                       </div>
                     </p>

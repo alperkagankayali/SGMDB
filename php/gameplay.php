@@ -7,13 +7,17 @@
     $game_name = $_GET['game_name'];
 
     // start time
-    $start_time = date("Y-m-d H:i:s");
+    $start_date = date("Y-m-d");
+    $start_time = date("H:i:s");
 
     // Check boxes selected
     $check_arr = null;
 
     // Selected player ids
-    $player_ids = isset($_SESSION['player_ids']);
+    $player_ids = mysqli_query($db, "SELECT player_id2 FROM friendship WHERE player_id1 = $player_id");
+    $player_ids_arr = array();
+
+    $session_id = mysqli_query($db, "SELECT MAX(session_id) as max_session FROM play;")->fetch_assoc()['max_session'] + 1;
 
     if(isset($_POST['check']))
     {
@@ -21,43 +25,30 @@
 
         $count = count($check_arr);     // number of selected check boxes
 
-        $session_id = null;                // default - will change in the next blocks
-
         for($i = 0; $i < $count; $i++)
         {
-            $flag = ($check_arr[$i] == "on");
+            $player_id2 = $player_ids->fetch_assoc()['player_id2'];
 
-            if($flag)
+            if(($check_arr[$i] == "on") == 1)
             {
-                $player_id2 = $player_ids[$i];
+                  array_push($player_ids_arr, $player_id2);
+                  // Inserting game session data into play table
+                  $insert_gameplay = "INSERT INTO play (session_id, player_id1, player_id2, game_name, session_date, session_time) VALUES ($session_id, $player_id, $player_id2, '$game_name', '$start_date', '$start_time');";
 
-                if($session_id == null)
-                {
-                    // Inserting game session data into play table
-                    $insert_gameplay = "INSERT INTO play (player_id1, player_id2, game_name, session_date) VALUES ($player_id, $player_id2, '$game_name', '$start_time');";
-
-                    mysqli_query($db, $insert_gameplay);
-
-                    $session_id = mysqli_query($db, "SELECT LAST_INSERT_ID()")->fetch_assoc()['LAST_INSERT_ID()'];
-                }
-                else
-                {
-                    // Inserting game session data into play table
-                    $insert_gameplay = "INSERT INTO play (player_id1, player_id2, game_name, session_date) VALUES ($player_id, $player_id2, '$game_name', '$start_time');";
-
-                    mysqli_query($db, $insert_gameplay);
-                }
+                  mysqli_query($db, $insert_gameplay);
             }
         }
     }
     else
     {
         // Inserting game session data into play table
-        $insert_gameplay = "INSERT INTO play (player_id1, player_id2, game_name, session_date) VALUES ($player_id, null, '$game_name', '$start_time')";
+        $insert_gameplay = "INSERT INTO play (session_id, player_id1, player_id2, game_name, session_date, session_time) VALUES ($player_id, null, '$game_name', '$start_date', '$start_time')";
 
         // Executing the query
         mysqli_query($db, $insert_gameplay);
     }
+
+    $_SESSION['player_ids'] = $player_ids_arr;
 ?>
 
 <!DOCTYPE html>
@@ -95,8 +86,8 @@
 <body class="background">
 
   <h4 class="white-font w3-center"><?php echo $game_name; ?></h4>
-  <a href="process_quit_game.php?start_time=<?php echo $start_time; ?>&game_name=<?php echo $game_name; ?>" class="w3-button w3-center white-font"> Quit </a>
-  <h4 class="white-font w3-left w3-margin-left" >Start time: <?php echo explode(" ", $start_time)[1]; ?></h4>
+  <a href="process_quit_game.php?start_time=<?php echo $start_time; ?>&game_name=<?php echo $game_name;?>" class="w3-button w3-center white-font"> Quit </a>
+  <h4 class="white-font w3-left w3-margin-left" >Start time: <?php echo $start_time; ?></h4>
   <h4 class="white-font w3-right w3-margin-right" id="game"></h4>
 
 </body>

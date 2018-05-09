@@ -67,7 +67,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                       <label class="header">Card number:</label>
                       <div class="nl">
 
-                        <input type="number" id="card_number" name="card_number" placeholder="1234-1234-1234-1234" title="Please enter card number" required=""></div>
+                        <input type="number" id="card_num" name="card_number" placeholder="1234-1234-1234-1234" title="Please enter card number" required=""></div>
                       </div>
                     </p>
 

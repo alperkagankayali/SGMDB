@@ -107,7 +107,7 @@
 
                             SELECT MONTH(session_date) as month, session_id
                             FROM play
-                            WHERE player_id1 = $player_id AND YEAR(session_date) = $current_year
+                            WHERE (player_id1 = $player_id OR player_id2 = $player_id) AND YEAR(session_date) = $current_year
 
                             ) as temp
 
