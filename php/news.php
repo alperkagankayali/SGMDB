@@ -1,6 +1,16 @@
 <?php
     include("db.php");
     session_start();
+
+    // Query for getting the games of company
+    $access_news_query = "SELECT *
+                           FROM news;";
+
+    // Executing the query
+    $result_query = mysqli_query($db, $access_news_query);
+
+    // Number of news
+    $counter = mysqli_num_rows($result_query);
 ?>
 
 <!DOCTYPE html>
@@ -128,54 +138,21 @@
       <!-- Middle Column -->
       <div class="w3-col m7" style="overflow:auto">
 
-        <div class="w3-panel white-font">
-          <h4><br>Latest News</h4>
-        </div>
-
-        <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-            <span class="w3-right w3-opacity">02.04.2018</span>
-            <h4>Is Steam bankruped?</h4><br>
-            <hr class="w3-clear">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <div class="w3-row-padding" style="margin:0 -16px">
-                <div class="w3-half">
-                  <img src="images/news/news1.png" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
+        <?php
+            for($i = 0; $i < $counter; $i++)
+            {
+              $news = $result_query->fetch_assoc();
+              echo "<div class=\"w3-container w3-card w3-border w3-round w3-margin white-font\"><br>";
+            //<span class=\"w3-right w3-opacity\">02.04.2018</span>";
+              echo " <h4>". $news['header']."</h4><br>";
+              echo   "<hr class=\"w3-clear\">";
+              echo "<p>". $news['text'] ."</p>";
+              echo  "<div class=\"w3-row-padding\" style=\"margin:0 -16px\">
                 </div>
-                <div class="w3-half">
-                  <img src="images/news/news1.png" style="width:100%" alt="Nature" class="w3-margin-bottom">
-              </div>
-            </div>
-        </div>
+                </div>";
+            }
+        ?>
 
-        <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-            <span class="w3-right w3-opacity">02.04.2018</span>
-            <h4>Is Steam bankruped?</h4><br>
-            <hr class="w3-clear">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <div class="w3-row-padding" style="margin:0 -16px">
-                <div class="w3-half">
-                  <img src="images/news/news1.png" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
-                </div>
-                <div class="w3-half">
-                  <img src="images/news/news1.png" style="width:100%" alt="Nature" class="w3-margin-bottom">
-              </div>
-            </div>
-        </div>
-
-        <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-            <span class="w3-right w3-opacity">02.04.2018</span>
-            <h4>Is Steam bankruped?</h4><br>
-            <hr class="w3-clear">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <div class="w3-row-padding" style="margin:0 -16px">
-                <div class="w3-half">
-                  <img src="images/news/news1.png" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
-                </div>
-                <div class="w3-half">
-                  <img src="images/news/news1.png" style="width:100%" alt="Nature" class="w3-margin-bottom">
-              </div>
-            </div>
-        </div>
 
       <!-- End Middle Column -->
       </div>
