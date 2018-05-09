@@ -244,8 +244,11 @@
                 }
 
                 echo "<hr class=\"w3-clear\">";
-                echo "<p class=\"w3-left\">Bundle Price = ".$game_price." USD</p>";
-                echo "<p class=\"w3-right\"><a href=\"process_remove_bundle.php?bundle_id=".$bundle_id['bundle_id']."\" class=\"w3-left w3-margin-bottom w3-padding w3-border w3w3-button\">Remove Bundle</a></p>";
+                $bundle_price_discount = $game_price*80/100;
+                echo "<p class=\"w3-left\">Bundle Price = <del>". $game_price ." USD</del> ".$bundle_price_discount." USD</p>";
+                echo "<p class=\"w3-right\"><a href=\"process_remove_bundle.php?bundle_id=".$bundle_id['bundle_id']."\" class=\"w3-left w3-margin-bottom w3-padding w3-border w3w3-button\" style = \"margin: 3px\">Remove Bundle</a></p>";
+
+                echo "<p class=\"w3-right\"><a href=\"bundle_info_company.php?bundle_id=".$bundle_id['bundle_id']."\" class=\"w3-left w3-margin-bottom w3-padding w3-border w3w3-button\" style = \"margin: 3px\">Bundle Information</a></p>";
                 echo "</div>";
               }
         ?>

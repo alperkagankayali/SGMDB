@@ -101,28 +101,28 @@
 
               <div class="w3-col l3 s6">
                 <div class="w3-container">
-                  <a href="game_information.html"><img src="images/game1.jpg" style="width:100%"></a>
+                  <a href="game_information.php"><img src="images/game1.jpg" style="width:100%"></a>
                   <p>Witcher 3<br><b>$13.99</b></p>
                 </div>
               </div>
 
               <div class="w3-col l3 s6">
                 <div class="w3-container">
-                  <a href="game_information.html"><img src="images/witcher2.jpg" style="width:100%"></a>
+                  <a href="game_information.php"><img src="images/witcher2.jpg" style="width:100%"></a>
                   <p>Witcher 2<br><b>$13.99</b></p>
                 </div>
               </div>
 
               <div class="w3-col l3 s6">
                 <div class="w3-container">
-                  <a href="game_information.html"><img src="images/heartandstone.png" style="width:100%"></a>
+                  <a href="game_information.php"><img src="images/heartandstone.png" style="width:100%"></a>
                   <p>Witcher Dlc1<br><b>$13.99</b></p>
                 </div>
               </div>
 
               <div class="w3-col l3 s6">
                 <div class="w3-container">
-                  <a href="game_information.html"><img src="images/bloodandwine.jpg" style="width:100%"></a>
+                  <a href="game_information.php"><img src="images/bloodandwine.jpg" style="width:100%"></a>
                   <p>Witcher Dlc2<br><b>$13.99</b></p>
                 </div>
               </div>
