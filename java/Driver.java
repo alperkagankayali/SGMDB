@@ -19,9 +19,9 @@ public class Driver
 {
 	// Constants
 	private static String jdbc_driver = "com.mysql.jdbc.Driver";
-	private static String url = "jdbc:mysql://localhost:3307/SGMDB";	  		//jdbc:mysql://dijkstra.ug.bcc.bilkent.edu.tr/fuad_aghazada
-	private static String username = "root";													//fuad.aghazada
-	private static String password = "";														//r82ehmg5
+	private static String url = "jdbc:mysql://dijkstra.ug.bcc.bilkent.edu.tr/fuad_aghazada";	  		//jdbc:mysql://dijkstra.ug.bcc.bilkent.edu.tr/fuad_aghazada jdbc:mysql://localhost:3307/SGMDB
+	private static String username = "fuad.aghazada";													//fuad.aghazada
+	private static String password = "r82ehmg5";														//r82ehmg5
 	
 	/**
 	 *	Main method to execute. 
@@ -75,51 +75,51 @@ public class Driver
 			
 			String [] rateAttributes = {"rating_id-INT NOT NULL", "game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(rating_id, game_name, player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)", "FOREIGN KEY(rating_id) REFERENCES rating(rating_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)"};
 
-//			dropTable("writes");
+			dropTable("writes");
 			dropTable("rate");
-//			dropTable("wishlist");
-//			dropTable("cart");			
-//			dropTable("library");
-//			dropTable("game_experience");
-//			dropTable("play");
-//			dropTable("buyGame");
-//			dropTable("game");
-//			dropTable("stats");
-//			dropTable("payment");
-//			dropTable("wallet");
-//			dropTable("friendship");
-//			dropTable("notify");
-//			dropTable("message");
-//			dropTable("player");
-//			dropTable("company");
-//			dropTable("developer");	
-//			dropTable("review");
-//			dropTable("rating");
-//			dropTable("notification");
-//			dropTable("event");
+			dropTable("wishlist");
+			dropTable("cart");			
+			dropTable("library");
+			dropTable("game_experience");
+			dropTable("play");
+			dropTable("buyGame");
+			dropTable("game");
+			dropTable("stats");
+			dropTable("payment");
+			dropTable("wallet");
+			dropTable("friendship");
+			dropTable("notify");
+			dropTable("message");
+			dropTable("player");
+			dropTable("company");
+			dropTable("developer");	
+			dropTable("review");
+			dropTable("rating");
+			dropTable("notification");
+			dropTable("event");
 
-//			createTable("event", eventAttributes);
-//			createTable("notification", notificationAttributes);
-//			createTable("rating", ratingAttributes);
-//			createTable("review", reviewAttributes);
-//			createTable("developer", developerAttributes);
-//			createTable("company", companyAttributes);
-//			createTable("player", playerAttributes);
-//			createTable("message", messageAttributes);
-//			createTable("notify", notifyAttributes);	
-//			createTable("friendship", friendshipAttributes);
-//			createTable("wallet", walletAttributes);
-//			createTable("payment", paymentAttributes);
-//			createTable("stats", statsAttributes);
-//			createTable("game", gameAttributes);
-//			createTable("buyGame", buyGameAttributes);
-//			createTable("play", playAttributes);
-//			createTable("game_experience", gameExpAttributes);
-//			createTable("library", libraryAttributes);
-//			createTable("cart", cartAttributes);
-//			createTable("wishlist", wishListAttributes);
-//			createTable("rate", rateAttributes);
-//			createTable("writes", writesAttributes);
+			createTable("event", eventAttributes);
+			createTable("notification", notificationAttributes);
+			createTable("rating", ratingAttributes);
+			createTable("review", reviewAttributes);
+			createTable("developer", developerAttributes);
+			createTable("company", companyAttributes);
+			createTable("player", playerAttributes);
+			createTable("message", messageAttributes);
+			createTable("notify", notifyAttributes);	
+			createTable("friendship", friendshipAttributes);
+			createTable("wallet", walletAttributes);
+			createTable("payment", paymentAttributes);
+			createTable("stats", statsAttributes);
+			createTable("game", gameAttributes);
+			createTable("buyGame", buyGameAttributes);
+			createTable("play", playAttributes);
+			createTable("game_experience", gameExpAttributes);
+			createTable("library", libraryAttributes);
+			createTable("cart", cartAttributes);
+			createTable("wishlist", wishListAttributes);
+			createTable("rate", rateAttributes);
+			createTable("writes", writesAttributes);
 			
 			String trigger = "CREATE TRIGGER updateBuyGame AFTER INSERT ON library "
 						   + "FOR EACH ROW "
@@ -142,7 +142,14 @@ public class Driver
 			
 			PreparedStatement createTrigger1 = accessConnection().prepareStatement(trigger);
 			
-			//createTrigger1.executeUpdate();
+			createTrigger1.executeUpdate();
+			
+			String index= "CREATE INDEX idx_category " +"ON game (game_category);" ;
+
+            PreparedStatement createSecondaryIndex = accessConnection().prepareStatement(index);
+            
+            createSecondaryIndex.executeUpdate();
+			
 			
 	
 		}
