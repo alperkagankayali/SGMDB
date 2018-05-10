@@ -326,6 +326,10 @@
           </div>
           <!--End of Game grid-->
 
+
+          <!-- Bundles -->
+          <?php include("bundle-info-store.php"); ?>
+
       <!-- End Middle Column -->
       </div>
 

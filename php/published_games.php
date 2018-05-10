@@ -250,7 +250,7 @@
                 echo "<p class=\"w3-left\">Bundle Price = <del>". $game_price ." USD</del> ".$bundle_price_discount." USD</p>";
                 echo "<p class=\"w3-right\"><a href=\"process_remove_bundle.php?bundle_id=".$bundle_id['bundle_id']."\" class=\"w3-left w3-margin-bottom w3-padding w3-border w3w3-button\" style = \"margin: 3px\">Remove Bundle</a></p>";
 
-                echo "<p class=\"w3-right\"><a href=\"bundle_info_company.php?bundle_id=".$bundle_id['bundle_id']."\" class=\"w3-left w3-margin-bottom w3-padding w3-border w3w3-button\" style = \"margin: 3px\">Bundle Information</a></p>";
+                echo "<p class=\"w3-right\"><a href=\"bundle_info_company.php?bundle_id=".$bundle_id['bundle_id']."\" class=\"w3-left w3-margin-bottom w3-padding w3-border w3w3-button\" style = \"margin: 3px\">Bundle Info</a></p>";
                 echo "</div>";
               }
         ?>
@@ -269,7 +269,7 @@
             <p>Upcoming Events:</p>
             <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
             <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
+            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.php" >Info</a></p>
 
           </div>
         </div>
@@ -282,7 +282,7 @@
             <p>Upcoming Events:</p>
             <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
             <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
+            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.php" >Info</a></p>
 
           </div>
         </div>

@@ -7,7 +7,7 @@
 
     $bundle_id = $_GET['bundle_id'];
 
-    $sql_bundle_info = "SELECT DISTINCT * FROM gameBundle NATURAL JOIN game WHERE company_name = \"$company_name\";";
+    $sql_bundle_info = "SELECT DISTINCT * FROM gameBundle NATURAL JOIN game WHERE company_name = \"$company_name\" AND bundle_id = $bundle_id;";
 
     $bundle_info = mysqli_query($db, $sql_bundle_info);
     $game_count = mysqli_num_rows($bundle_info);
