@@ -1,7 +1,7 @@
 <?php
     include("db.php");
     session_start();
-    
+
     // Checking for page interval
     $max_filled = null;
     $min_filled = null;
@@ -73,7 +73,7 @@
     $counter = mysqli_num_rows($result_query);
 
     // For Image Slider - Top 3 Games with most ratings
-    $top_games_sql = "SELECT * FROM game ORDER BY rating DESC";
+    $top_games_sql = "SELECT game_name, game_logo, game_price FROM (rating NATURAL JOIN rate) NATURAL JOIN game ORDER BY rating DESC";
 
     $access_top_games = mysqli_query($db, $top_games_sql);
 

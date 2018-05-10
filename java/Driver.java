@@ -37,7 +37,7 @@ public class Driver
 			
 			String [] developerAttributes = {"developer_id-INT AUTO_INCREMENT", "developer_email-VARCHAR(255) UNIQUE", "developer_password-CHAR(255)", "developer_firstname-VARCHAR(255)", "developer_midname-VARCHAR(255)", "developer_lastname-VARCHAR(255)", "PRIMARY KEY(developer_id)" };
 			
-			String [] gameAttributes = {"game_name-VARCHAR(255)", "game_price-FLOAT", "platform-VARCHAR(255)", "game_category-VARCHAR(255)", "game_logo-VARCHAR(255)", "rating-FLOAT", "num_of_ratings-INT", "system_requirements-VARCHAR(255)", "release_date-DATE", "company_name-VARCHAR(255)", "PRIMARY KEY(game_name)", "FOREIGN KEY(company_name) REFERENCES company(company_name)"};
+			String [] gameAttributes = {"game_name-VARCHAR(255)", "game_price-FLOAT", "platform-VARCHAR(255)", "game_category-VARCHAR(255)", "game_logo-VARCHAR(255)", "system_requirements-VARCHAR(255)", "release_date-DATE", "company_name-VARCHAR(255)", "PRIMARY KEY(game_name)", "FOREIGN KEY(company_name) REFERENCES company(company_name)"};
 			
 			String [] wishListAttributes = {"game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(player_id, game_name)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
 			
@@ -70,9 +70,13 @@ public class Driver
 			String [] messageAttributes = {"player_id1-INT NOT NULL", "player_id2-INT NOT NULL", "message_date-DATE NOT NULL", "message_text-TEXT", "FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)"};
 			
 			String [] eventAttributes = {"event_id-INT AUTO_INCREMENT","start_date-DATE", "end_date-DATE", "event_image-VARCHAR(255)", "event_type-VARCHAR(255)", "PRIMARY KEY(event_id)"};
-
+			
+			String [] ratingAttributes = {"rating_id-INT AUTO_INCREMENT", "rating-INT", "rating_date-DATE", "PRIMARY KEY(rating_id)"};
+			
+			String [] rateAttributes = {"rating_id-INT NOT NULL", "game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(rating_id, game_name, player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)", "FOREIGN KEY(rating_id) REFERENCES rating(rating_id)", "FOREIGN KEY(player_id) REFERENCES player(player_id)"};
 
 //			dropTable("writes");
+			dropTable("rate");
 //			dropTable("wishlist");
 //			dropTable("cart");			
 //			dropTable("library");
@@ -90,11 +94,13 @@ public class Driver
 //			dropTable("company");
 //			dropTable("developer");	
 //			dropTable("review");
+//			dropTable("rating");
 //			dropTable("notification");
 //			dropTable("event");
 
 //			createTable("event", eventAttributes);
 //			createTable("notification", notificationAttributes);
+//			createTable("rating", ratingAttributes);
 //			createTable("review", reviewAttributes);
 //			createTable("developer", developerAttributes);
 //			createTable("company", companyAttributes);
@@ -112,6 +118,7 @@ public class Driver
 //			createTable("library", libraryAttributes);
 //			createTable("cart", cartAttributes);
 //			createTable("wishlist", wishListAttributes);
+//			createTable("rate", rateAttributes);
 //			createTable("writes", writesAttributes);
 			
 			String trigger = "CREATE TRIGGER updateBuyGame AFTER INSERT ON library "

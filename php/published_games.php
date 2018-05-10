@@ -187,8 +187,10 @@
                 $game_name = $games['game_name'];
                 $game_price = $games['game_price'];
                 $game_logo = $games['game_logo'];
-                $rating = $games['rating'];
                 $release_date = $games['release_date'];
+
+                $rating = mysqli_query($db, "SELECT rating FROM rating NATURAL JOIN rate WHERE game_name = '$game_name'")->fetch_assoc()['rating'];
+
         ?>
             <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
                 <span class="w3-right w3-opacity"><?php echo $release_date ?></span>

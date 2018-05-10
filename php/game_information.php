@@ -22,11 +22,9 @@
     $game_logo = $game_information['game_logo'];
     $game_platform = $game_information['platform'];
     $game_category = $game_information['game_category'];
-    $game_rating = $game_information['rating'];
     $game_sys_req = $game_information['system_requirements'];
     $game_release_date = $game_information['release_date'];
     $company_name = $game_information['company_name'];
-
 
     // CHECKING if teh game is in the user's library
     $check_library = "SELECT * FROM library WHERE player_id = $player_id AND game_name = '$game_name';";
@@ -47,6 +45,9 @@
 
     // Number of rows
     $counter = mysqli_num_rows($result_reviews);
+
+    // GETTING AVERAGE RATING
+    $avg_rating = mysqli_query($db, "SELECT AVG(rating) as avgRating FROM rating NATURAL JOIN rate WHERE game_name = '$game_name'")->fetch_assoc()['avgRating'];
 ?>
 
 <!DOCTYPE html>
@@ -202,7 +203,7 @@
               <?php
                   for($k = 0; $k < 5; $k++)
                   {
-                      if($k < $game_rating)
+                      if($k < $avg_rating)
                       {
 
               ?>
@@ -240,6 +241,17 @@
                     <input type="submit" class="send" value="RATE">
                 </div>
               </form>
+
+              <?php
+                    }
+                    if(mysqli_num_rows(mysqli_query($db, "SELECT * FROM rating NATURAL JOIN rate WHERE player_id = $player_id")) != 0)
+                    {
+                        $rating = mysqli_query($db, "SELECT * FROM rating NATURAL JOIN rate WHERE player_id = $player_id")->fetch_assoc()['rating'];
+
+                        $warning = "You have already rated this game by ".$rating.". You can update your choice!";
+              ?>
+
+              <h5><?php echo $warning; ?></h5>
 
               <?php
                     }
