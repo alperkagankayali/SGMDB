@@ -20,31 +20,52 @@ for($j = 0; $j < $bundle_count; $j++){
   echo "<div class=\"w3-container w3-card w3-border w3-round w3-margin white-font\"><br>
                 <span class=\"w3-right w3-opacity\"></span>";
   $bundle_price = 0;
+  $game_names = array();
   for($i = 0; $i < $game_count; $i++)
   {
+    
     $game_info = $bundle_info->fetch_assoc();
     $image = $game_info['game_logo'];
     $game_name =$game_info['game_name'];
     $game_price = $game_info['game_price'];
-    $bundle_price += $game_price;
+    
                 
     echo "<div class=\"w3-col l3 s6\">";
-    echo "<div class=\"w3-container\">";
-    echo "<img src=\""; 
-    echo $image; 
-    echo "\""; 
-    echo "style=\"width:100%\">";
+    echo "<div class=\"w3-container\">"; ?>
+    <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $image; ?> style="width:100%"></a>
+    <?php
     echo "<p> $game_name <br><b> $game_price USD</b></p>";
     echo "</div>";
     echo "</div>";
-    
-    }
-    $bundle_price_discount = $bundle_price*80/100;
-    if($bundle_price != 0)
-      echo "<div <p class=\"w3-left w3-block\">Bundle Price = <del>". $bundle_price ." USD</del> ".$bundle_price_discount." USD</p> </div>";
-    else
-      echo "<div <p class=\"w3-left w3-block\">Free Bundle</p> </div>";
 
+    // CHECKING if teh game is in the user's library
+    $check_library = "SELECT * FROM library WHERE player_id = $player_id AND game_name = '$game_name';";
+
+    // Executing the query
+    $result_check = mysqli_query($db, $check_library);
+
+    // Number of rows
+    $row_size = mysqli_num_rows($result_check);
+
+    if($row_size == 0){
+        $bundle_price += $game_price;
+        $count++; //if count=0 can buy all games
+        $game_names[$game_name] = $game_price*80/100; //add games not contained in users library to this array
+    }
+    
+  }
+  $Text = json_encode($game_names);
+  $requestText = urlencode($Text);
+  $bundle_price_discount = $bundle_price*80/100;
+
+    if($bundle_price != 0)
+      echo "<div <p class=\"w3-left w3-block\">Bundle Price = <del>". $bundle_price ." USD</del> ".$bundle_price_discount." USD</p> ";
+    else
+      echo "<div <p class=\"w3-left w3-block\">Free Bundle</p>";
+    echo "<a href=\"buying_bundle_from_store.php?game_info=$requestText\" class=\"w3-button w3-block w3-theme-l1 \">Buy now<br></a>";
+    /*echo "<a href=\"process_adding_to_cart.php?game_name=<?php echo $game_name; ?>\" class=\"w3-button w3-block w3-theme-l1 \"><img src=\"images/icons/cart.png\" style=\"width:7%\">Add to cart</a>
+          <a href=\"process_adding_to_wishlist.php?game_name=<?php echo $game_name; ?>\" class=\"w3-button w3-block w3-theme-l1 \"><img src=\"images/icons/wish.png\" style=\"width:3%\">  Add to wish list</a>";*/
+    echo "</div>";
     echo "</div>";
   }
 echo "<!--End of Game grid-->";
