@@ -12,7 +12,7 @@
 
     $receiver_username = mysqli_query($db, "SELECT username FROM player WHERE player_id = $receiver_id")->fetch_assoc()['username'];
 
-    if($_SESSION['player_pp'] != '') $sender_pp = $_SESSION['player_pp']; else $sender_pp = "images/icons/avatar.png";
+    if($_SESSION['player_pp'] != '') $sender_pp = ("signup/uploads/". $_SESSION['player_pp']); else $sender_pp = "images/icons/avatar.png";
 
     // Messages between sender and receiver
     $messages_exec = mysqli_query($db, "SELECT * FROM message WHERE (player_id1 = $sender_id AND player_id2 = $receiver_id) OR (player_id1 = $receiver_id AND player_id2 = $sender_id)");
@@ -85,7 +85,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo ("signup/uploads/". $_SESSION['player_pp']); else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->

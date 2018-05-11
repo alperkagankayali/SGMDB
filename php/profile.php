@@ -1,39 +1,56 @@
 <?php
     include("db.php");
     session_start();
-    echo "<br><br><br><br><br>";
+
     $current_year = date("Y");
+
     // Player id
     $player_id = $_SESSION['player_id'];
+
     // Accessing Player information
     $access_player = "SELECT * FROM player WHERE player_id = $player_id";
+
     // Execute the query
     $result_query = mysqli_query($db, $access_player);
+
     // Result of the query
     $player = $result_query->fetch_assoc();
+
     // PLAYER INFORMATION -------------------------
     $player_firstname = $player['firstname'];
     $player_midname = $player['middlename'];
     $player_lastname = $player['lastname'];
     $player_picture = $player['profile_picture'];
     $player_email = $player['email'];
+
     //***********************************************
+
     // Acessing the stats of the player with the given player id
     $access_stats = "SELECT * FROM stats WHERE player_id = $player_id";
+
     // Execute the query
     $access_result = mysqli_query($db, $access_stats);
+
     // Result of the query
     $stats = $access_result->fetch_assoc();
+
+
     // STATS INFORMATION -------------------------
     $last_active_date = $stats['last_active_date'];
     $level = $stats['level'];
+
     //***********************************************
+
     // Acessing the stats of the player with the given player id
     $access_wallet = "SELECT * FROM wallet WHERE player_id = $player_id";
+
     // Execute the query
     $wallet_result = mysqli_query($db, $access_wallet);
+
     // Result of the query
     $wallet = $wallet_result->fetch_assoc();
+
+
     // WALLET INFORMATION
     $wallet_balance = $wallet['balance'];
     $payment_method = $wallet['payment_method'];
@@ -41,35 +58,71 @@
     $expiration_date = $wallet['expiration_date'];
     $security_code = $wallet['security_code'];
     $balance = $wallet['balance'];
+
     // Passing wallet id
     $_SESSION['wallet_id'] = $wallet['wallet_id'];
+
+
     // GAME EXPERIENCE INFORMATION
     $game_exp_query = "SELECT * FROM game_experience WHERE player_id = $player_id";
+
     // executing the query
     $game_exp_exe = mysqli_query($db, $game_exp_query);
+
     // Number of tuples
     $counter = mysqli_num_rows($game_exp_exe);
+
     /*
         Monthly purchases by the player
     */
     $report_query_1 = "
                       SELECT month, sum(cost)
                       FROM (
+
                             SELECT MONTH(payment_date) as month, cost
                             FROM payment NATURAL JOIN buyGame
                             WHERE player_id = $player_id AND YEAR(payment_date) = $current_year
+
                             ) as temp
+
                       GROUP BY month;";
+
     $report_query_1_exec = mysqli_query($db, $report_query_1);
+
     $report_array_1 = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
     for($a = 0; $a < mysqli_num_rows($report_query_1_exec); $a++)
     {
         $arr_1 = $report_query_1_exec->fetch_assoc();
-        $report_array_1[(int)$arr_1['month'] - 1] = round($arr_1['sum(cost)']);
+
+        $report_array_1[(int)$arr_1['month'] - 1] = round($arr_1['sum(cost)']) + 0;
     }
+
     /*
-        Remaining
+        Monthly sessions by the player
     */
+    $report_query_2 = "
+                      SELECT month, count(session_id)
+                      FROM (
+
+                            SELECT MONTH(session_date) as month, session_id
+                            FROM play
+                            WHERE (player_id1 = $player_id OR player_id2 = $player_id) AND YEAR(session_date) = $current_year
+
+                            ) as temp
+
+                      GROUP BY month;";
+
+    $report_query_2_exec = mysqli_query($db, $report_query_2);
+
+    $report_array_2 = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+    for($b = 0; $b < mysqli_num_rows($report_query_2_exec); $b++)
+    {
+        $arr_2 = $report_query_2_exec->fetch_assoc();
+
+        $report_array_2[(int)$arr_2['month'] - 1] = $arr_2['count(session_id)'] + 0;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -126,7 +179,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo ("signup/uploads/". $_SESSION['player_pp']); else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->
@@ -144,7 +197,7 @@
     <h1><br>Profile</h1>
     </div>
 
-    <img align="Middle" class="w3-image" src=<?php if($player_picture != '') echo $player_picture; else echo "images/icons/avatar.png";?> alt="Me" width="400" height="300" >
+    <img align="Middle" class="w3-image" src=<?php if($player_picture != '') echo ("signup/uploads/". $player_picture); else echo "images/icons/avatar.png";?> alt="Me" width="400" height="300" >
 
     <div class="w3-panel">
       <h4><br><?php echo $player_firstname." ".$player_midname." ".$player_lastname; ?></h4>
@@ -203,7 +256,12 @@
         <div class="w3-col m7">
 
           <!-- Chart -->
-          <div id="chartContainer" style="height: 370px; width: 100%; margin: 0px auto; margin-left: 45px"></div>
+          <div id="chartContainer1" style="height: 370px; width: 100%; margin: 0px auto; margin-left: 45px"></div>
+
+          <br>
+          <br>
+
+          <div id="chartContainer2" style="height: 370px; width: 100%; margin: 0px auto; margin-left: 45px"></div>
 
           <br>
 
@@ -214,15 +272,20 @@
                   {
                       // Accessed experience
                       $game_exp = $game_exp_exe->fetch_assoc();
+
                       $experience = $game_exp['experience'];
                       $play_hour = $game_exp['play_hour'];
                       $game_name = $game_exp['game_name'];
+
                       // Accessing game information (logo)
                       $game_exp = "SELECT game_logo FROM game WHERE game_name = '$game_name'";
+
                       // Executing the query
                       $access_logo_exe = mysqli_query($db, $game_exp);
+
                       // Result
                       $game_access_logo = $access_logo_exe->fetch_assoc();
+
                       $game_logo = $game_access_logo['game_logo'];
             ?>
 
@@ -260,37 +323,71 @@
 
 
 <script>
-    window.onload = function () {
+
     var a = <?php echo json_encode($report_array_1); ?>;
-    var chart = new CanvasJS.Chart("chartContainer", {
+    var c = <?php echo json_encode($report_array_2); ?>;
+
+    var chart1 = new CanvasJS.Chart("chartContainer1", {
+
           animationEnabled: true,
-          theme: "light2", // "light1", "light2", "dark1", "dark2"
-          title:{
-            text: "Your Monthly Purchases"
-          },
-          axisY: {
-            title: "Purchases of Player ($)"
-          },
-          data: [{
-            type: "column",
-            dataPoints: [
-              { y: a[0],  label: "Jan" },
-              { y: a[1],  label: "Feb" },
-              { y: a[2],  label: "Mar" },
-              { y: a[3],  label: "Apr" },
-              { y: a[4],  label: "May" },
-              { y: a[5],  label: "June" },
-              { y: a[6],  label: "July" },
-              { y: a[7],  label: "Aug" },
+        	theme: "dark2", // "light1", "light2", "dark1", "dark2"
+        	title:{
+        		text: "Your Monthly Purchases"
+        	},
+        	axisY: {
+        		title: "Purchases of Player ($)"
+        	},
+        	data: [{
+        		type: "column",
+        		dataPoints: [
+        			{ y: a[0],  label: "Jan" },
+        			{ y: a[1],  label: "Feb" },
+        			{ y: a[2],  label: "Mar" },
+        			{ y: a[3],  label: "Apr" },
+        			{ y: a[4],  label: "May" },
+        			{ y: a[5],  label: "June" },
+        			{ y: a[6],  label: "July" },
+        			{ y: a[7],  label: "Aug" },
               { y: a[8],  label: "Sep" },
               { y: a[9],  label: "Oct" },
               { y: a[10], label: "Nov" },
               { y: a[11], label: "Dec" }
+        		]
+        	}]
+        });
+
+    var chart2 = new CanvasJS.Chart("chartContainer2", {
+
+          animationEnabled: true,
+          theme: "dark2", // "light1", "light2", "dark1", "dark2"
+          title:{
+            text: "Your Monthly Session"
+          },
+          axisY: {
+            title: "Number of times of playing game"
+          },
+          data: [{
+            type: "column",
+            dataPoints: [
+              { y: c[0],  label: "Jan" },
+              { y: c[1],  label: "Feb" },
+              { y: c[2],  label: "Mar" },
+              { y: c[3],  label: "Apr" },
+              { y: c[4],  label: "May" },
+              { y: c[5],  label: "June" },
+              { y: c[6],  label: "July" },
+              { y: c[7],  label: "Aug" },
+              { y: c[8],  label: "Sep" },
+              { y: c[9],  label: "Oct" },
+              { y: c[10], label: "Nov" },
+              { y: c[11], label: "Dec" }
             ]
           }]
         });
-      chart.render();
-    }
+
+    chart1.render();
+    chart2.render();
+
 </script>
 
 </body>

@@ -19,8 +19,8 @@
     // Getting company name
     $company_name = $_SESSION['company_name']['company_name'];
     // Inserting query for game table
-    $insert_company_query = "INSERT INTO game (game_name, game_price, platform, game_category, game_logo, rating, num_of_ratings, system_requirements, release_date, company_name)
-                             VALUES ('$game_name', $game_price, '$game_platform', '$game_category', '$game_logo', 0, 0, '$system_requirements', '$release_date', '$company_name');";
+    $insert_company_query = "INSERT INTO game (game_name, game_price, platform, game_category, game_logo, system_requirements, release_date, company_name)
+                             VALUES ('$game_name', $game_price, '$game_platform', '$game_category', '$game_logo', '$system_requirements', '$release_date', '$company_name');";
     // Executes the query
     $result0 = mysqli_query($db, $insert_company_query);
     // If the game is already exists

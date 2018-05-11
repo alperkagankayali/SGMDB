@@ -1,19 +1,27 @@
 <?php
     include("db.php");
     session_start();
+
     $search =  mysqli_escape_string($db, $_POST['search']);
+
     // Acessing player id
     $player_id = $_SESSION['player_id'];
+
     // Accessing the friend starting with
     $access_players_query = "SELECT * FROM player WHERE username LIKE '%$search%' OR firstname LIKE '%$search%' OR lastname LIKE '%$search%' OR middlename LIKE '%$search%'";
+
     // Execute query
     $result_query1 = mysqli_query($db, $access_players_query);
+
     // Numbero f rows
     $counter1 = mysqli_num_rows($result_query1);
+
     // Accessing the game names starting with
     $access_games_query = "SELECT * FROM game WHERE game_name LIKE '%$search%'";
+
     // Execute query
     $result_query2 = mysqli_query($db, $access_games_query);
+
     // Numberof rows
     $counter2 = mysqli_num_rows($result_query2);
 ?>
@@ -122,6 +130,7 @@
                     {
                         // Result
                         $games = $result_query2->fetch_assoc();
+
                         $game_name = $games['game_name'];
                         $game_logo = $games['game_logo'];
                         $game_price = $games['game_price'];
@@ -144,6 +153,7 @@
                     {
                         // Result
                         $games = $result_query2->fetch_assoc();
+
                         $game_name = $games['game_name'];
                         $game_logo = $games['game_logo'];
                         $game_price = $games['game_price'];
@@ -177,13 +187,16 @@
                     {
                         // Result
                         $player = $result_query1->fetch_assoc();
+
                         // getting other attributes of player
                         $player_firstname = $player['firstname'];
                         $player_midname = $player['middlename'];
                         $player_lastname = $player['lastname'];
                         $player_picture = $player['profile_picture'];
                         $player_email = $player['email'];
+
                         $player_id2 = $player['player_id'];
+
                         // Checking if already friend
                         $count = mysqli_num_rows(mysqli_query($db, "SELECT * FROM friendship WHERE player_id1 = $player_id AND player_id2 = $player_id2;"));
                 ?>
@@ -227,15 +240,19 @@
                     {
                         // Result
                         $player = $result_query1->fetch_assoc();
+
                         // getting other attributes of player
                         $player_firstname = $player['firstname'];
                         $player_midname = $player['middlename'];
                         $player_lastname = $player['lastname'];
                         $player_picture = $player['profile_picture'];
                         $player_email = $player['email'];
+
                         $player_id2 = $player['player_id'];
+
                         // Checking if already friend
                         $count = mysqli_num_rows(mysqli_query($db, "SELECT * FROM friendship WHERE player_id1 = $player_id AND player_id2 = $player_id2;"));
+
                 ?>
                 <div class="w3-container w3-border w3-margin">
                   <a href="#"><img class="w3-margin-top w3-left" src=<?php if($player_picture != null) echo $player_picture; else echo "images/icons/avatar.png"; ?> style="width:100%"></a>
@@ -286,17 +303,21 @@
 
   <!--Scripts-->
   <script>
+
       // Slideshow
       var slideIndex = 1;
       showDivs(slideIndex);
+
       function plusDivs(n)
       {
         showDivs(slideIndex += n);
       }
+
       function currentDiv(n)
       {
         showDivs(slideIndex = n);
       }
+
       function showDivs(n)
       {
         var i;
@@ -312,6 +333,7 @@
         {
            dots[i].className = dots[i].className.replace(" w3-white", "");
         }
+
         x[slideIndex-1].style.display = "block";
         dots[slideIndex-1].className += " w3-white";
       }

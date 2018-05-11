@@ -1,4 +1,9 @@
 <?php
+    
+    if (session_status() == PHP_SESSION_NONE) {
+        include("db.php");
+        session_start();
+    }
 
     // ID of the player logged in
     $player_id = $_SESSION['player_id'];
@@ -7,8 +12,11 @@
     $access_notif = "SELECT NT.notification_text, NT.notification_date, NT.notification_id FROM notify as NR NATURAL JOIN notification as NT
                      WHERE NR.player_id = $player_id AND NT.notification_status = 0";
 
+    if($access_notif != NULL){
+        $access_notif_exe = mysqli_query($db, $access_notif);
+    }
     // Executing the query
-    $access_notif_exe = mysqli_query($db, $access_notif);
+    
 
     // Number of rows
     $count = mysqli_num_rows($access_notif_exe);
@@ -24,7 +32,7 @@
         $notifications = $access_notif_exe->fetch_assoc();
         $notification_id = $notifications['notification_id'];
 ?>
-      <a href="#" value="<?php mysqli_query($db, "UPDATE notification SET notification_status = 1 WHERE notification_id = $notification_id"); ?>" class="w3-bar-item w3-button"><?php echo $notifications['notification_text']; ?><span class="w3-right w3-small"><?php echo $notifications['notification_date']; ?></span></a>
+      <a href="process_read_notification.php?notif=<?php echo $notification_id; ?>&notif_text=<?php echo $notifications['notification_text']; ?>" class="w3-bar-item w3-button"><?php echo $notifications['notification_text']; ?><span class="w3-right w3-small"><?php echo $notifications['notification_date']; ?></span></a>
 
 <?php
     }

@@ -1,10 +1,11 @@
 <?php
     include("db.php");
     session_start();
-    
+
     // Checking for page interval
     $max_filled = null;
     $min_filled = null;
+
     if(isset($_POST['max_price']))
     {
         if(mysqli_escape_string($db, $_POST['max_price'] != ''))
@@ -15,26 +16,32 @@
         if(mysqli_escape_string($db, $_POST['min_price'] != ''))
           $min_filled = (mysqli_escape_string($db, $_POST['min_price']) !== null);
     }
+
     if($max_filled && $min_filled)
     {
         $max_price = mysqli_escape_string($db, $_POST['max_price']);
         $min_price = mysqli_escape_string($db, $_POST['min_price']);
+
         $access_query = "SELECT * FROM game WHERE game_price BETWEEN $min_price AND $max_price";
+
     }
     else if($max_filled && !$min_filled)
     {
         $max_price = mysqli_escape_string($db, $_POST['max_price']);
+
         $access_query = "SELECT * FROM game WHERE game_price <= $max_price";
     }
     else if($min_filled && !$max_filled)
     {
         $min_price = mysqli_escape_string($db, $_POST['min_price']);
+
         $access_query = "SELECT * FROM game WHERE game_price >= $min_price";
     }
     else if(isset($_GET['category']))                     // Category sorting
     {
         // category chosen
         $category = $_GET['category'];
+
         if($category != "Free to play")
         {
             // Query for accessing all the games with the given category in the system
@@ -50,6 +57,7 @@
     {
         // platform chosen
         $platform = $_GET['platform'];
+
         $access_query = "SELECT * FROM game WHERE platform LIKE '%$platform%'";
     }
     else
@@ -57,13 +65,18 @@
         // Query for accessing all the games in the system
         $access_query = "SELECT * FROM game";
     }
+
     // Executing the Query
     $result_query = mysqli_query($db, $access_query);
+
     // Number of games
     $counter = mysqli_num_rows($result_query);
+
     // For Image Slider - Top 3 Games with most ratings
-    $top_games_sql = "SELECT * FROM game ORDER BY rating DESC";
+    $top_games_sql = "SELECT game_name, game_logo, game_price FROM (rating NATURAL JOIN rate) NATURAL JOIN game ORDER BY rating DESC";
+
     $access_top_games = mysqli_query($db, $top_games_sql);
+
     $num_rows = mysqli_num_rows($access_top_games);
 ?>
 
@@ -122,7 +135,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo ("signup/uploads/". $_SESSION['player_pp']); else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->
@@ -216,6 +229,7 @@
                   for($c = 0; $c < 3; $c++)
                   {
                      $top_games = $access_top_games->fetch_assoc();
+
                      $top_game_name = $top_games['game_name'];
                      $top_game_logo = $top_games['game_logo'];
                      $top_game_price = $top_games['game_price'];
@@ -267,6 +281,7 @@
                       {
                           // Accessed games
                           $games = $result_query->fetch_assoc();
+
                           $game_name = $games['game_name'];
                           $game_logo = $games['game_logo'];
                           $game_price = $games['game_price'];
@@ -291,6 +306,7 @@
                       {
                           // Accessed games
                           $games = $result_query->fetch_assoc();
+
                           $game_name = $games['game_name'];
                           $game_logo = $games['game_logo'];
                           $game_price = $games['game_price'];
@@ -310,38 +326,15 @@
           </div>
           <!--End of Game grid-->
 
+
+          <!-- Bundles -->
+          <?php include("bundle-info-store.php"); ?>
+
       <!-- End Middle Column -->
       </div>
 
       <!-- Right Column -->
-      <div class="w3-col m2">
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
-
-          </div>
-        </div>
-
-        <br>
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
-
-          </div>
-        </div>
-
-      <!-- End Right Column -->
-      </div>
+      <?php include("upcoming-events.php"); ?>
 
     <!-- End Grid -->
     </div>
@@ -353,17 +346,21 @@
 
   <!--Scripts-->
   <script>
+
       // Slideshow
       var slideIndex = 1;
       showDivs(slideIndex);
+
       function plusDivs(n)
       {
         showDivs(slideIndex += n);
       }
+
       function currentDiv(n)
       {
         showDivs(slideIndex = n);
       }
+
       function showDivs(n)
       {
         var i;
@@ -379,6 +376,7 @@
         {
            dots[i].className = dots[i].className.replace(" w3-white", "");
         }
+
         x[slideIndex-1].style.display = "block";
         dots[slideIndex-1].className += " w3-white";
       }

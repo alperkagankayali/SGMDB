@@ -4,21 +4,20 @@
 
     $current_year = date("Y");
 
-    // Accessing the games of the company logged in
-    $company_name = $_SESSION['company_name']['company_name'];
-    $company_rating = $_SESSION['company_name']['rating'];
-    $company_logo = $_SESSION['company_name']['company_logo'];
+    // Access the name and logo of the game from requested page
+    $game_name = $_GET['game_name'];
+    $game_logo = mysqli_query($db, "SELECT game_logo FROM game WHERE game_name = '$game_name'")->fetch_assoc()['game_logo'];
 
     /*
-        Monthly sales company
+        Monthly sales of the game
     */
     $report_query_1 = "
                       SELECT month, sum(cost)
                       FROM (
 
                             SELECT MONTH(payment_date) as month, cost
-                            FROM payment NATURAL JOIN (buyGame NATURAL JOIN game)
-                            WHERE company_name = '$company_name' AND YEAR(payment_date) = $current_year
+                            FROM payment NATURAL JOIN buyGame
+                            WHERE game_name = '$game_name' AND YEAR(payment_date) = $current_year
 
                             ) as temp
 
@@ -34,13 +33,12 @@
 
         $report_array_1[(int)$arr_1['month'] - 1] = round($arr_1['sum(cost)']) + 0;
     }
-
 ?>
 
 <!DOCTYPE html>
 
 <html>
-<title>Company Profile</title>
+<title>Sale Statistics</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -71,8 +69,6 @@
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
           <a href="published_games.php" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
           <a href="published_games.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Published Games</a>
-          <a href="news_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
-          <a href="about_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
@@ -90,13 +86,13 @@
 <!-- Content -->
 <div class="w3-content white-font" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
     <div class="w3-panel">
-    <h1><br>Company Profile</h1>
+    <h1><br>Sale Statistics</h1>
     </div>
 
-    <img align="Middle" class="w3-image" src=<?php if($company_logo != '') echo $company_logo; else echo "images/icons/company_logo.png";?> alt="Me" width="400" height="300" >
+    <img align="Middle" class="w3-image" src=<?php echo $game_logo; ?> alt="Me" width="400" height="300" >
 
     <div class="w3-panel">
-        <h4><br><?php echo $company_name ?></h4>
+        <h4><br><?php echo $game_name ?></h4>
     </div>
 
 
@@ -115,12 +111,7 @@
     <div class="w3-col m7">
 
       <!-- Chart -->
-      <div id="chartContainer1" style="height: 370px; width: 100%; margin: 0px auto; margin-left: 45px"></div>
-
-      <br>
-      <br>
-
-      <div id="chartContainer2" style="height: 370px; width: 100%; margin: 0px auto; margin-left: 45px"></div>
+      <div id="chartContainer1" style="height: 370px; width: 100%; margin: 0px auto;"></div>
 
     <!-- End Middle Column -->
     </div>
@@ -144,10 +135,10 @@
             animationEnabled: true,
             theme: "dark2", // "light1", "light2", "dark1", "dark2"
             title:{
-              text: "Monthly Sales"
+              text: "Monthly Sales of <?php echo $game_name;?>"
             },
             axisY: {
-              title: "Sales ($)"
+              title: "Amount of Sales ($)"
             },
             data: [{
               type: "column",

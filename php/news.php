@@ -2,7 +2,7 @@
     include("db.php");
     session_start();
 
-     // Query for getting the games of company
+    // Query for getting the games of company
     $access_news_query = "SELECT *
                            FROM news;";
 
@@ -67,7 +67,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo ("signup/uploads/". $_SESSION['player_pp']); else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->
@@ -136,11 +136,7 @@
       </div>
 
       <!-- Middle Column -->
-       <div class="w3-col m7" style="overflow:auto">
-
-        <div class="w3-panel white-font">
-          <h4><br>Latest News</h4>
-        </div>
+      <div class="w3-col m7" style="overflow:auto">
 
         <?php
             for($i = 0; $i < $counter; $i++)
@@ -157,38 +153,12 @@
             }
         ?>
 
+
       <!-- End Middle Column -->
       </div>
 
       <!-- Right Column -->
-      <div class="w3-col m2">
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
-
-          </div>
-        </div>
-
-        <br>
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
-
-          </div>
-        </div>
-
-      <!-- End Right Column -->
-      </div>
+      <?php include("upcoming-events.php"); ?>
 
     <!-- End Grid -->
     </div>

@@ -7,13 +7,15 @@
 
     // Acessing the wallet input
     $payment_method = mysqli_escape_string($db, $_POST['payment_method']);
-    $card_number = mysqli_escape_string($db, $_POST['card_number']);
+    $card_number =  mysqli_escape_string($db, $_POST['card_number']);
     $expiration_date = mysqli_escape_string($db, $_POST['wallet_exp_date']);
     $security_code = mysqli_escape_string($db, $_POST['security_code']);
 
+    echo $card_number;
+
     // Insert query for wallet
     $insert_wallet = "INSERT INTO wallet (balance, payment_method, card_number, expiration_date, security_code, player_id)
-                      VALUES (0, '$payment_method', $card_number, '$expiration_date', $security_code, $player_id)";
+                      VALUES (0, '$payment_method', '$card_number', '$expiration_date', $security_code, $player_id)";
 
 
     // Executing the query
