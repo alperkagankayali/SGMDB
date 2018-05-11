@@ -179,7 +179,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo ("signup/uploads/". $_SESSION['player_pp']); else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php include("picture_load.php"); ?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->
@@ -197,7 +197,7 @@
     <h1><br>Profile</h1>
     </div>
 
-    <img align="Middle" class="w3-image" src=<?php if($player_picture != '') echo ("signup/uploads/". $player_picture); else echo "images/icons/avatar.png";?> alt="Me" width="400" height="300" >
+    <img align="Middle" class="w3-image" src=<?php include("picture_load.php"); ?> alt="Me" width="400" height="300" >
 
     <div class="w3-panel">
       <h4><br><?php echo $player_firstname." ".$player_midname." ".$player_lastname; ?></h4>
