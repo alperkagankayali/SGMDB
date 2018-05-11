@@ -78,6 +78,8 @@ public class Driver
 
             String [] gameBundleAttributes = {"bundle_id-INT NOT NULL", "game_name-VARCHAR(255) NOT NULL", "FOREIGN KEY(game_name) REFERENCES game(game_name)", "FOREIGN KEY(bundle_id) REFERENCES bundle(bundle_id)"};
 
+            String [] newsAttributes = {"news_id-INT AUTO_INCREMENT", "header-VARCHAR(255)", "text TEXT", "PRIMARY KEY(news_id)"};
+
 //			dropTable("writes");
 //          dropTable("rate");
 //			dropTable("wishlist");
@@ -102,9 +104,11 @@ public class Driver
 //			dropTable("event");
             //dropTable("bundle");
             //dropTable("gameBundle");
+            //dropTable("news");
 
             createTable("bundle", bundleAttributes);
             createTable("gameBundle",gameBundleAttributes);
+            createTable("news", newsAttributes);
 //			createTable("event", eventAttributes);
 //			createTable("notification", notificationAttributes);
 //			createTable("rating", ratingAttributes);
