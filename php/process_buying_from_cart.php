@@ -14,6 +14,13 @@
       // number of games in cart
       $counter = mysqli_num_rows($access_exe);
 
+      if($counter == 0)
+      {
+          echo "<h3> Your cart is empty! </h3>";
+
+          echo "<a href = 'cart.php'> Go back to your cart </a>";
+      }
+
       // Total price of the games
       $total_price = 0;
 
