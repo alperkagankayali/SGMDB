@@ -77,7 +77,10 @@ public class Driver
             String [] bundleAttributes = {"bundle_id-INT AUTO_INCREMENT NOT NULL", "PRIMARY KEY(bundle_id)"};
 
             String [] gameBundleAttributes = {"bundle_id-INT NOT NULL", "game_name-VARCHAR(255) NOT NULL", "FOREIGN KEY(game_name) REFERENCES game(game_name)", "FOREIGN KEY(bundle_id) REFERENCES bundle(bundle_id)"};
+            
+            String [] newsAttributes = {"news_id-INT AUTO_INCREMENT", "header-VARCHAR(255)", "text TEXT", "PRIMARY KEY(news_id)"};
 
+            dropTable("news");
             dropTable("rate");
             dropTable("rating");
             dropTable("writes");
@@ -127,6 +130,8 @@ public class Driver
             createTable("wishlist", wishListAttributes);
             createTable("rate", rateAttributes);
             createTable("writes", writesAttributes);
+            createTable("news", newsAttributes);
+
 
             String trigger = "CREATE TRIGGER updateBuyGame AFTER INSERT ON library "
                     + "FOR EACH ROW "
