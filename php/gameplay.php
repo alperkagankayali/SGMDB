@@ -17,7 +17,11 @@
     $player_ids = mysqli_query($db, "SELECT player_id2 FROM friendship WHERE player_id1 = $player_id");
     $player_ids_arr = array();
 
+    // New Session ID - Manually auto incremented
     $session_id = mysqli_query($db, "SELECT MAX(session_id) as max_session FROM play;")->fetch_assoc()['max_session'] + 1;
+
+    // Setting sender player's status to 2 - In Game
+    mysqli_query($db, "UPDATE player SET status = 2 WHERE player_id = $player_id");
 
     if(isset($_POST['check']))
     {
@@ -32,10 +36,13 @@
             if(($check_arr[$i] == "on") == 1)
             {
                   array_push($player_ids_arr, $player_id2);
+
                   // Inserting game session data into play table
                   $insert_gameplay = "INSERT INTO play (session_id, player_id1, player_id2, game_name, session_date, session_time) VALUES ($session_id, $player_id, $player_id2, '$game_name', '$start_date', '$start_time');";
 
                   mysqli_query($db, $insert_gameplay);
+
+                  mysqli_query($db, "UPDATE player SET status = 2 WHERE player_id = $player_id2");
             }
         }
     }
