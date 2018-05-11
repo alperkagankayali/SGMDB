@@ -45,6 +45,7 @@
 
             //echo $result;
 
+
             // SUCCESSFUL PURCHASE
             return "<h3> Successful purchase! </h3> <a href = 'library.php'> Go back to your library </a>";
         }

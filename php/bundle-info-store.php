@@ -20,10 +20,12 @@ for($j = 0; $j < $bundle_count; $j++){
   echo "<div class=\"w3-container w3-card w3-border w3-round w3-margin white-font\"><br>
                 <span class=\"w3-right w3-opacity\"></span>";
   $bundle_price = 0;
+
   $gift_price = 0;
   $game_names = array();
   $gift_names = array();
   $total_row_size = 0;
+
   for($i = 0; $i < $game_count; $i++)
   {
     
@@ -32,6 +34,7 @@ for($j = 0; $j < $bundle_count; $j++){
     $game_name =$game_info['game_name'];
     $game_price = $game_info['game_price'];
     $gift_price += $game_price;
+
     
                 
     echo "<div class=\"w3-col l3 s6\">";
@@ -50,13 +53,16 @@ for($j = 0; $j < $bundle_count; $j++){
 
     // Number of rows
     $row_size = mysqli_num_rows($result_check);
+
     $total_row_size += $row_size;
+
 
     if($row_size == 0){
         $bundle_price += $game_price;
         $count++; //if count=0 can buy all games
         $game_names[$game_name] = $game_price*80/100; //add games not contained in users library to this array
     }
+
     $gift_names[$game_name] = $game_price*80/100;
   
   }

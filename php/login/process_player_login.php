@@ -3,6 +3,9 @@
     session_start();
 
 
+    // Getting date from system
+    $date = date("Y-m-d");
+
     // Accessing the login input fields
     $player_usr_email = mysqli_escape_string($db, $_POST['p_usr_email']);
     $player_password = mysqli_escape_string($db, $_POST['p_log_pass']);
@@ -22,10 +25,20 @@
 
     // Creating request for player_id
     $_SESSION['player_id'] = $player['player_id'];
+    $_SESSION['player_pp'] = $player['profile_picture'];
 
     // Checking whether the result of query is empty or not
     if($count_rows > 0)
     {
+        // inserting the last-active date
+        $update_date = "UPDATE stats SET last_active_date = '$date' WHERE player_id='".$player['player_id']."' ";
+
+        $update_status = "UPDATE player SET status = 1 WHERE player_id='".$player['player_id']."' ";
+
+        // Executing the query
+        mysqli_query($db, $update_date);
+        mysqli_query($db, $update_status);
+
         header("location: ../store.php");
 
         exit();

@@ -24,6 +24,10 @@
     // Converting into hour and minute
     $duration = round($duration / 3600, 3);
 
+
+    // Setting sender player's status to 2 - In Game
+    mysqli_query($db, "UPDATE player SET status = 1 WHERE player_id = $player_id");
+
     // Updating game experience
     $update_play_hour = "UPDATE game_experience SET play_hour = play_hour + $duration WHERE player_id = $player_id AND game_name = '$game_name'";
 
@@ -55,6 +59,18 @@
 
                 mysqli_query($db, $update_game_experience);
             }
+        }
+    }
+
+
+    // Setting players' status from 2 - In Game to 1 - Online
+    if($player_ids != null)
+    {
+        for($k = 0; $k < sizeOf($player_ids); $k++)
+        {
+            $player_id_i = $player_ids[$k];
+
+            mysqli_query($db, "UPDATE player SET status = 1 WHERE player_id = $player_id_i;");
         }
     }
 

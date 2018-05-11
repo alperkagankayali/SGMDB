@@ -33,5 +33,7 @@
         echo "Bundle created successfully";
 
     }
+
     echo "<br><a href = 'published_games.php'> Go back </a>";
+
 ?>

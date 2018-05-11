@@ -59,6 +59,7 @@
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
             <img src=<?php include("picture_load.php"); ?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+
          </a>
 
          <!--Search-->
