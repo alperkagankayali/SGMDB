@@ -41,9 +41,10 @@
             // Executing the query
             $result = mysqli_query($db, $insert_to_library);
 
-            echo $insert_to_library;
+            //echo $insert_to_library;
 
-            echo $result;
+            //echo $result;
+
 
             // SUCCESSFUL PURCHASE
             return "<h3> Successful purchase! </h3> <a href = 'library.php'> Go back to your library </a>";

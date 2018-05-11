@@ -16,7 +16,20 @@
       	//echo $price;
       	$buying_result[$game_name] = buyGame($game_name, $price, $player_id);
       }
-      var_dump($buying_result);
-      //header("location: buying_result.php");
+
+      foreach($buying_result as $game_name => $buying_result)
+      {
+            if($buying_result == "<h3> Successful purchase! </h3> <a href = 'library.php'> Go back to your library </a>")
+                  echo "Succesfully purchased " . $game_name . " with %20 discount<br>";
+            else if( $buying_result == "<h3> You do not have any wallet! </h3> <a href = 'profile.php'> Go to your profile </a>"){
+
+                  echo $buying_result;
+                  break;
+            }
+            else echo $buying_result;
+      }
+
+      echo "<br><a href = 'library.php'> Go back to your library </a>";
+
 
 ?>

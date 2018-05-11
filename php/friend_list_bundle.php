@@ -4,26 +4,60 @@
 
     // Acessing the player id who has logged on
     $player_id = $_SESSION['player_id'];
-    $game_name = $_GET['game_name'];
 
-    // Access all friends of the player
 
-    $access_friends = "SELECT F.player_id2 FROM friendship as F WHERE player_id1 = $player_id
-                      AND EXISTS (SELECT * FROM library WHERE game_name = '$game_name' AND player_id = F.player_id2)";
+    // Accessing game name and game price
+    $Text = urldecode($_REQUEST['game_info']);
+    //echo $Text;
+    $game_names = json_decode($Text);
+    //print_r($game_names);
+    $array = json_decode(json_encode($game_names), True);
+    //echo (array_values($array)[0]);
 
+    // Access all friends of the player, who do not have the chosen games
+    $access_friends = "SELECT F.player_id2 FROM friendship as F
+                      WHERE F.player_id1 = $player_id AND
+                      NOT EXISTS (SELECT * FROM library as L
+                                  WHERE L.player_id = F.player_id2 AND";
+
+    //var_dump($array);
+    foreach($array as $game_name => $price){
+        //echo $price;
+        $access_friends = $access_friends . " L.game_name = '$game_name' AND";
+      }
+
+
+      $Text = json_encode($array);
+      $requestText = urlencode($Text);
+
+      echo "size " . sizeof($array);
+      if(!empty($array))
+        $access_friends = substr($access_friends, 0, -3);
+      else
+        $access_friends = substr($access_friends, 0, -4);
+
+
+      $access_friends = $access_friends . ");";
+    //$access_friends = $access_friends . ");"; 
+    /*echo "<br>";
+    echo $access_friends;*/
 
     // Execute the query
     $result_query = mysqli_query($db, $access_friends);
+    //echo "<br>";
 
+    //var_dump($result_query);
     // Number of rows
     $counter = mysqli_num_rows($result_query);
+
+
 ?>
 
 
 <!DOCTYPE html>
 
 <html>
-<title>Online Friends</title>
+<title>List of Friends</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -89,7 +123,7 @@
 <!-- Content -->
 <div class="w3-content white-font" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
     <div class="w3-panel">
-    <h1><br>Online Friends</h1>
+    <h1><br>Friends do not have the bundle</h1>
     </div>
 
 
@@ -101,38 +135,34 @@
     <!-- Middle Column -->
     <div class="w3-col m7">
 
-      <form action="gameplay.php?game_name=<?php echo $game_name; ?>" method="post">
+
       <?php
+        //echo $access_friends;
+        //echo $counter;
           for($i = 0; $i < $counter; $i++)
           {
               // Result
               $result = $result_query->fetch_assoc();
 
-              $player_id2 = $result['player_id2'];
+              $player_id2 = $result['player_id2'];    //friend id
 
-
-              $firstname = mysqli_query($db, "SELECT firstname FROM player WHERE player_id = $player_id2 AND status = 1")->fetch_assoc()['firstname'];
-              $midname = mysqli_query($db, "SELECT middlename FROM player WHERE player_id = $player_id2 AND status = 1")->fetch_assoc()['middlename'];
-              $lastname = mysqli_query($db, "SELECT lastname FROM player WHERE player_id = $player_id2 AND status = 1")->fetch_assoc()['lastname'];
-              $profile_picture = mysqli_query($db, "SELECT profile_picture FROM player WHERE player_id = $player_id2 AND status = 1")->fetch_assoc()['profile_picture'];
-
-              if($firstname == null)
-                  continue;
+              $firstname = mysqli_query($db, "SELECT firstname FROM player WHERE player_id = $player_id2")->fetch_assoc()['firstname'];
+              $midname = mysqli_query($db, "SELECT middlename FROM player WHERE player_id = $player_id2")->fetch_assoc()['middlename'];
+              $lastname = mysqli_query($db, "SELECT lastname FROM player WHERE player_id = $player_id2")->fetch_assoc()['lastname'];
+              $profile_picture = mysqli_query($db, "SELECT profile_picture FROM player WHERE player_id = $player_id2")->fetch_assoc()['profile_picture'];
       ?>
-
         <div class="w3-container w3-card w3-round w3-margin"><br>
-          <input type="checkbox" class="w3-left" name="check[]"></input>
           <img src=<?php if($profile_picture != null) echo $profile_picture; else echo "images/icons/avatar.png";?> alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-          <!--<span class="w3-right w3-opacity">1 min</span><-->
           <h4><?php echo $firstname." ".$midname." ".$lastname; ?></h4><br>
           <hr class="w3-clear">
+          <a href="process_buying_gift_bundle.php?receiver_id=<?php echo $player_id2 ?>&game_info=
+          <?php echo $requestText;?>" class="w3-button w3-block w3-theme-l1 w3-left-align">Send Gift ></a>
         </div>
 
       <?php
           }
       ?>
-      <button type="submit" class="w3-button w3-block w3-theme-l1 w3-left-align">Invite friend ></a>
-    </form>
+
     <!-- End Middle Column -->
     </div>
 

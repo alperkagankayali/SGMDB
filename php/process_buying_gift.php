@@ -12,6 +12,7 @@
       $game_price = $_GET['game_price'];
       $receiver_id = $_GET['receiver_id'];
 
+
       $_SESSION['buygame'] = buyGame($game_name, $game_price, $receiver_id);
 
 

@@ -24,6 +24,7 @@
     // Converting into hour and minute
     $duration = round($duration / 3600, 3);
 
+
     // Setting sender player's status to 2 - In Game
     mysqli_query($db, "UPDATE player SET status = 1 WHERE player_id = $player_id");
 
@@ -60,6 +61,7 @@
             }
         }
     }
+
 
     // Setting players' status from 2 - In Game to 1 - Online
     if($player_ids != null)
