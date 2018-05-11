@@ -31,7 +31,7 @@ public class Driver
 		try
 		{
 			String [] playerAttributes = {"player_id-INT AUTO_INCREMENT", "email-CHAR(255) UNIQUE", "username-CHAR(255) UNIQUE", "password-CHAR(255)", "firstname-VARCHAR(255)", "middlename-VARCHAR(255)",
-					"lastname-VARCHAR(255)", "birth_date-DATE", "profile_picture-VARCHAR(255)", "status-INT", "age-INT", "PRIMARY KEY(player_id)" };
+                    "lastname-VARCHAR(255)", "birth_date-DATE", "profile_picture-VARCHAR(255)", "profile_image-BLOB", "status-INT", "age-INT", "PRIMARY KEY(player_id)" };
 			
 			String [] companyAttributes = {"company_name-VARCHAR(255)", "company_email-VARCHAR(255) UNIQUE", "company_logo-VARCHAR(255)", "company_password-CHAR(255)", "rating-FLOAT", "PRIMARY KEY(company_name)"};
 			
