@@ -136,9 +136,12 @@
               echo " <h4>". $news['header']."</h4><br>";
               echo   "<hr class=\"w3-clear\">";
               echo "<p>". $news['text'] ."</p>";
-              echo  "<div class=\"w3-row-padding\" style=\"margin:0 -16px\">
-                </div>
-                </div>";
+              echo  "<div class=\"w3-row-padding\" style=\"margin:0 -16px\">";
+                
+              echo "<img src=\"". $news['news_image'] . "\" class=\"w3-right\">";
+              echo "</div>";
+              echo "<br> <h5> by ". $news['company_name']."</h5><br>";
+              echo "</div>";
             }
         ?>
 

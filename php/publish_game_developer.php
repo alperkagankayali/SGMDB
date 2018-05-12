@@ -68,7 +68,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
   <div class="w3-content" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
 
     <div class="w3-panel white-font w3-border">
-      <h1 style="margin:20px"><br>Publishing news</h1>
+      <h1 style="margin:20px"><br>Publishing game</h1>
     </div>
 
 
@@ -83,49 +83,105 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
 
           <div class="w3-row white-font">
 
-            <h1>Publishing news</h1>
-            <p>Please fill in this form to publish your news.</p>
+            <h1>Publish a game</h1>
+            <p>Please fill in this form to publish your game.</p>
             <hr>
             <div class="signup-w3ls">
               <div class="signup-agile1">
-                <form action="process_news_publish.php" method="post">
+                <form action="process_game_publish.php" method="post">
 
-                  <!-- Header -->
- <p>
-                    <div class="form-control">
-                      <label class="header">Header:</label>
-                      <div>
-                          <textarea placeholder= "Header" rows="1" cols="80" id="header" name="header" required=""></textarea>
-                        </div>
-                    </div>
-                  </p>
-
-
-                  <br>
-
-                  <!-- Text -->
+                  <!-- Game Name -->
                   <p>
                     <div class="form-control">
-                      <label class="header">Text:</label>
-                      <div>
-                          <textarea placeholder= "Text" rows="5" cols="80" id="text" name="text" required=""></textarea>
-                        </div>
+                      <label class="header">Name of the game:</label>
+                      <div class="nl">
+                          <input type="text" id="g_name" name="game_name" placeholder="Game name..." title="Please enter a game name" required="">
+                      </div>
                     </div>
                   </p>
 
                   <br>
 
-
-                  <!-- News Picture -->
-                    <p>
-                      <div class="form-control">
-                        <label class="header">News Image:</label>
-                        <div class="nl">
-                          <input id="news_image" type="text" name="news_image" placeholder="Logo URL" capture>
-                        </div>
+                  <!-- Game Price -->
+                  <p>
+                    <div class="form-control">
+                      <label class="header">Price:</label>
+                      <div class="nl">
+                          <input type="number" step="any" min="0" id="g_price" name="game_price" placeholder="Price..." title="Please enter your game price" required="">
                       </div>
-                    </p>
+                    </div>
+                  </p>
 
+                  <br>
+
+                  <!-- Game Platform -->
+                  <p>
+                    <div class="form-control">
+                      <label class="header">Platform:</label>
+                      <br>
+                      <label>
+                        <input type="checkbox" checked="checked" name="game_platform[]" value="Windows" style="margin-bottom:15px"> Windows
+                      </label>
+                      <label>
+                        <input type="checkbox" checked="checked" name="game_platform[]" value="Mac" style="margin-bottom:15px"> macOS
+                      </label>
+                      <label>
+                        <input type="checkbox" checked="checked" name="game_platform[]" value="Linux" style="margin-bottom:15px"> Linux
+                      </label>
+                    </div>
+                  </p>
+
+                  <br>
+
+                  <!-- Game Category -->
+                  <p>
+                    <div class="form-control">
+                      <label class="header">Category:</label>
+                      <div class="nl">
+                        <select name="game_category">
+                          <option value="-">--Select a category--</option>
+                          <option value="Action">Action</option>
+                          <option value="Adventure">Adventure</option>
+                          <option value="Casual">Casual</option>
+                          <option value="Indie">Indie</option>
+                          <option value="Multiplayer">Multiplayer</option>
+                          <option value="Racing">Racing</option>
+                          <option value="RPG">RPG</option>
+                          <option value="Simulation">Simulation</option>
+                          <option value="Sports">Sports</option>
+                          <option value="Strategy">Strategy</option>
+                        </select>
+                      </div>
+                    </div>
+                  </p>
+
+                  <br>
+
+                  <!-- Game Sys Requirements -->
+                  <p>
+                    <div class="form-control">
+                      <label class="header">System Requirements:</label>
+                      <div class="nl">
+                        <input id="g_sys_requirement" type="file" name="game_sys_requirements" placeholder="Textfile" required="" capture>
+                      </div>
+                    </div>
+                  </p>
+
+                  <br>
+
+                  <!-- Game Logo -->
+                  <p>
+                    <div class="form-control">
+                      <label class="header">Game Icon:</label>
+                      <div class="nl">
+                        <input id="g_logo" type="text" name="game_logo" placeholder="URL" required="" capture>
+                      </div>
+                    </div>
+                  </p>
+
+                  <br>
+
+                  <p>By publishing this game as a company you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 
                   <!-- Publish (Submit) -->
                   <input type="submit" class="publish" value="Publish">
@@ -185,7 +241,6 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
         x[slideIndex-1].style.display = "block";
         dots[slideIndex-1].className += " w3-white";
       }
-
       </script>
 
   </body>
