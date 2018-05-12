@@ -2,6 +2,7 @@
     include("db.php");
     session_start();
 
+    include("process_game_requests.php");
 ?>
 
 <!DOCTYPE html>

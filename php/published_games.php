@@ -160,7 +160,9 @@
 
 
           <a class="w3-right w3-button w3-border" href = "publish_game.php" style = "margin: 3px" ><br>Publish A Game</h4></a>
+
           <a class="w3-right w3-button w3-border" href = "publish_bundle.php" style = "margin: 3px"><br>Publish Bundle</h4></a>
+          <a class="w3-right w3-button w3-border" href = "game_discount.php" style = "margin: 3px" ><br>Make A Discount On A Game</h4></a>
           <a class="w3-right w3-button w3-border" href = "publish_news.php" style = "margin: 3px"><br>Publish News</h4></a>
 
           <br><br>

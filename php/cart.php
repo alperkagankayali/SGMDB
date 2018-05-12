@@ -44,6 +44,8 @@
 
     // number of games in cart
     $counter = mysqli_num_rows($access_exe);
+
+    include("process_game_requests.php");
 ?>
 
 <!DOCTYPE html>

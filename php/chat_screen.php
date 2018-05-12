@@ -18,6 +18,8 @@
     $messages_exec = mysqli_query($db, "SELECT * FROM message WHERE (player_id1 = $sender_id AND player_id2 = $receiver_id) OR (player_id1 = $receiver_id AND player_id2 = $sender_id)");
 
     $num_rows = mysqli_num_rows($messages_exec);
+
+    include("process_game_requests.php");
 ?>
 
 <!DOCTYPE html>

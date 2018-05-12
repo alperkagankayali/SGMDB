@@ -1,8 +1,3 @@
-<?php
-
-var_dump($_POST);
-?>
-
 <!DOCTYPE html>
 
 <html>
@@ -68,7 +63,29 @@ var_dump($_POST);
 
       </div>
   </div>
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+  include("db.php");
+  session_start();
+}
+if(isset($_GET['id'])){
+  //This is the place of the row that we clicked. For example, if we clicked the first row it will return one.
+  $id = $_GET['id'];
+  $events = "SELECT * FROM event WHERE event_id = '$id'";
+  $access_event = mysqli_query($db, $events);
+  $counter = mysqli_num_rows($access_event);
+  //echo $counter;
+  for($i = 0; $i < $counter; $i++){
+    $array = $access_event->fetch_assoc();
+    //var_dump($access_event->fetch_assoc());
+    $_SESSION['event_type'] = $array['event_type'];
+    $_SESSION['start_date'] = $array['start_date'];
+    $_SESSION['end_date'] = $array['end_date'];
 
+  }
+}
+//var_dump($_POST);
+?>
   <!-- Content -->
   <div class="w3-content" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
 
@@ -158,7 +175,16 @@ var_dump($_POST);
 
           <!--Game grid-->
           <div class="w3-row white-font">
+            <!-- First Row of the Middle Grid -->
+            <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
 
+                <h4><br>Event</h4>
+
+                <p class="w3-center">Event Type: <?php echo $_SESSION['event_type']; ?> </p>
+                <p class="w3-center">Start Date: <?php echo $_SESSION['start_date']; ?> </p>
+                <p class="w3-center">End Date: <?php echo $_SESSION['end_date']; ?> </p>
+
+            </div>
             <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
 
                 <h4><br>Bundles</h4>

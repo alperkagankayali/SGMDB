@@ -24,6 +24,8 @@
 
     // Numberof rows
     $counter2 = mysqli_num_rows($result_query2);
+
+    include("process_game_requests.php");
 ?>
 
 

@@ -7,16 +7,16 @@
     $game_name = $_GET['game_name'];
 
     // Access all friends of the player
-
     $access_friends = "SELECT F.player_id2 FROM friendship as F WHERE player_id1 = $player_id
                       AND EXISTS (SELECT * FROM library WHERE game_name = '$game_name' AND player_id = F.player_id2)";
-
 
     // Execute the query
     $result_query = mysqli_query($db, $access_friends);
 
     // Number of rows
     $counter = mysqli_num_rows($result_query);
+
+    include("process_game_requests.php");
 ?>
 
 
@@ -109,7 +109,6 @@
               $result = $result_query->fetch_assoc();
 
               $player_id2 = $result['player_id2'];
-
 
               $firstname = mysqli_query($db, "SELECT firstname FROM player WHERE player_id = $player_id2 AND status = 1")->fetch_assoc()['firstname'];
               $midname = mysqli_query($db, "SELECT middlename FROM player WHERE player_id = $player_id2 AND status = 1")->fetch_assoc()['middlename'];

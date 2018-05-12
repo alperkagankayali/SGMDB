@@ -25,6 +25,7 @@
     $game_sys_req = $game_information['system_requirements'];
     $game_release_date = $game_information['release_date'];
     $company_name = $game_information['company_name'];
+    $_SESSION['company_name'] = $company_name;
 
     // CHECKING if teh game is in the user's library
     $check_library = "SELECT * FROM library WHERE player_id = $player_id AND game_name = '$game_name';";
@@ -48,6 +49,8 @@
 
     // GETTING AVERAGE RATING
     $avg_rating = mysqli_query($db, "SELECT AVG(rating) as avgRating FROM rating NATURAL JOIN rate WHERE game_name = '$game_name'")->fetch_assoc()['avgRating'];
+
+    include("process_game_requests.php");
 ?>
 
 <!DOCTYPE html>
@@ -297,17 +300,17 @@
         <div class="w3-container w3-card w3-border w3-round w3-margin white-font w3w3-center"><br>
             <h4>SYSTEM REQUIREMENTS</h4><br>
             <hr class="w3-clear">
-
+            <?php include("sys_requirements_read.php"); ?>
             <div class="w3-row white-font">
                 <div class="w3-col l6 s6">
                   <div class="w3-container">
                       <h6>Minimum</h6>
                         <ul>
-                          <li><b>OS:</b> 64-bit Windows 7, 64-bit Windows 8 (8.1) or 64-bit Windows 10</li>
-                          <li><b>Processor:<b> Intel CPU Core i5-2500K 3.3GHz / AMD CPU Phenom II X4 940</li>
-                          <li><b>Memory:</b> 6 GB RAM</li>
-                          <li><b>Graphics:</b> Nvidia GPU GeForce GTX 660 / AMD GPU Radeon HD 7870</li>
-                          <li><b>Storage:</b> 35 GB available space</li>
+                          <li><b>OS:</b><?php echo $_SESSION['game_requirements'][0] ?> </li>
+                          <li><b>Processor:<b> <?php echo $_SESSION['game_requirements'][1] ?> </li>
+                          <li><b>Memory:</b> <?php echo $_SESSION['game_requirements'][2] ?> </li>
+                          <li><b>Graphics:</b> <?php echo $_SESSION['game_requirements'][3] ?> </li>
+                          <li><b>Storage:</b> <?php echo $_SESSION['game_requirements'][4] ?> </li>
                         </ul>
                   </div>
                 </div>
@@ -316,11 +319,11 @@
                   <div class="w3-container">
                       <h6>Recommended</h6>
                       <ul>
-                        <li><b>OS:</b> 64-bit Windows 7, 64-bit Windows 8 (8.1) or 64-bit Windows 10</li>
-                        <li><b>Processor:<b> Intel CPU Core i7 3770 3.4 GHz / AMD CPU AMD FX-8350 4 GHz</li>
-                        <li><b>Memory:</b> 8 GB RAM</li>
-                        <li><b>Graphics:</b> Nvidia GPU GeForce GTX 770 / AMD GPU Radeon R9 290</li>
-                        <li><b>Storage:</b> 35 GB available space</li>
+                        <li><b>OS:</b> <?php echo $_SESSION['game_requirements'][5] ?> </li>
+                        <li><b>Processor:<b> <?php echo $_SESSION['game_requirements'][6] ?> </li>
+                        <li><b>Memory:</b> <?php echo $_SESSION['game_requirements'][7] ?> </li>
+                        <li><b>Graphics:</b> <?php echo $_SESSION['game_requirements'][8] ?> </li>
+                        <li><b>Storage:</b> <?php echo $_SESSION['game_requirements'][9] ?> </li>
                       </ul>
                   </div>
                 </div>

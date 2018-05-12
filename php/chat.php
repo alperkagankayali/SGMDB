@@ -13,6 +13,8 @@
 
     // Number of rows
     $counter = mysqli_num_rows($result_query);
+
+    include("process_game_requests.php");
 ?>
 
 <!DOCTYPE html>

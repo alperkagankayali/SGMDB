@@ -78,7 +78,7 @@
     $access_top_games = mysqli_query($db, $top_games_sql);
 
     $num_rows = mysqli_num_rows($access_top_games);
- 
+
     include("process_game_requests.php");
 
 ?>
