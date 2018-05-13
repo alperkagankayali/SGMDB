@@ -27,6 +27,7 @@ if($counter > 0){
 		echo" <div class=\"w3-container w3-border white-font\"> ";
 		echo"            <p>Upcoming Events:</p> ";
 		echo"			 <img src=";
+		$_SESSION['event_id'] = $row['event_id'];
 		include("picture_load.php");
 		echo " alt=\" " . $row['event_type'] . "\" style=\"width:100%;\" id = $index> ";
 		echo"            <p><strong>" . $event . " " . $year. "</strong></p>";

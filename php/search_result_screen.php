@@ -95,7 +95,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->
@@ -148,9 +148,10 @@
                         $game_name = $games['game_name'];
                         $game_logo = $games['game_logo'];
                         $game_price = $games['game_price'];
+                        $_SESSION['game_name'] = $game_name;
                 ?>
                 <div class="w3-container w3-border w3-margin">
-                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $game_logo; ?> style="width:100%"></a>
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php include("picture_load.php"); ?> style="width:100%"></a>
                   <p><?php echo $game_name; ?><br><?php echo $game_price; ?> $ </p>
                 </div>
 
@@ -171,9 +172,10 @@
                         $game_name = $games['game_name'];
                         $game_logo = $games['game_logo'];
                         $game_price = $games['game_price'];
+                        $_SESSION['game_name'] = $game_name;
                 ?>
                 <div class="w3-container w3-border w3-margin">
-                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $game_logo; ?> style="width:100%"></a>
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php include("picture_load.php"); ?> style="width:100%"></a>
                   <p><?php echo $game_name; ?><br><?php echo $game_price; ?> $ </p>
                 </div>
 
@@ -215,7 +217,7 @@
                         $count = mysqli_num_rows(mysqli_query($db, "SELECT * FROM friendship WHERE player_id1 = $player_id AND player_id2 = $player_id2;"));
                 ?>
                 <div class="w3-container w3-border w3-margin">
-                  <a href="#"><img class="w3-margin-top w3-left" src=<?php if($player_picture != null) echo $player_picture; else echo "images/icons/avatar.png"; ?> style="width:100%"></a>
+                  <a href="#"><img class="w3-margin-top w3-left" src=<?php include("picture_load.php"); ?> style="width:100%"></a>
                   <h4><?php echo $player_firstname." ".$player_midname." ".$player_lastname; ?></h4>
                   <h5><?php echo $player_email ?></h5>
 
@@ -269,7 +271,7 @@
 
                 ?>
                 <div class="w3-container w3-border w3-margin">
-                  <a href="#"><img class="w3-margin-top w3-left" src=<?php if($player_picture != null) echo $player_picture; else echo "images/icons/avatar.png"; ?> style="width:100%"></a>
+                  <a href="#"><img class="w3-margin-top w3-left" src=<?php include("picture_load.php"); ?> style="width:100%"></a>
                   <h4><?php echo $player_firstname." ".$player_midname." ".$player_lastname; ?></h4>
                   <h5><?php echo $player_email ?></h5>
 
@@ -322,11 +324,14 @@
                   $news = $result_query3->fetch_assoc();
                   echo "<div class=\"w3-container w3-card w3-border w3-round w3-margin white-font\"><br>";
                 //<span class=\"w3-right w3-opacity\">02.04.2018</span>";
-                  echo " <h3>". $news['header']."</h3><br>";
+                  echo " <h4>". $news['header']."</h4><br>";
                   echo   "<hr class=\"w3-clear\">";
                   echo "<p>". $news['txt'] ."</p>";
                   echo  "<div class=\"w3-row-padding\" style=\"margin:0 -16px\">";
-                  echo "<img src=\"". $news['news_image'] . "\" class=\"w3-right\">";
+                  $_SESSION['news_id'] = $news['news_id'];  
+                  echo "<img src=";
+                  include("picture_load.php");
+                  echo " class=\"w3-right\">";
                   echo "</div>";
                   echo "<br> <h5> by ". $news['company_name']."</h5><br>";
                   echo "</div>";

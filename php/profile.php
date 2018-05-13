@@ -204,7 +204,9 @@
     <div class="w3-panel">
       <h4><br><?php echo $player_firstname." ".$player_midname." ".$player_lastname; ?></h4>
       <h6><br><?php echo $player_email; ?></h6>
-      <h4><br>Level <?php echo $level; ?></h4>
+      <a href="change_password.php" class="w3-left w3-margin-bottom w3-padding w3-border w3w3-button" style = "margin: 3px">Change password</a>
+      <a href="change_picture.php" class="w3-left w3-margin-bottom w3-padding w3-border w3w3-button" style = "margin: 3px">Change profile picture</a>
+      <h4><br><br>Level <?php echo $level; ?></h4>
       <h6><br>Last active date: <?php echo $last_active_date; ?></h6>
     </div>
 

@@ -2,22 +2,7 @@
     include("db.php");
     session_start();
 
-    echo "<br><br><br>";
-
-    // Access the id of the player 1 - sender player & player 2 - receiver player
-    $sender_id = $_SESSION['player_id'];
-    $receiver_id = $_GET['receiver_id'];
-    $sender_pp = null;
-    $receiver_pp = $_GET['receiver_pp'];
-
-    $receiver_username = mysqli_query($db, "SELECT username FROM player WHERE player_id = $receiver_id")->fetch_assoc()['username'];
-
-    if($_SESSION['player_pp'] != '') $sender_pp = ("signup/uploads/". $_SESSION['player_pp']); else $sender_pp = "images/icons/avatar.png";
-
-    // Messages between sender and receiver
-    $messages_exec = mysqli_query($db, "SELECT * FROM message WHERE (player_id1 = $sender_id AND player_id2 = $receiver_id) OR (player_id1 = $receiver_id AND player_id2 = $sender_id)");
-
-    $num_rows = mysqli_num_rows($messages_exec);
+    // Query for getting the games of company
 
     include("process_game_requests.php");
 ?>
@@ -25,7 +10,7 @@
 <!DOCTYPE html>
 
 <html>
-<title>Chat Screen</title>
+<title>News</title>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -43,17 +28,6 @@
     .search-form {margin:10px; margin-left:20px}
     .white-font {color:white}
     .background {background:url('images/bg.jpg')}
-    .container {
-    border: 2px solid #dedede;
-    background-color: #f1f1f1;
-    border-radius: 5px; padding: 10px; margin: 10px 0; }
-
-    .darker { border-color: #ccc;background-color: #ddd;}
-    .container::after {content: ""; clear: both; display: table;}
-    .container img { float: left; max-width: 60px; width: 100%; margin-right: 20px; border-radius: 50%; }
-    .container img.right { float: right; margin-left: 20px; margin-right:0;}
-    .time-right {float: right; color: #aaa;}
-    .time-left {float: left; color: #999;}
 </style>
 
 <!--*************************************************************************************************-->
@@ -87,7 +61,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo ("signup/uploads/". $_SESSION['player_pp']); else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->
@@ -103,76 +77,56 @@
   <div class="w3-content" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
 
     <div class="w3-panel white-font w3-border">
-      <h1 style="margin:20px"><br>CHAT CONTENT</h1>
+      <h1 style="margin:20px"><br>Change Password</h1>
     </div>
 
 
-  <!-- Page Container -->
+    <!-- Page Container -->
   <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
 
     <!-- The Grid -->
     <div class="w3-row">
 
       <!-- Middle Column -->
-      <div class="w3w3-center">
+      <div class="w3-col m20" style="overflow:auto">
 
-          <div class="w3-row white-font" style="overflow: scroll">
+                    <form action="process_change_password.php" method="post" enctype="multipart/form-data">
+                    <!-- Password -->
+                    <p>
+                      <div class="form-control" font color = "white">
+                        <label class="header" ><font color="white">Password:</font></label>
+                        <div class="nl">
+                          <input type="password" id="p_password" name="player_old_password" placeholder="Password" title="Please enter your password" required="">
+                        </div>
+                      </div>
+                    </p>
 
-              <div class="w3-panel white-font">
-                <h4 class="w3-left"><br>Chat with <u><?php echo $receiver_username; ?></u></h4>
-                <a href="process_clearing_chat.php?sender_id=<?php echo $sender_id; ?>&receiver_id=<?php echo $receiver_id; ?>" class="w3-right"> Clear Chat </a>
-              </div>
+                    <!-- Password -->
+                    <p>
+                      <div class="form-control">
+                        <label class="header"> <font color="white">New Password:</font></label>
+                        <div class="nl">
+                          <input type="password" id="p_password" name="player_password" placeholder="Password" title="Please enter your password" required="">
+                        </div>
+                      </div>
+                    </p>
 
-              <?php
-                  for($i = 0; $i < $num_rows; $i++)
-                  {
-                      $messages = $messages_exec->fetch_assoc();
 
-                      $message_text = $messages['message_text'];
-                      $message_date = $messages['message_date'];
-                      $sender = $messages['player_id1'];
-                      $receiver = $messages['player_id2'];
-                      
 
-                      if($sender == $sender_id)
-                      {
-              ?>
+                    <!-- Repeat password -->
+                    <p>
+                      <div class = "c3">
+                        <label for="psw-repeat"><b><font color="white">Repeat New Password</font></b></label>
+                      </div>
+                      <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+                    </p>
 
-              <div class="container darker background">
-                <img src=<?php include("picture_load.php"); ?> alt="Avatar" class="right" style="width:100%;">
-                <p class="w3-right"><?php echo $message_text; ?></p>
-                <span class="time-left w3-margin-top"><?php echo $message_date; ?></span>
-              </div>
-
-              <?php
-                      }
-                      else
-                      {
-              ?>
-
-              <div class="container background">
-                <img src=<?php $_SESSION['player_id2'] = $receiver_id; include("picture_load.php"); ?> alt="Avatar" style="width:100%;">
-                <p><?php echo $message_text; ?></p>
-                <span class="time-right w3-margin-top"><?php echo $message_date; ?></span>
-              </div>
-
-              <?php
-                      }
-                  }
-              ?>
-
-          </div>
+                    <!-- Submit -->
+                    <input type="submit" value="Change Password">
+                </form>
 
       <!-- End Middle Column -->
       </div>
-
-      <!--Message send-->
-      <form action="process_send_message.php?sender_id=<?php echo $sender_id; ?>&receiver_id=<?php echo $receiver_id; ?>&receiver_pp=<?php echo $receiver_pp; ?>" method="post">
-        <div class="w3-container w3-center w3-card w3-round w3-margin white-font w3w3-center">
-            <input class="w3-margin" type="text" id="text_review" name="chat_field" placeholder="Write a message..." style="width: 80%">
-            <input type="submit" class="send" value="Send">
-        </div>
-      </form>
 
     <!-- End Grid -->
     </div>
@@ -180,8 +134,6 @@
   <!-- End Page Container -->
   </div>
 
-  <!-- End Container -->
-  </div>
   <!--*************************************************************************************************-->
 
   <!--Scripts-->

@@ -2,7 +2,13 @@
     include("db.php");
     session_start();
     $game_name = "";
-
+    $id = $_SESSION['company_name'];
+    if(is_array($id)){
+      $id = $id['company_name'];
+    }
+    $query = "SELECT game_name, game_logo FROM game WHERE company_name = '$id'"; 
+    $access_query = mysqli_query($db, $query);
+    $counter = mysqli_num_rows($access_query);
 ?>
 
 
@@ -46,10 +52,7 @@
             <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
           </a>
 
-          <!--Profile avatar-->
-         <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-         </a>
+          
 
          
  </div>
@@ -76,25 +79,25 @@
 
        <form action="process_game_discount.php" method="post">
       <?php
-      	  $query = "SELECT * FROM game"; 
-          $access_query = mysqli_query($db, $query);
-          $counter = mysqli_num_rows($access_query);
-          for($i = 0; $i < $counter; $i = $i + 1)
+          
+          //echo $id;
+          //echo $counter;
+          for($i = 0; $i < $counter; $i++)
           {
               // Result
               $array = $access_query->fetch_assoc();
+              //print_r($array);
               $game_name = $array['game_name'];
+              //echo $array['game_logo'];
               $game_logo = $array['game_logo'];
               $_SESSION['game_name'] = $game_name;
-              if($game_name == null)
-                  continue;
+              
       ?>
        
         <div class="w3-container w3-card w3-round w3-margin" method="post"><br>
           <input type="checkbox" class="w3-left" name="check<?php echo $game_name ?>"></input>
-          <img src=<?php include("picture_load.php");?> alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-          <input type="number" step="any" min="0" id="g_price" name="game_price<?php echo $game_name ?>" placeholder="Discount..." title="Please enter your discount amount">
-          <input type="text" id="event_name" name="event_name<?php echo $game_name ?>" placeholder="Event..." title="Please enter the event you want to include">
+          <input type="number" step="any" min="0" id="g_price" name="game_price<?php echo $game_name ?>" placeholder="Discount..." title="Please enter your discount amount"></input>
+          <input type="text" id="event_name" name="event_name<?php echo $game_name ?>" placeholder="Event..." title="Please enter the event you want to include"></input>
           <!--<span class="w3-right w3-opacity">1 min</span><-->
             <h4 class="game_name" name="game_name[]"><?php echo $game_name; ?></h4><br>
           <hr class="w3-clear">
@@ -105,7 +108,7 @@
       <?php
           }
       ?>
-      <button type="submit" class="w3-button w3-block w3-theme-l1 w3-left-align">Do it! ></a>
+      <button type="submit" class="w3-button w3-block w3-theme-l1 w3-left-align">Do it! ></button>
       </form>
         
     <!-- End Middle Column -->

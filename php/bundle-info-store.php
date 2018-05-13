@@ -35,11 +35,11 @@ for($j = 0; $j < $bundle_count; $j++){
     $game_price = $game_info['game_price'];
     $gift_price += $game_price;
 
-    
+    $_SESSION['game_name'] = $game_name;
                 
     echo "<div class=\"w3-col l3 s6\">";
     echo "<div class=\"w3-container\">"; ?>
-    <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $image; ?> style="width:100%"></a>
+    <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php include("picture_load.php"); ?> style="width:100%"></a>
     <?php
     echo "<p> $game_name <br><b> $game_price USD</b></p>";
     echo "</div>";

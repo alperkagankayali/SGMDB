@@ -32,13 +32,13 @@
           <!--Nav buttons-->
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
           <a href="#" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
-          <a href="library.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
-          <a href="store.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
-          <a href="news.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
-          <a href="wish_list.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
-          <a href="cart.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
+          <a href="library.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
+          <a href="store.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
+          <a href="news.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
+          <a href="wish_list.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Wishlist</a>
+          <a href="cart.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Cart</a>
           <a href="chat.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Chat</a>
-          <a href="about.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
+          <a href="about.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
 
           <!--Notif button-->
           <div class="w3-dropdown-hover w3-hide-small">
@@ -52,7 +52,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->
@@ -149,13 +149,13 @@ if(isset($_GET['id'])){
           <div class="w3-container">
 
             <div class="w3-display-container mySlides">
-              <img src="images/game1.jpg" style="width:100%">
+              <img src=<?php $_SESSION['event_id'] = $id; include("picture_load.php"); ?> style="width:100%">
             </div>
             <div class="w3-display-container mySlides">
-              <img src="images/game2.jpg" style="width:100%">
+              <img src=<?php $_SESSION['event_id'] = $id; include("picture_load.php"); ?> style="width:100%">
             </div>
             <div class="w3-display-container mySlides">
-              <img src="images/game3.jpg" style="width:100%">
+              <img src=<?php $_SESSION['event_id'] = $id; include("picture_load.php"); ?> style="width:100%">
             </div>
 
             <!-- Slideshow next/previous buttons -->
@@ -186,56 +186,7 @@ if(isset($_GET['id'])){
                 <p class="w3-center">End Date: <?php echo $_SESSION['end_date']; ?> </p>
 
             </div>
-            <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
-
-                <h4><br>Bundles</h4>
-
-                <div class="w3-col l3 s6">
-                  <div class="w3-container">
-                    <a href="bundle_information.php"><img src="images/game1.jpg" style="width:100%"></a>
-                    <p>Witcher 3<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                  <div class="w3-container">
-                    <a href="bundle_information.php"><img src="images/witcher2.jpg" style="width:100%"></a>
-                    <p>Witcher 2<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                </div>
-
-                <div class="w3-col l3 s6">
-                  <div class="w3-container">
-                    <a href="bundle_information.php"><img src="images/heartandstone.png" style="width:100%"></a>
-                    <p>Witcher Dlc1<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                  <div class="w3-container">
-                    <a href="bundle_information.html"><img src="images/bloodandwine.jpg" style="width:100%"></a>
-                    <p>Witcher Dlc2<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                </div>
-
-                <div class="w3-col l3 s6">
-                  <div class="w3-container">
-                    <a href="bundle_information.php"><img src="images/game2.jpg" style="width:100%"></a>
-                    <p>Rocket League<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                  <div class="w3-container">
-                    <a href="bundle_information.php"><img src="images/game3.jpg" style="width:100%"></a>
-                    <p>Euro Truck<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                </div>
-
-                <div class="w3-col l3 s6">
-                  <div class="w3-container">
-                    <a href="bundle_information.php"><img src="images/sanandreas.jpg" style="width:100%"></a>
-                    <p>Gta Sanandreas<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                  <div class="w3-container">
-                    <a href="bundle_information.php"><img src="images/gta5.jpg" style="width:100%"></a>
-                    <p>Gta 5<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                </div>
-
-            </div>
-
+          
             <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
 
                 <h4><br>Games with discounts</h4>
@@ -252,46 +203,14 @@ if(isset($_GET['id'])){
                   $game_price = $result['game_price'];
                   $amount = $result['amount'];
                   $game_logo = $result['game_logo'];
+                  $_SESSION['game_name'] = $game_name;
                 ?>
                 <div class="w3-container">
-                  <a href="game_information.php?game_name=<?php echo $game_name ?>"><img src="<?php echo $game_logo?>" style="width:100%"></a>
+                  <a href="game_information.php?game_name=<?php echo $game_name ?>"><img src=<?php include("picture_load.php");?> style="width:100%"></a>
                   <p><?php echo $game_name; ?><br><b><del><?php echo ("$" . $game_price); ?></del></b><br><?php echo ("$" . ($game_price - $amount)); ?></b></p>
                 </div>
                 <?php } ?>
                   
-                </div>
-
-                <div class="w3-col l3 s6">
-                  <div class="w3-container">
-                    <a href="game_information.php"><img src="images/heartandstone.png" style="width:100%"></a>
-                    <p>Witcher Dlc1<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                  <div class="w3-container">
-                    <a href="game_information.php"><img src="images/bloodandwine.jpg" style="width:100%"></a>
-                    <p>Witcher Dlc2<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                </div>
-
-                <div class="w3-col l3 s6">
-                  <div class="w3-container">
-                    <a href="game_information.php"><img src="images/game2.jpg" style="width:100%"></a>
-                    <p>Rocket League<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                  <div class="w3-container">
-                    <a href="game_information.php"><img src="images/game3.jpg" style="width:100%"></a>
-                    <p>Euro Truck<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                </div>
-
-                <div class="w3-col l3 s6">
-                  <div class="w3-container">
-                    <a href="game_information.php"><img src="images/sanandreas.jpg" style="width:100%"></a>
-                    <p>Gta Sanandreas<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                  <div class="w3-container">
-                    <a href="game_information.php"><img src="images/gta5.jpg" style="width:100%"></a>
-                    <p>Gta 5<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
                 </div>
 
             </div>

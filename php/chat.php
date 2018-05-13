@@ -106,7 +106,7 @@
               $result = $result_query->fetch_assoc();
 
               $player_id2 = $result['player_id2'];
-
+              $_SESSION['player_id2'] = $player_id2;
               $firstname = mysqli_query($db, "SELECT firstname FROM player WHERE player_id = $player_id2")->fetch_assoc()['firstname'];
               $midname = mysqli_query($db, "SELECT middlename FROM player WHERE player_id = $player_id2")->fetch_assoc()['middlename'];
               $lastname = mysqli_query($db, "SELECT lastname FROM player WHERE player_id = $player_id2")->fetch_assoc()['lastname'];

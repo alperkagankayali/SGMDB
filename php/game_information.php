@@ -4,7 +4,7 @@
 
     // Accessing the name of the game whose link is clicked
     $game_name = $_GET['game_name'];
-    $_SESSION['game_name'] = $game_name;
+    //
     // Accessing the player's id who logged in
     $player_id = $_SESSION['player_id'];
 
@@ -108,7 +108,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->
@@ -146,7 +146,7 @@
         <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
 
           <div class="w3-display-container mySlides">
-            <img src=<?php echo $game_logo; ?> style="width:100%">
+            <img src=<?php $_SESSION['game_name'] = $game_name; include("picture_load.php"); ?> style="width:100%">
           </div>
           <div class="w3-display-container mySlides">
             <img src="images/witcher/witcher2.jpg" style="width:100%">
@@ -262,7 +262,7 @@
 
             </div>
         </div>
-
+        <?php $_SESSION['game_name'] = $game_name; ?>
         <!--About game -->
         <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
             <h4>ABOUT THIS GAME</h4><br>

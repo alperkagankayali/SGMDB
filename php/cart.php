@@ -213,9 +213,10 @@
 
                         // result
                         $game = $result_game->fetch_assoc();
+                        $_SESSION['game_name'] = $game_name;
                 ?>
                 <div class="w3-container w3-border w3-margin">
-                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php include("picture_load.php"); ?> style="width:100%"></a>
                   <p><?php echo $game_name; ?><br><?php echo $game['game_price']; ?></b>$</p>
                   <a href="process_removing_from_cart.php?game_name=<?php echo $game_name; ?>" class="w3-right w3-margin-bottom" style="color:red">Remove</a>
                 </div>
@@ -246,9 +247,10 @@
 
                       // result
                       $game = $result_game->fetch_assoc();
+                      $_SESSION['game_name'] = $game_name;
                 ?>
                 <div class="w3-container w3-border w3-margin">
-                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php echo $game['game_logo']; ?> style="width:100%"></a>
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top w3-left" src=<?php include("picture_load.php"); ?> style="width:100%"></a>
                   <p><?php echo $game_name; ?><br><?php echo $game['game_price']; ?></b>$</p>
                    <a href="process_removing_from_cart.php?game_name=<?php echo $game_name; ?>" class="w3-right w3-margin-bottom" style="color:red">Remove</a>
                 </div>

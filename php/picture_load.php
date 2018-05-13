@@ -10,6 +10,10 @@ if(isset($_SESSION['player_id'])){
 	$id = $_SESSION['player_id'];
 	$imagequery = "SELECT profile_picture, profile_image FROM player WHERE player_id = '$id'";
 }
+if(isset($_SESSION['player_id2'])){
+	$id = $_SESSION['player_id2'];
+	$imagequery = "SELECT profile_picture, profile_image FROM player WHERE player_id = '$id'";
+}
 if(isset($_SESSION['company_name'])){
 	if(is_array($_SESSION['company_name']))
 		$id = $_SESSION['company_name']['company_name'];
@@ -54,6 +58,12 @@ if(isset($_SESSION['game_name'])){
 }
 if(isset($_SESSION['news_id'])){
 	$_SESSION['news_id'] = NULL;
+}
+if(isset($_SESSION['player_id2'])){
+	$_SESSION['player_id2'] = NULL;
+}
+if(isset($_SESSION['event_id'])){
+	$_SESSION['event_id'] = NULL;
 }
 	//header("Content-type: image/$fileActualExt");
 	//echo $imageData;
