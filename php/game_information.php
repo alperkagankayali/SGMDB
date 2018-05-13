@@ -4,7 +4,7 @@
 
     // Accessing the name of the game whose link is clicked
     $game_name = $_GET['game_name'];
-
+    $_SESSION['game_name'] = $game_name;
     // Accessing the player's id who logged in
     $player_id = $_SESSION['player_id'];
 
@@ -267,31 +267,21 @@
         <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
             <h4>ABOUT THIS GAME</h4><br>
             <hr class="w3-clear">
-            <p>The Witcher: Wild Hunt is a story-driven, next-generation open world role-playing game set in a visually stunning fantasy universe full of meaningful choices and impactful consequences. In The Witcher you play as the professional monster hunter, Geralt of Rivia, tasked with finding a child of prophecy in a vast open world rich with merchant cities, viking pirate islands, dangerous mountain passes, and forgotten caverns to explore.
+            <p><?php
+                include("sys_requirements_read.php");
+                $array = $_SESSION['game_about'];
+                echo $array[0];
+                for($i = 1; $i < count($array); $i++){
+                  if($i % 2 == 1){
+                    echo "<h6>" . $array[$i] . "</h6>";
+                  }
+                  else{
+                    echo $array[$i];
+                  }
+                }
+                ?>
 
-                <h6>PLAY AS A HIGHLY TRAINED MONSTER SLAYER FOR HIRE</h6>
-                Trained from early childhood and mutated to gain superhuman skills, strength and reflexes, witchers are a distrusted counterbalance to the monster-infested world in which they live.
-                Gruesomely destroy foes as a professional monster hunter armed with a range of upgradeable weapons, mutating potions and combat magic.
-                Hunt down a wide range of exotic monsters from savage beasts prowling the mountain passes to cunning supernatural predators lurking in the shadows of densely populated towns.
-                Invest your rewards to upgrade your weaponry and buy custom armour, or spend them away in horse races, card games, fist fighting, and other pleasures the night brings.
-
-                <h6>EXPLORE A MORALLY INDIFFERENT FANTASY OPEN WORLD</h6>
-                Built for endless adventure, the massive open world of The  Witcher sets new standards in terms of size, depth and complexity.
-                Traverse a fantastical open world: explore forgotten ruins, caves and shipwrecks, trade with merchants and dwarven smiths in cities, and hunt across the open plains, mountains and seas.
-                Deal with treasonous generals, devious witches and corrupt royalty to provide dark and dangerous services.
-                Make choices that go beyond good & evil, and face their far-reaching consequences.
-
-                <h6>CHASE DOWN THE CHILD OF PROPHECY</h6>
-                Take on the most important contract to track down the child of prophecy, a key to save or destroy this world.
-                In times of war, chase down the child of prophecy, a living weapon of power, foretold by ancient elven legends.
-                Struggle against ferocious rulers, spirits of the wilds and even a threat from beyond the veil – all hell-bent on controlling this world.
-                Define your destiny in a world that may not be worth saving.
-
-                <h6>FULLY REALIZED NEXT GENERATION</h6>
-                Built exclusively for next generation hardware, the REDengine 3 renders the world of The Witcher visually nuanced and organic, a real true to life fantasy.
-                Dynamic weather systems and day/night cycles affect how the citizens of the towns and the monsters of the wilds behave.
-                Rich with storyline choices in both main and subplots, this grand open world is influenced by the player unlike ever before.
-          .</p>
+            </p>
         </div>
 
         <br>
@@ -300,7 +290,6 @@
         <div class="w3-container w3-card w3-border w3-round w3-margin white-font w3w3-center"><br>
             <h4>SYSTEM REQUIREMENTS</h4><br>
             <hr class="w3-clear">
-            <?php include("sys_requirements_read.php"); ?>
             <div class="w3-row white-font">
                 <div class="w3-col l6 s6">
                   <div class="w3-container">

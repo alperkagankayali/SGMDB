@@ -93,7 +93,7 @@
 
           <!--Profile avatar-->
           <a href="company_profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if ($_SESSION['company_name']['company_logo'] != '') echo $_SESSION['company_name']['company_logo']; else echo "images/icons/company_logo.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
           </a>
       </div>
   </div>
@@ -163,6 +163,7 @@
 
           <a class="w3-right w3-button w3-border" href = "publish_bundle.php" style = "margin: 3px"><br>Publish Bundle</h4></a>
           <a class="w3-right w3-button w3-border" href = "game_discount.php" style = "margin: 3px" ><br>Make A Discount On A Game</h4></a>
+          <a class="w3-right w3-button w3-border" href = "add_event.php" style = "margin: 3px" ><br>Add A New Event</h4></a>
           <a class="w3-right w3-button w3-border" href = "publish_news.php" style = "margin: 3px"><br>Publish News</h4></a>
 
           <br><br>
@@ -190,7 +191,7 @@
                 $game_price = $games['game_price'];
                 $game_logo = $games['game_logo'];
                 $release_date = $games['release_date'];
-
+                $_SESSION['game_name'] = $game_name;
                 $rating = mysqli_query($db, "SELECT rating FROM rating NATURAL JOIN rate WHERE game_name = '$game_name'")->fetch_assoc()['rating'];
 
         ?>
@@ -201,7 +202,7 @@
 
                 <div class="w3-row-padding" style="margin:0 -16px">
                     <div class="w3-half">
-                      <a href="game_monthly_sale_information.php?game_name=<?php echo $game_name; ?>"><img src=<?php echo $game_logo; ?> style="width:100%" alt="Nature" class="w3-margin-bottom"></a>
+                      <a href="game_monthly_sale_information.php?game_name=<?php echo $game_name; ?>"><img src=<?php include("picture_load.php"); ?> style="width:100%" alt="Nature" class="w3-margin-bottom"></a>
                   </div>
                 </div>
                 <hr class="w3-clear">
@@ -263,34 +264,7 @@
       </div>
 
       <!-- Right Column -->
-      <div class="w3-col m2">
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.php" >Info</a></p>
-
-          </div>
-        </div>
-
-        <br>
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.php" >Info</a></p>
-
-          </div>
-        </div>
-
-      <!-- End Right Column -->
-      </div>
+      <?php include("upcoming-events.php"); ?>
 
     <!-- End Grid -->
     </div>

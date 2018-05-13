@@ -63,7 +63,7 @@
 
           <!--Profile avatar-->
           <a href="company_profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if ($_SESSION['company_name']['company_logo'] != '') echo $_SESSION['company_name']['company_logo']; else echo "images/icons/company_logo.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
           </a>
       </div>
   </div>
@@ -82,50 +82,8 @@
     <!-- The Grid -->
     <div class="w3-row">
 
-      <!-- Left Column -->
-      <div class="w3-col m3">
-
-        <div class="w3-panel white-font">
-          <h4><br><u>Categories<u></h4>
-        </div>
-
-        <!-- Accordion -->
-        <div class="w3-card w3-round white-font">
-            <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Free to Play</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Action</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Adventure</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Casual</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Indie</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Multiplayer</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Racing</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> RPG</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Simulation</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Sports</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Strategy</button>
-            </div>
-        </div>
-
-        <br>
-
-        <div class="w3-panel white-font">
-          <h4><br><u>Platforms<u></h4>
-        </div>
-
-        <!-- Accordion -->
-        <div class="w3-card w3-round white-font">
-            <div>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Windows</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> MacOS</button>
-                <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"> Linux</button>
-            </div>
-        </div>
-
-      <!-- End Left Column -->
-      </div>
-
       <!-- Middle Column -->
-      <div class="w3-col m7" style="overflow:auto">
+      <div class="w3-col m10" style="overflow:auto">
 
         <?php
             for($i = 0; $i < $counter; $i++)
@@ -135,12 +93,23 @@
             //<span class=\"w3-right w3-opacity\">02.04.2018</span>";
               echo " <h4>". $news['header']."</h4><br>";
               echo   "<hr class=\"w3-clear\">";
-              echo "<p>". $news['text'] ."</p>";
+              echo "<p>". $news['txt'] ."</p>";
               echo  "<div class=\"w3-row-padding\" style=\"margin:0 -16px\">";
-                
-              echo "<img src=\"". $news['news_image'] . "\" class=\"w3-right\">";
+              $_SESSION['news_id'] = $news['news_id'];  
+              echo "<img src=";
+              include("picture_load.php");
+              echo " class=\"w3-right\">";
               echo "</div>";
               echo "<br> <h5> by ". $news['company_name']."</h5><br>";
+              echo "</div>";
+            }
+
+            if($counter == 0)
+            {
+              echo "<div class=\"white-font\"><br>";
+
+              echo " <h4> No news posted </h4><br>";
+
               echo "</div>";
             }
         ?>
@@ -151,7 +120,7 @@
       </div>
 
       <!-- Right Column -->
-      <div class="w3-col m2">
+      <div class="w3-col m2 w3-right">
 
         <div class="w3-card w3-round w3-center">
           <div class="w3-container w3-border white-font">

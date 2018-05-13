@@ -18,12 +18,12 @@
     $access_friends = "SELECT F.player_id2 FROM friendship as F
                       WHERE F.player_id1 = $player_id AND
                       NOT EXISTS (SELECT * FROM library as L
-                                  WHERE L.player_id = F.player_id2 AND";
+                                  WHERE L.player_id = F.player_id2 AND (";
 
     //var_dump($array);
     foreach($array as $game_name => $price){
         //echo $price;
-        $access_friends = $access_friends . " L.game_name = '$game_name' AND";
+        $access_friends = $access_friends . " L.game_name = '$game_name' OR";
       }
 
 
@@ -37,10 +37,10 @@
         $access_friends = substr($access_friends, 0, -4);
 
 
-      $access_friends = $access_friends . ");";
+      $access_friends = $access_friends . "));";
     //$access_friends = $access_friends . ");"; 
-    /*echo "<br>";
-    echo $access_friends;*/
+    //echo "<br>";
+    echo $access_friends;
 
     // Execute the query
     $result_query = mysqli_query($db, $access_friends);

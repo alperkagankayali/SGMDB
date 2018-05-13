@@ -1,7 +1,6 @@
 <?php
     include("../db.php");
     session_start();
-    var_dump($_FILES);
     // Accessing data from input fields from login page of player
     $player_first_name = mysqli_escape_string($db, $_POST['player_first_name']);
     $player_mid_name = mysqli_escape_string($db, $_POST['player_mid_name']);
@@ -12,41 +11,46 @@
     $birthdate = mysqli_escape_string($db, $_POST['player_b_date']);
     $repeated_password = mysqli_escape_string($db, $_POST['psw-repeat']);
 
-
-
+    $fileTmpName = "";
+    $FileNameNew = "";
+    $fileActualExt = "";
+    $fileError = -1;
+    $fileSize = -1;
     //This is for uploading the image into the hizliresim.com and getting the web address into the db.
+    if(($_FILES['player_picture']['name'] != "")){
+        $fileName = mysqli_escape_string($db, $_FILES['player_picture']['name']);
+        $fileTmpName = mysqli_escape_string($db, file_get_contents($_FILES['player_picture']['tmp_name']));
+        $fileSize = $_FILES['player_picture']['size'];
+        $fileError = $_FILES['player_picture']['error'];
+        $fileType = mysqli_escape_string($db, $_FILES['player_picture']['type']);
 
-    $fileName = mysqli_escape_string($db, $_FILES['player_picture']['name']);
-    $fileTmpName = mysqli_escape_string($db, file_get_contents($_FILES['player_picture']['tmp_name']));
-    $fileSize = $_FILES['player_picture']['size'];
-    $fileError = $_FILES['player_picture']['error'];
-    $fileType = mysqli_escape_string($db, $_FILES['player_picture']['type']);
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
+    
+    
+        $allowed = array('jpg', 'jpeg', 'png', 'pdf');
 
-    $fileExt = explode('.', $fileName);
-    $fileActualExt = strtolower(end($fileExt));
-
-    $allowed = array('jpg', 'jpeg', 'png', 'pdf');
-
-    if(in_array($fileActualExt, $allowed)){
-        if($fileError === 0){
-            if($fileSize < 900000){
-                $FileNameNew = uniqid('', true).".".$fileActualExt;  
-                echo"upload successful!";
+        if(in_array($fileActualExt, $allowed)){
+            if($fileError === 0){
+                if($fileSize < 900000){
+                    $FileNameNew = uniqid('', true).".".$fileActualExt;  
+                    echo"upload successful!";
+                }
+                else{
+                    echo 'Your file is too big';
+                }
             }
             else{
-                echo 'Your file is too big';
+                echo 'Something went wrong';
             }
         }
         else{
-            echo 'Something went wrong';
+            echo 'You can\'t upload that!';
         }
-    }
-    else{
-        echo 'You can\'t upload that!';
     }
 
     // Calculating age of the player
-    $age = 2018 - explode('-', $birthdate)[0];
+    $age = 2018 - (int)(substr($birthdate,0, 4));
 
     // Inserting query for player table
     $insert_query = "INSERT INTO player (email, username, password, firstname, middlename, lastname, birth_date, profile_picture, profile_image, status, age)

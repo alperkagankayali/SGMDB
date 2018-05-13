@@ -1,10 +1,13 @@
 <?php
     include("db.php");
     session_start();
+    $count = -1;
+    if(isset($_POST['game_id'])){
+        $bundle_games = $_POST['game_id'];
+        $count = count($bundle_games);
+    }
 
-    $bundle_games = $_POST['game_id'];
-
-    $count = count($bundle_games);
+    
 
     if($count < 2)
     {

@@ -2,15 +2,7 @@
     include("db.php");
     session_start();
 
-    // Query for getting the news of company
-    $access_news_query = "SELECT *
-                           FROM news;";
-
-    // Executing the query
-    $result_query = mysqli_query($db, $access_news_query);
-
-    // Number of news
-    $counter = mysqli_num_rows($result_query);
+    // Query for getting the games of company
 
     include("process_game_requests.php");
 ?>
@@ -69,7 +61,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php if($_SESSION['player_pp'] != '') echo ("signup/uploads/". $_SESSION['player_pp']); else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->
@@ -85,7 +77,7 @@
   <div class="w3-content" style="max-width:1100px;margin-top:80px;margin-bottom:80px">
 
     <div class="w3-panel white-font w3-border">
-      <h1 style="margin:20px"><br>NEWS</h1>
+      <h1 style="margin:20px"><br>Change Profile Picture</h1>
     </div>
 
 
@@ -96,43 +88,27 @@
     <div class="w3-row">
 
       <!-- Middle Column -->
-      <div class="w3-col m10" style="overflow:auto">
+      <div class="w3-col m20" style="overflow:auto">
 
-        <?php
-            for($i = 0; $i < $counter; $i++)
-            {
-              $news = $result_query->fetch_assoc();
-              echo "<div class=\"w3-container w3-card w3-border w3-round w3-margin white-font\"><br>";
-            //<span class=\"w3-right w3-opacity\">02.04.2018</span>";
-              echo " <h4>". $news['header']."</h4><br>";
-              echo   "<hr class=\"w3-clear\">";
-              echo "<p>". $news['txt'] ."</p>";
-              echo  "<div class=\"w3-row-padding\" style=\"margin:0 -16px\">";
-              $_SESSION['news_id'] = $news['news_id'];  
-              echo "<img src=";
-              include("picture_load.php");
-              echo " class=\"w3-right\">";
-              echo "</div>";
-              echo "<br> <h5> by ". $news['company_name']."</h5><br>";
-              echo "</div>";
-            }
+                    <form action="process_change_picture.php" method="post" enctype="multipart/form-data">
+                  
+                    <!-- New Profile Picture -->
+                    <p>
+                      <div class="form-control">
+                        <label class="header"><font color="white">Upload new profile picture</font></label>
+                        <div class="nl">
+                          <input id="p_p_picture" type="file" name="player_picture" placeholder="Photo" capture>
+                        </div>
+                      </div>
+                    </p>
 
-            if($counter == 0)
-            {
-              echo "<div class=\"white-font\"><br>";
 
-              echo " <h4> No news posted </h4><br>";
-
-              echo "</div>";
-            }
-        ?>
-
+                    <!-- Submit -->
+                    <input type="submit" value="Upload new picture">
+                </form>
 
       <!-- End Middle Column -->
       </div>
-
-      <!-- Right Column -->
-      <?php include("upcoming-events.php"); ?>
 
     <!-- End Grid -->
     </div>

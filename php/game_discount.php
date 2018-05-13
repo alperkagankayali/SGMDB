@@ -48,14 +48,10 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if ($_SESSION['company_name']['company_logo'] != '') echo $_SESSION['company_name']['company_logo']; else echo "images/icons/company_logo.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
-         <!--Search-->
-         <form class="w3-bar-item w3-right" action="search_result_screen.php" method="post">
-           <input type="text" placeholder="Search.." name="search" class="search-form">
-           <button type="submit"><i class="fa fa-search search-form"></i></button>
-         </form>
+         
  </div>
 </div>
 
@@ -78,7 +74,7 @@
     <!-- Middle Column -->
     <div class="w3-col m7">
 
-       <form action="process_game_discount.php?game_name=<?php echo $game_name ?>" method="post">
+       <form action="process_game_discount.php" method="post">
       <?php
       	  $query = "SELECT * FROM game"; 
           $access_query = mysqli_query($db, $query);
@@ -89,15 +85,16 @@
               $array = $access_query->fetch_assoc();
               $game_name = $array['game_name'];
               $game_logo = $array['game_logo'];
-
+              $_SESSION['game_name'] = $game_name;
               if($game_name == null)
                   continue;
       ?>
        
         <div class="w3-container w3-card w3-round w3-margin" method="post"><br>
           <input type="checkbox" class="w3-left" name="check<?php echo $game_name ?>"></input>
-          <img src=<?php echo $game_logo;?> alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-          <input type="number" step="any" min="0" id="g_price" name="game_price<?php echo $game_name ?>" placeholder="Price..." title="Please enter your game price">
+          <img src=<?php include("picture_load.php");?> alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+          <input type="number" step="any" min="0" id="g_price" name="game_price<?php echo $game_name ?>" placeholder="Discount..." title="Please enter your discount amount">
+          <input type="text" id="event_name" name="event_name<?php echo $game_name ?>" placeholder="Event..." title="Please enter the event you want to include">
           <!--<span class="w3-right w3-opacity">1 min</span><-->
             <h4 class="game_name" name="game_name[]"><?php echo $game_name; ?></h4><br>
           <hr class="w3-clear">

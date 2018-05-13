@@ -13,7 +13,7 @@
     // Execute query
     $result_query1 = mysqli_query($db, $access_players_query);
 
-    // Numbero f rows
+    // Numberof rows
     $counter1 = mysqli_num_rows($result_query1);
 
     // Accessing the game names starting with
@@ -24,6 +24,18 @@
 
     // Numberof rows
     $counter2 = mysqli_num_rows($result_query2);
+
+
+    // Accessing the news starting with
+    $access_news_query = "SELECT * FROM news WHERE header LIKE '%$search%' OR txt LIKE '%$search%'";
+
+    // Execute query
+    $result_query3 = mysqli_query($db, $access_news_query);
+
+    // Numberof rows
+    $counter3 = mysqli_num_rows($result_query3);
+
+
 
     include("process_game_requests.php");
 ?>
@@ -291,6 +303,43 @@
               </div>
           </div>
           <!--End of Users grid-->
+
+          <hr>
+
+         <!-- USers grid -->
+          <div class="w3-row white-font">
+
+              <div class="w3-panel white-font">
+                <h4 class="w3-left"><br>News containing <?php echo " '".$search."'"; ?>  </h4>
+              </div>
+
+              <!-- 1st column -->
+              <div class="w3-col l20 s10">
+              <?php
+
+                for($i = 0; $i < $counter3; $i++)
+                {
+                  $news = $result_query3->fetch_assoc();
+                  echo "<div class=\"w3-container w3-card w3-border w3-round w3-margin white-font\"><br>";
+                //<span class=\"w3-right w3-opacity\">02.04.2018</span>";
+                  echo " <h3>". $news['header']."</h3><br>";
+                  echo   "<hr class=\"w3-clear\">";
+                  echo "<p>". $news['txt'] ."</p>";
+                  echo  "<div class=\"w3-row-padding\" style=\"margin:0 -16px\">";
+                  echo "<img src=\"". $news['news_image'] . "\" class=\"w3-right\">";
+                  echo "</div>";
+                  echo "<br> <h5> by ". $news['company_name']."</h5><br>";
+                  echo "</div>";
+                }
+              ?>
+
+              </div>
+
+            
+          </div>
+          <!--End of Users grid-->
+
+
 
       <!-- End Middle Column -->
       </div>

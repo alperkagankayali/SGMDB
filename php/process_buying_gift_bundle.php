@@ -28,19 +28,22 @@
       foreach($array as $game_name => $price){
             //echo $price;
             $buying_result[$game_name] = buyGame($game_name, $price, $receiver_id);
-            // ADDING NOTIFICATION
-            $notification_text = "$buyes_username"." bought you $game_name as a gift!";
 
-            // Inserting into notification
-            mysqli_query($db, "INSERT INTO notification (notification_date, notification_status, notification_text) VALUES ('$notif_date', 0, '$notification_text');");
+            if($buying_result[$game_name] == "<h3> Successful purchase! </h3> <a href = 'library.php'> Go back to your library </a>"){
+                  // ADDING NOTIFICATION
+                  $notification_text = "$buyes_username"." bought you $game_name as a gift!";
 
-            // Last inserted notif id
-            $notification_id = mysqli_query($db, "SELECT LAST_INSERT_ID()")->fetch_assoc()['LAST_INSERT_ID()'];
+                  // Inserting into notification
+                  mysqli_query($db, "INSERT INTO notification (notification_date, notification_status, notification_text) VALUES ('$notif_date', 0, '$notification_text');");
 
-            //echo $notification_text;
+                  // Last inserted notif id
+                  $notification_id = mysqli_query($db, "SELECT LAST_INSERT_ID()")->fetch_assoc()['LAST_INSERT_ID()'];
 
-            // Inserting into notify
-            mysqli_query($db, "INSERT INTO notify (player_id, notification_id) VALUES ($receiver_id, $notification_id)");
+                  //echo $notification_text;
+
+                  // Inserting into notify
+                  mysqli_query($db, "INSERT INTO notify (player_id, notification_id) VALUES ($receiver_id, $notification_id)");
+            }
       }
       
 

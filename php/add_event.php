@@ -18,7 +18,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
 .nav_links {height: 50px; padding:10px}
 .search-form {margin:10px; margin-left:20px}
 .white-font {color:white}
-.background {background:url('../images/bg.jpg')}
+.background {background:url('images/bg.jpg')}
 </style>
 
 <!--*************************************************************************************************-->
@@ -40,28 +40,28 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
 
           <div class="container1">
 
-            <h1>Sign Up to SGMDB</h1>
-            <p>Please fill in this form to create a company account.</p>
+            <h1>Add Event</h1>
+            <p>Please fill in this form to add a new event.</p>
             <hr>
             <div class="signup-w3ls">
               <div class="signup-agile1">
-                <form action="process_company_sign_up.php" method="post" enctype="multipart/form-data">
+                <form action="process_add_event.php" method="post" enctype="multipart/form-data">
                   <!-- Company Name -->
                   <p>
                     <div class="form-control">
-                      <label class="header">Company Name:</label>
+                      <label class="header">Event Type:</label>
                       <div class="nl">
 
-                        <input type="text" id="c_name" name="company_name" placeholder="Company Name" title="Please enter a valid company name" required=""></div>
+                        <input type="text" id="e_type" name="event_name" placeholder="Event Name" title="Please enter a valid event name" required=""></div>
                       </div>
                     </p>
 
                     <!-- Email -->
                     <p>
                       <div class="form-control">
-                        <label class="header">Email:</label>
+                        <label class="header">Start Date :</label>
                         <div class="nl">
-                          <input type="text" id="c_email" name="company_email" placeholder="Email" title="Please enter your company email" required="">
+                          <input id="start_date" name="start_date" placeholder="YYYY-MM-DD" id="start_date" required="">
                         </div>
                       </div>
                     </p>
@@ -69,42 +69,28 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                     <!-- Password -->
                     <p>
                       <div class="form-control">
-                        <label class="header">Password:</label>
+                        <label class="header">End Date :</label>
                         <div class="nl">
-                          <input type="password" id="c_password" name="company_password" placeholder="Password" title="Please enter your company password" required="">
+                          <input id="end_date" name="end_date" placeholder="YYYY-MM-DD" id="end_date" required="">
                         </div>
                       </div>
                     </p>
 
                     <!-- Repeat password -->
                     <p>
-                      <div class = "c3">
-                        <label for="psw-repeat"><b>Repeat Password</b></label>
-                      </div>
-                      <input type="password" placeholder="Repeat Password" name="company_psw_repeat" required>
-                    </p>
-
-                    <!-- Company logo -->
-                    <p>
                       <div class="form-control">
-                        <label class="header">Company logo:</label>
+                        <label class="header">Event Photo:</label>
                         <div class="nl">
-                          <input id="p_p_picture" type="file" name="company_logo" placeholder="Logo URL" capture>
+                          <input id="event_picture" type="file" name="event_picture" placeholder="Photo" capture>
                         </div>
                       </div>
                     </p>
 
-                    <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
-
+                    
                     <!-- Log in -->
-                    <p>
-                      <div class = "c3">
-                        <a href = "../login/login-company.php" > Company login </a>
-                      </div>
-                    </p>
 
                     <!-- Submit -->
-                    <input type="submit" class="register" value="Register">
+                    <input type="submit" class="add" value="Add Event">
                 </form>
 
               </div>

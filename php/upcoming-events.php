@@ -18,14 +18,19 @@ $counter = mysqli_num_rows($access_event);
 $_SESSION["events"] = $access_event;
 $_SESSION["years"] = $access_year;
 $index = 1;
+
 if($counter > 0){
 	while(($row = mysqli_fetch_assoc($access_event)) && ($row1 = mysqli_fetch_assoc($access_year))){
+		$event = $row['event_type'];
+		$year = $row1['years'];
 		echo" <div class=\"w3-card w3-round w3-center\"> ";
 		echo" <div class=\"w3-container w3-border white-font\"> ";
 		echo"            <p>Upcoming Events:</p> ";
-		echo"			 <img src=\"images/" . $row['event_image'] . "\"  alt=\" " . $row['event_type'] . "\" style=\"width:100%;\" id = $index> ";
-		echo"            <p><strong>" . $row['event_type'] . " " . $row1['years']. "</strong></p>";
-		echo"            <p><a class=\"w3-button w3-border w3-block w3-theme-l4\" href=\"event.php\" id = $index >Info</a></p>";
+		echo"			 <img src=";
+		include("picture_load.php");
+		echo " alt=\" " . $row['event_type'] . "\" style=\"width:100%;\" id = $index> ";
+		echo"            <p><strong>" . $event . " " . $year. "</strong></p>";
+		echo"            <p><a class=\"w3-button w3-border w3-block w3-theme-l4\" href=\"event.php?id=$index\" id = $index >Info</a></p>";
 		echo"          </div>";
 		echo"          </div>";
 		echo"        <br>";

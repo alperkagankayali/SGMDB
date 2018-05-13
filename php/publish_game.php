@@ -57,7 +57,7 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
 
       <!--Profile avatar-->
       <a href="company_profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-      <img src=<?php if ($_SESSION['company_name']['company_logo'] != '') echo $_SESSION['company_name']['company_logo']; else echo "images/icons/company_logo.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+      <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
       </a>
 
     </div>
@@ -168,13 +168,25 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
                   </p>
 
                   <br>
+                  <!-- ABOUT THIS GAME DOCUMENT -->
+                  <p>
+                    <div class="form-control">
+                      <label class="header">About This Game Document:</label>
+                      <div class="nl">
+                        <input id="about" type="file" name="about_doc" placeholder="Textfile" required="" capture>
+                      </div>
+                    </div>
+                  </p>
+
+                  <br>
+
 
                   <!-- Game Logo -->
                   <p>
                     <div class="form-control">
                       <label class="header">Game Icon:</label>
                       <div class="nl">
-                        <input id="g_logo" type="text" name="game_logo" placeholder="URL" required="" capture>
+                        <input id="g_logo" type="file" name="game_logo" placeholder="URL" required="" capture>
                       </div>
                     </div>
                   </p>

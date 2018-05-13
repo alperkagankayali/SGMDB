@@ -180,6 +180,7 @@ if(isset($_GET['id'])){
 
                 <h4><br>Event</h4>
 
+
                 <p class="w3-center">Event Type: <?php echo $_SESSION['event_type']; ?> </p>
                 <p class="w3-center">Start Date: <?php echo $_SESSION['start_date']; ?> </p>
                 <p class="w3-center">End Date: <?php echo $_SESSION['end_date']; ?> </p>
@@ -238,16 +239,26 @@ if(isset($_GET['id'])){
             <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
 
                 <h4><br>Games with discounts</h4>
-
                 <div class="w3-col l3 s6">
-                  <div class="w3-container">
-                    <a href="game_information.php"><img src="images/game1.jpg" style="width:100%"></a>
-                    <p>Witcher 3<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
-                  <div class="w3-container">
-                    <a href="game_information.php"><img src="images/witcher2.jpg" style="width:100%"></a>
-                    <p>Witcher 2<br><b><del> $20.99 </del></b><br>$13.99 </b></p>
-                  </div>
+                <?php
+                $id = $_GET['id'];
+                $game_query = "SELECT game_name, amount, game_price, game_logo FROM (game INNER JOIN discount ON game.game_name = discount.name) NATURAL JOIN contains WHERE event_id = '$id'";
+                $gamequery = mysqli_query($db, $game_query);
+                $count = mysqli_num_rows($gamequery);
+                echo $count;
+                for($i = 0; $i < $count; $i++){
+                  $result = $gamequery->fetch_assoc();
+                  $game_name = $result['game_name'];
+                  $game_price = $result['game_price'];
+                  $amount = $result['amount'];
+                  $game_logo = $result['game_logo'];
+                ?>
+                <div class="w3-container">
+                  <a href="game_information.php?game_name=<?php echo $game_name ?>"><img src="<?php echo $game_logo?>" style="width:100%"></a>
+                  <p><?php echo $game_name; ?><br><b><del><?php echo ("$" . $game_price); ?></del></b><br><?php echo ("$" . ($game_price - $amount)); ?></b></p>
+                </div>
+                <?php } ?>
+                  
                 </div>
 
                 <div class="w3-col l3 s6">

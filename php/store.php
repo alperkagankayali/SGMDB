@@ -138,7 +138,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo ("signup/uploads/". $_SESSION['player_pp']); else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php include("picture_load.php"); ?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->
@@ -236,10 +236,11 @@
                      $top_game_name = $top_games['game_name'];
                      $top_game_logo = $top_games['game_logo'];
                      $top_game_price = $top_games['game_price'];
+                     $_SESSION['game_name'] = $top_game_name;
             ?>
 
             <div class="w3-display-container mySlides">
-              <a href="game_information.php?game_name=<?php echo $top_game_name; ?>"><img src="<?php echo $top_game_logo; ?>" style="width:100%"></img></a>
+              <a href="game_information.php?game_name=<?php echo $top_game_name; ?>"><img src="<?php include('picture_load.php'); ?>" style="width:100%"></img></a>
             </div>
 
             <?php
@@ -288,10 +289,11 @@
                           $game_name = $games['game_name'];
                           $game_logo = $games['game_logo'];
                           $game_price = $games['game_price'];
+                          $_SESSION['game_name'] = $game_name;
                 ?>
 
                 <div class="w3-container w3-border w3-margin">
-                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $game_logo; ?> style="width:100%"></a>
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php include('picture_load.php'); ?> style="width:100%"></a>
                   <p><?php echo $game_name; ?><br><?php echo $game_price; ?> $ </p>
                 </div>
 
@@ -313,10 +315,11 @@
                           $game_name = $games['game_name'];
                           $game_logo = $games['game_logo'];
                           $game_price = $games['game_price'];
+                          $_SESSION['game_name'] = $game_name;
                 ?>
 
                 <div class="w3-container w3-border w3-margin">
-                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php echo $game_logo; ?> style="width:100%"></a>
+                  <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php include('picture_load.php'); ?> style="width:100%"></a>
                   <p><?php echo $game_name; ?><br><?php echo $game_price; ?> $ </p>
                 </div>
 

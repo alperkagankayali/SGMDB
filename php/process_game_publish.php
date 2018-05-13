@@ -8,7 +8,7 @@
     $game_platforms = $_POST['game_platform'];                     // when empty gives error
     $game_category = mysqli_escape_string($db, $_POST['game_category']);
     //$system_requirements = mysqli_escape_string($db, $_POST['game_sys_requirements']);
-    $game_logo = mysqli_escape_string($db, $_POST['game_logo']);
+    //$game_logo = mysqli_escape_string($db, $_POST['game_logo']);
 
     //This is for uploading the image into the hizliresim.com and getting the web address into the db.
 
@@ -41,6 +41,64 @@
         echo 'You can\'t upload that!';
     }
 
+    $fileName1 = mysqli_escape_string($db, $_FILES['game_logo']['name']);
+    $fileTmpName1 = mysqli_escape_string($db, file_get_contents($_FILES['game_logo']['tmp_name']));
+    $fileSize1 = $_FILES['game_logo']['size'];
+    $fileError1 = $_FILES['game_logo']['error'];
+    $fileType1 = mysqli_escape_string($db, $_FILES['game_logo']['type']);
+
+    $fileExt1 = explode('.', $fileName1);
+    $fileActualExt1 = strtolower(end($fileExt1));
+
+    $allowed1 = array('jpg', 'jpeg', 'png', 'pdf');
+
+    if(in_array($fileActualExt1, $allowed1)){
+        if($fileError1 === 0){
+            if($fileSize1 < 900000){
+                $FileNameNew1 = uniqid('', true).".".$fileActualExt1;  
+                echo"upload successful!";
+            }
+            else{
+                echo 'Your file is too big';
+            }
+        }
+        else{
+            echo 'Something went wrong';
+        }
+    }
+    else{
+        echo 'You can\'t upload that!';
+    }
+
+    $fileName2 = mysqli_escape_string($db, $_FILES['about_doc']['name']);
+    $fileTmpName2 = mysqli_escape_string($db, file_get_contents($_FILES['about_doc']['tmp_name']));
+    $fileSize2 = $_FILES['about_doc']['size'];
+    $fileError2 = $_FILES['about_doc']['error'];
+    $fileType2 = mysqli_escape_string($db, $_FILES['about_doc']['type']);
+
+    $fileExt2 = explode('.', $fileName2);
+    $fileActualExt2 = strtolower(end($fileExt2));
+
+    $allowed2 = array('txt');
+
+    if(in_array($fileActualExt2, $allowed2)){
+        if($fileError2 === 0){
+            if($fileSize2 < 900000){
+                $FileNameNew2 = uniqid('', true).".".$fileActualExt2;  
+                echo"upload successful!";
+            }
+            else{
+                echo 'Your file is too big';
+            }
+        }
+        else{
+            echo 'Something went wrong';
+        }
+    }
+    else{
+        echo 'You can\'t upload that!';
+    }
+
 
     // Getting date
     $release_date = date("Y-m-d");
@@ -53,8 +111,8 @@
     // Getting company name
     $company_name = $_SESSION['company_name']['company_name'];
     // Inserting query for game table
-    $insert_company_query = "INSERT INTO game (game_name, game_price, platform, game_category, game_logo, system_requirements, release_date, company_name, system_file)
-                             VALUES ('$game_name', $game_price, '$game_platform', '$game_category', '$game_logo', '$fileName', '$release_date', '$company_name', '$fileTmpName');";
+    $insert_company_query = "INSERT INTO game (game_name, game_price, platform, game_category, game_logo, system_requirements, release_date, company_name, system_file, game_image, game_about)
+                             VALUES ('$game_name', $game_price, '$game_platform', '$game_category', '$fileName1', '$fileName', '$release_date', '$company_name', '$fileTmpName', '$fileTmpName1', '$fileTmpName2');";
     // Executes the query
     $result0 = mysqli_query($db, $insert_company_query);
     // If the game is already exists

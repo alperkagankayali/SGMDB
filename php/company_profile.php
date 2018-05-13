@@ -81,7 +81,7 @@
 
           <!--Profile avatar-->
          <a href="company_profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if ($_SESSION['company_name']['company_logo'] != '') echo $_SESSION['company_name']['company_logo']; else echo "images/icons/company_logo.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
  </div>
 </div>
@@ -93,7 +93,7 @@
     <h1><br>Company Profile</h1>
     </div>
 
-    <img align="Middle" class="w3-image" src=<?php if($company_logo != '') echo $company_logo; else echo "images/icons/company_logo.png";?> alt="Me" width="400" height="300" >
+    <img align="Middle" class="w3-image" src=<?php include("picture_load.php");?> alt="Me" width="400" height="300" >
 
     <div class="w3-panel">
         <h4><br><?php echo $company_name ?></h4>

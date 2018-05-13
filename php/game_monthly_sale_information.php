@@ -61,15 +61,17 @@
 </style>
 <body class="background">
 
-<!-- Navbar -->
- <div class="w3-top w3-green background">
+  <!-- Navbar -->
+  <div class="w3-top w3-green background">
       <div class="w3-bar w3-theme-d2 w3-left-align">
 
           <!--Nav buttons-->
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
           <a href="published_games.php" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
           <a href="published_games.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Published Games</a>
-
+          <a href="news_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
+          <a href="about_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
+          
           <!-- Logout -->
           <a href="logout.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Logout">
             <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
