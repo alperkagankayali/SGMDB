@@ -31,7 +31,7 @@
 
           <!--Nav buttons-->
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-          <a href="#" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
+          <a href="store.php" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
           <a href="library.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Library</a>
           <a href="store.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Store</a>
           <a href="news.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
@@ -186,7 +186,7 @@ if(isset($_GET['id'])){
                 <p class="w3-center">End Date: <?php echo $_SESSION['end_date']; ?> </p>
 
             </div>
-          
+
             <div class="w3-container w3-card w3-border w3-round w3-margin white-font"><br>
 
                 <h4><br>Games with discounts</h4>
@@ -210,7 +210,7 @@ if(isset($_GET['id'])){
                   <p><?php echo $game_name; ?><br><b><del><?php echo ("$" . $game_price); ?></del></b><br><?php echo ("$" . ($game_price - $amount)); ?></b></p>
                 </div>
                 <?php } ?>
-                  
+
                 </div>
 
             </div>

@@ -49,7 +49,7 @@
     else
     {
         // Inserting game session data into play table
-        $insert_gameplay = "INSERT INTO play (session_id, player_id1, player_id2, game_name, session_date, session_time) VALUES ($player_id, null, '$game_name', '$start_date', '$start_time')";
+        $insert_gameplay = "INSERT INTO play (session_id, player_id1, player_id2, game_name, session_date, session_time) VALUES ($session_id, $player_id, $player_id, '$game_name', '$start_date', '$start_time')";
 
         // Executing the query
         mysqli_query($db, $insert_gameplay);

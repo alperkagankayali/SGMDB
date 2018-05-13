@@ -95,7 +95,7 @@
               echo   "<hr class=\"w3-clear\">";
               echo "<p>". $news['txt'] ."</p>";
               echo  "<div class=\"w3-row-padding\" style=\"margin:0 -16px\">";
-              $_SESSION['news_id'] = $news['news_id'];  
+              $_SESSION['news_id'] = $news['news_id'];
               echo "<img src=";
               include("picture_load.php");
               echo " class=\"w3-right\">";
@@ -117,36 +117,6 @@
 
 
       <!-- End Middle Column -->
-      </div>
-
-      <!-- Right Column -->
-      <div class="w3-col m2 w3-right">
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
-
-          </div>
-        </div>
-
-        <br>
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
-
-          </div>
-        </div>
-
-      <!-- End Right Column -->
       </div>
 
     <!-- End Grid -->

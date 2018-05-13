@@ -6,7 +6,7 @@
     if(is_array($id)){
       $id = $id['company_name'];
     }
-    $query = "SELECT game_name, game_logo FROM game WHERE company_name = '$id'"; 
+    $query = "SELECT game_name, game_logo FROM game WHERE company_name = '$id'";
     $access_query = mysqli_query($db, $query);
     $counter = mysqli_num_rows($access_query);
 ?>
@@ -42,7 +42,7 @@
 
           <!--Nav buttons-->
           <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-          <a href="#" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
+          <a href="store.php" class="w3-bar-item w3-button w3-teal nav_links"><i class="fa fa-home w3-margin-right"></i></a>
           <a href="published_games.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">Published Games</a>
           <a href="news_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">News</a>
           <a href="about_company.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white nav_links">About</a>
@@ -52,9 +52,9 @@
             <img src="images/icons/logout.png" class="w3-circle" style="height:23px;width:23px" alt="Log out">
           </a>
 
-          
 
-         
+
+
  </div>
 </div>
 
@@ -79,7 +79,7 @@
 
        <form action="process_game_discount.php" method="post">
       <?php
-          
+
           //echo $id;
           //echo $counter;
           for($i = 0; $i < $counter; $i++)
@@ -91,9 +91,9 @@
               //echo $array['game_logo'];
               $game_logo = $array['game_logo'];
               $_SESSION['game_name'] = $game_name;
-              
+
       ?>
-       
+
         <div class="w3-container w3-card w3-round w3-margin" method="post"><br>
           <input type="checkbox" class="w3-left" name="check<?php echo $game_name ?>"></input>
           <input type="number" step="any" min="0" id="g_price" name="game_price<?php echo $game_name ?>" placeholder="Discount..." title="Please enter your discount amount"></input>
@@ -102,15 +102,15 @@
             <h4 class="game_name" name="game_name[]"><?php echo $game_name; ?></h4><br>
           <hr class="w3-clear">
         </div>
-       
-        
-        
+
+
+
       <?php
           }
       ?>
       <button type="submit" class="w3-button w3-block w3-theme-l1 w3-left-align">Do it! ></button>
       </form>
-        
+
     <!-- End Middle Column -->
     </div>
 

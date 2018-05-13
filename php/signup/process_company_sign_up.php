@@ -1,13 +1,13 @@
 <?php
     include("../db.php");
     session_start();
-    var_dump($_POST);
+
     // Accessing data from input fields from login page of player
     $company_name = mysqli_escape_string($db, $_POST['company_name']);
     $company_email = mysqli_escape_string($db, $_POST['company_email']);
     $company_password = mysqli_escape_string($db, $_POST['company_password']);
     $company_rep_password = mysqli_escape_string($db, $_POST['company_psw_repeat']);
-    
+
 
 
     $fileTmpName = "";
@@ -25,15 +25,14 @@
 
         $fileExt = explode('.', $fileName);
         $fileActualExt = strtolower(end($fileExt));
-    
-    
+
+
         $allowed = array('jpg', 'jpeg', 'png', 'pdf');
 
         if(in_array($fileActualExt, $allowed)){
             if($fileError === 0){
                 if($fileSize < 900000){
-                    $FileNameNew = uniqid('', true).".".$fileActualExt;  
-                    echo"upload successful!";
+                    $FileNameNew = uniqid('', true).".".$fileActualExt;
                 }
                 else{
                     echo 'Your file is too big';
