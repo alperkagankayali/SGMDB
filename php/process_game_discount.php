@@ -9,19 +9,20 @@ $access_query = mysqli_query($db, $query);
 $counter = mysqli_num_rows($access_query);
 for($i = 0; $i < $counter; $i++){
 	$array = $access_query->fetch_assoc();
-	if($_POST['game_price'. $array['game_name']] != ""){
-		if(isset($_POST['check' . $array['game_name']])){
+	$game_name_underscored = str_replace(' ', '_', $array['game_name']);
+	if($_POST['game_price'. $game_name_underscored] != ""){
+		if(isset($_POST['check' . $game_name_underscored])){
 			$gn = $array['game_name'];
 			$moneyquery = "SELECT game_price FROM game where game_name = '$gn'";
 			$money_query = mysqli_query($db, $moneyquery);
 			$money = $money_query->fetch_assoc();
-			if((int)$_POST['game_price'. $array['game_name']] < (int)$money['game_price']){
-				$oldmoney = (int)$_POST['game_price'. $array['game_name']];
-				$discount = (int)$money['game_price'];
+			if((double)$_POST['game_price'. $game_name_underscored] < (double)$money['game_price']){
+				$oldmoney = (double)$_POST['game_price'. $game_name_underscored];
+				$discount = (double)$money['game_price'];
 				$new_money = $oldmoney - $discount;
 				
 				//echo "upload successful! <br>";
-				$event_name = $_POST['event_name'. $array['game_name']];
+				$event_name = $_POST['event_name'. $game_name_underscored];
 				$event_query = "SELECT event_id, event_type, MAX(start_date) as recent FROM event WHERE event_type = '$event_name' GROUP BY event_type";
 				$eventquery = mysqli_query($db, $event_query);
 				$counter = mysqli_num_rows($eventquery);

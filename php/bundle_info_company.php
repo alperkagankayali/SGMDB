@@ -59,7 +59,7 @@
 
           <!--Profile avatar-->
           <a href="company_profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if ($_SESSION['company_name']['company_logo'] != '') echo $_SESSION['company_name']['company_logo']; else echo "images/icons/company_logo.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
           </a>
       </div>
   </div>
@@ -160,11 +160,12 @@
                     $game_name =$game_info['game_name'];
                     $game_price = $game_info['game_price'];
                     $bundle_price += $game_price;
+                    $_SESSION['game_name'] = $game_name;
               
                 ?>
                   <div class="w3-col l3 s6">
                     <div class="w3-container">
-                      <img src=<?php echo "\""; echo $image; echo "\"";?> style="width:100%">
+                      <img src=<?php include("picture_load.php");?> style="width:100%">
                       <p><?php echo $game_name ?> <br><b><?php echo $game_price ?> USD</b></p>
                     </div>
                     </div>
@@ -190,34 +191,7 @@
       </div>
 
       <!-- Right Column -->
-      <div class="w3-col m2">
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
-
-          </div>
-        </div>
-
-        <br>
-
-        <div class="w3-card w3-round w3-center">
-          <div class="w3-container w3-border white-font">
-
-            <p>Upcoming Events:</p>
-            <img src="images/gaben_summer_sale.jpg" alt="Summer sale" style="width:100%;">
-            <p><strong>Summer Sale 2018</strong></p>
-            <p><a class="w3-button w3-border w3-block w3-theme-l4" href="event.html" >Info</a></p>
-
-          </div>
-        </div>
-
-      <!-- End Right Column -->
-      </div>
+      
 
     <!-- End Grid -->
     </div>

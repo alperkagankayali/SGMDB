@@ -72,7 +72,7 @@
 
           <!--Profile avatar-->
          <a href="profile.php" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-            <img src=<?php if($_SESSION['player_pp'] != '') echo $_SESSION['player_pp']; else echo "images/icons/avatar.png";?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+            <img src=<?php include("picture_load.php");?> class="w3-circle" style="height:23px;width:23px" alt="Avatar">
          </a>
 
          <!--Search-->
@@ -115,9 +115,10 @@
               $midname = mysqli_query($db, "SELECT middlename FROM player WHERE player_id = $player_id2")->fetch_assoc()['middlename'];
               $lastname = mysqli_query($db, "SELECT lastname FROM player WHERE player_id = $player_id2")->fetch_assoc()['lastname'];
               $profile_picture = mysqli_query($db, "SELECT profile_picture FROM player WHERE player_id = $player_id2")->fetch_assoc()['profile_picture'];
+              $_SESSION['player_id2'] = $player_id2;
       ?>
         <div class="w3-container w3-card w3-round w3-margin"><br>
-          <img src=<?php if($profile_picture != null) echo $profile_picture; else echo "images/icons/avatar.png";?> alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+          <img src=<?php include("picture_load.php");?> alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
           <!--<span class="w3-right w3-opacity">1 min</span><-->
           <h4><?php echo $firstname." ".$midname." ".$lastname; ?></h4><br>
           <hr class="w3-clear">

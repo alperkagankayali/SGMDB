@@ -263,8 +263,6 @@
       <!-- End Middle Column -->
       </div>
 
-      <!-- Right Column -->
-      <?php include("upcoming-events.php"); ?>
 
     <!-- End Grid -->
     </div>

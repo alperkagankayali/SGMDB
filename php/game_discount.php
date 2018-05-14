@@ -91,13 +91,14 @@
               //echo $array['game_logo'];
               $game_logo = $array['game_logo'];
               $_SESSION['game_name'] = $game_name;
+              $game_name_underscored = str_replace(' ', '_', $game_name);
 
       ?>
 
         <div class="w3-container w3-card w3-round w3-margin" method="post"><br>
-          <input type="checkbox" class="w3-left" name="check<?php echo $game_name ?>"></input>
-          <input type="number" step="any" min="0" id="g_price" name="game_price<?php echo $game_name ?>" placeholder="Discount..." title="Please enter your discount amount"></input>
-          <input type="text" id="event_name" name="event_name<?php echo $game_name ?>" placeholder="Event..." title="Please enter the event you want to include"></input>
+          <input type="checkbox" class="w3-left" name="check<?php echo $game_name_underscored; ?>"></input>
+          <input type="number" step="any" min="0" id="g_price" name="game_price<?php echo $game_name_underscored; ?>" placeholder="Discount..." title="Please enter your discount amount"></input>
+          <input type="text" id="event_name" name="event_name<?php echo $game_name_underscored; ?>" placeholder="Event..." title="Please enter the event you want to include"></input>
           <!--<span class="w3-right w3-opacity">1 min</span><-->
             <h4 class="game_name" name="game_name[]"><?php echo $game_name; ?></h4><br>
           <hr class="w3-clear">

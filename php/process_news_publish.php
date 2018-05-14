@@ -44,7 +44,6 @@
 
     // Inserting query for news table
     $insert_news_query = "INSERT INTO news (news_id, header, txt, news_image, company_name, news_picture) VALUES (NULL, \"$header\", \"$text\", \"$FileNameNew\", \"$company_name\", \"$fileTmpName\");";
-    echo $insert_news_query;
 
     // Executes the query
     $result0 = mysqli_query($db, $insert_news_query);

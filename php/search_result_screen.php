@@ -212,6 +212,7 @@
                         $player_email = $player['email'];
 
                         $player_id2 = $player['player_id'];
+                        $_SESSION['player_id2'] = $player_id2;
 
                         // Checking if already friend
                         $count = mysqli_num_rows(mysqli_query($db, "SELECT * FROM friendship WHERE player_id1 = $player_id AND player_id2 = $player_id2;"));
@@ -265,6 +266,7 @@
                         $player_email = $player['email'];
 
                         $player_id2 = $player['player_id'];
+                        $_SESSION['player_id2'] = $player_id2;
 
                         // Checking if already friend
                         $count = mysqli_num_rows(mysqli_query($db, "SELECT * FROM friendship WHERE player_id1 = $player_id AND player_id2 = $player_id2;"));

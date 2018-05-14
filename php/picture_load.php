@@ -5,15 +5,6 @@ if (session_status() == PHP_SESSION_NONE) {
         session_start();
 }
 
-
-if(isset($_SESSION['player_id'])){
-	$id = $_SESSION['player_id'];
-	$imagequery = "SELECT profile_picture, profile_image FROM player WHERE player_id = '$id'";
-}
-if(isset($_SESSION['player_id2'])){
-	$id = $_SESSION['player_id2'];
-	$imagequery = "SELECT profile_picture, profile_image FROM player WHERE player_id = '$id'";
-}
 if(isset($_SESSION['company_name'])){
 	if(is_array($_SESSION['company_name']))
 		$id = $_SESSION['company_name']['company_name'];
@@ -22,6 +13,15 @@ if(isset($_SESSION['company_name'])){
 	//var_dump($id);
 	$imagequery = "SELECT company_logo as profile_picture, company_picture as profile_image FROM company WHERE company_name = '$id'";
 }
+if(isset($_SESSION['player_id'])){
+	$id = $_SESSION['player_id'];
+	$imagequery = "SELECT profile_picture, profile_image FROM player WHERE player_id = '$id'";
+}
+if(isset($_SESSION['player_id2'])){
+	$id = $_SESSION['player_id2'];
+	$imagequery = "SELECT profile_picture, profile_image FROM player WHERE player_id = '$id'";
+}
+
 if(isset($_SESSION['news_id'])){
 	$id = $_SESSION['news_id'];
 	$imagequery = "SELECT news_image as profile_picture, news_picture as profile_image FROM news WHERE news_id = '$id'";

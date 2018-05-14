@@ -291,18 +291,19 @@
                       $game_access_logo = $access_logo_exe->fetch_assoc();
 
                       $game_logo = $game_access_logo['game_logo'];
+                      $_SESSION['game_name'] = $game_name;
             ?>
 
             <div class="w3-container w3-card w3-margin w3-border">
 
-              <img src=<?php echo $game_logo; ?> alt="Avatar" class="w3-left w3-circle w3-margin- w3-margin" style="width:60px">
+              <img src=<?php include("picture_load.php"); ?> alt="Avatar" class="w3-left w3-circle w3-margin- w3-margin" style="width:60px">
               <h4><?php echo $game_name; ?></h4><br>
               <hr class="w3-clear">
               <p>Gameplay Time: <?php echo $play_hour; ?> hours</p>
               <p>Gained Experience: <?php echo $experience; ?> XP</p>
                 <div class="w3-row-padding" style="margin:0 -16px">
                   <div class="w3-half">
-                    <img src=<?php echo $game_logo; ?> style="width:100%" alt="Gameplay Screenshot" class="w3-margin-bottom">
+                    <img src=<?php $_SESSION['game_name'] = $game_name; include("picture_load.php"); ?> style="width:100%" alt="Gameplay Screenshot" class="w3-margin-bottom">
                   </div>
               </div>
 

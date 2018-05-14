@@ -49,7 +49,6 @@ html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
             <!-- Tab links -->
             <div class="tab">
               <a class="tablinks" href="login-player.php">Player</a>
-              <a class="tablinks" href="login-developer.php">Developer</a>
               <a class="tablinks" href="login-company.php">Company</a>
             </div>
 
