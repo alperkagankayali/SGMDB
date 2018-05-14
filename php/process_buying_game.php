@@ -20,7 +20,7 @@
     $wallet_id = $wallet['wallet_id'];
 
     // Buying method
-    function buyGame($game_name, $game_price, $player_id)
+    function buyGame($game_name, $game_price, $player_id, $recevier_id)
     {
         global $date;
         global $wallet_id;
@@ -35,16 +35,11 @@
         else if($game_price <= $wallet['balance'])
         {
             // Adding the game to the library
-            $insert_to_library = "INSERT INTO library (game_name, player_id)
-                                VALUES('$game_name', $player_id);";
+            $insert_to_library = "INSERT INTO library (game_name, player_id, player_id_by)
+                                VALUES('$game_name', $recevier_id, $player_id);";
 
             // Executing the query
             $result = mysqli_query($db, $insert_to_library);
-
-            //echo $insert_to_library;
-
-            //echo $result;
-
 
             // SUCCESSFUL PURCHASE
             return "<h3> Successful purchase! </h3> <a href = 'library.php'> Go back to your library </a>";

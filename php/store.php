@@ -236,11 +236,12 @@
                      $top_game_name = $top_games['game_name'];
                      $top_game_logo = $top_games['game_logo'];
                      $top_game_price = $top_games['game_price'];
+
                      $_SESSION['game_name'] = $top_game_name;
             ?>
 
             <div class="w3-display-container mySlides">
-              <a href="game_information.php?game_name=<?php echo $top_game_name; ?>"><img src="<?php include('picture_load.php'); ?>" style="width:100%"></img></a>
+              <a href="game_information.php?game_name=<?php echo $top_game_name; ?>"><img src="<?php $_SESSION['game_name'] = $top_game_name; include('picture_load.php'); ?>" style="width:100%"></img></a>
             </div>
 
             <?php
@@ -289,12 +290,24 @@
                           $game_name = $games['game_name'];
                           $game_logo = $games['game_logo'];
                           $game_price = $games['game_price'];
+
+                          $discount_price = null;
+
+                          $discount_row = mysqli_num_rows(mysqli_query($db, "SELECT * FROM discount WHERE name = '$game_name'"));
+
+                          if($discount_row != 0)
+                          {
+                              $discount_amount = mysqli_query($db, "SELECT amount FROM discount WHERE name = '$game_name'")->fetch_assoc()['amount'];
+
+                              $discount_price = $game_price - $discount_amount;
+                          }
+
                           $_SESSION['game_name'] = $game_name;
                 ?>
 
                 <div class="w3-container w3-border w3-margin">
                   <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php include('picture_load.php'); ?> style="width:100%"></a>
-                  <p><?php echo $game_name; ?><br><?php echo $game_price; ?> $ </p>
+                  <p><?php echo $game_name; ?><br><?php if($discount_row != 0) { echo "<del>".$game_price."</del><br>"; echo $discount_price; } else echo $game_price; ?> $ </p>
                 </div>
 
                 <?php
@@ -315,12 +328,24 @@
                           $game_name = $games['game_name'];
                           $game_logo = $games['game_logo'];
                           $game_price = $games['game_price'];
+
+                          $discount_price = null;
+
+                          $discount_row = mysqli_num_rows(mysqli_query($db, "SELECT * FROM discount WHERE name = '$game_name'"));
+
+                          if($discount_row != 0)
+                          {
+                              $discount_amount = mysqli_query($db, "SELECT amount FROM discount WHERE name = '$game_name'")->fetch_assoc()['amount'];
+
+                              $discount_price = $game_price - $discount_amount;
+                          }
+
                           $_SESSION['game_name'] = $game_name;
                 ?>
 
                 <div class="w3-container w3-border w3-margin">
                   <a href="game_information.php?game_name=<?php echo $game_name; ?>"><img class="w3-margin-top" src=<?php include('picture_load.php'); ?> style="width:100%"></a>
-                  <p><?php echo $game_name; ?><br><?php echo $game_price; ?> $ </p>
+                  <p><?php echo $game_name; ?><br><?php if($discount_row != 0) { echo "<del>".$game_price."</del><br>"; echo $discount_price; } else echo $game_price; ?> $ </p>
                 </div>
 
                 <?php

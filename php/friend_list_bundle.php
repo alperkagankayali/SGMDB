@@ -40,7 +40,6 @@
       $access_friends = $access_friends . "));";
     //$access_friends = $access_friends . ");";
     //echo "<br>";
-    echo $access_friends;
 
     // Execute the query
     $result_query = mysqli_query($db, $access_friends);

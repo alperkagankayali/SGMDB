@@ -10,7 +10,7 @@
     $rating = mysqli_escape_string($db, $_POST['rating']);
 
     // CHecking if the player has already rated the game
-    $row_num = mysqli_num_rows(mysqli_query($db, "SELECT * FROM rate WHERE player_id = $player_id"));
+    $row_num = mysqli_num_rows(mysqli_query($db, "SELECT * FROM rate WHERE player_id = $player_id AND game_name = $game_name"));
 
     if($row_num == 0)
     {

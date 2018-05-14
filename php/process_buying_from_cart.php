@@ -55,7 +55,7 @@
               $game_name = $game['game_name'];
               $game_price = $prices[$j];
 
-              $result = buyGame($game_name, $game_price, $player_id);
+              $result = buyGame($game_name, $game_price, $player_id, $player_id);
 
               if($j == ($counter - 1))
               {

@@ -25,6 +25,19 @@
     $game_sys_req = $game_information['system_requirements'];
     $game_release_date = $game_information['release_date'];
     $company_name = $game_information['company_name'];
+
+    // Checking if the game has a discount price
+    $discount_price = null;
+
+    $discount_row = mysqli_num_rows(mysqli_query($db, "SELECT * FROM discount WHERE name = '$game_name'"));
+
+    if($discount_row != 0)
+    {
+        $discount_amount = mysqli_query($db, "SELECT amount FROM discount WHERE name = '$game_name'")->fetch_assoc()['amount'];
+
+        $discount_price = $game_price - $discount_amount;
+    }
+
     $_SESSION['company_name'] = $company_name;
 
     // CHECKING if teh game is in the user's library
@@ -178,7 +191,7 @@
                 {
           ?>
 
-          <p class="w3-center"><?php echo $game_price; ?> $</p>
+          <p class="w3-center"><?php if($discount_row != 0) { echo "<del>".$game_price." $</del><br>"; echo $discount_price; } else echo $game_price; ?> $</p>
           <a href="process_buying_from_store.php?game_name=<?php echo $game_name; ?>&game_price=<?php echo $game_price; ?>" class="w3-button w3-block w3-theme-l1 ">Buy now</a>
           <a href="process_adding_to_cart.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/cart.png" style="width:3%">Add to cart</a>
           <a href="process_adding_to_wishlist.php?game_name=<?php echo $game_name; ?>" class="w3-button w3-block w3-theme-l1 "><img src="images/icons/wish.png" style="width:1%">Add to wish list</a>
@@ -247,9 +260,9 @@
 
               <?php
                     }
-                    if(mysqli_num_rows(mysqli_query($db, "SELECT * FROM rating NATURAL JOIN rate WHERE player_id = $player_id")) != 0)
+                    if(mysqli_num_rows(mysqli_query($db, "SELECT * FROM rating NATURAL JOIN rate WHERE player_id = $player_id AND game_name = '$game_name'")) != 0)
                     {
-                        $rating = mysqli_query($db, "SELECT * FROM rating NATURAL JOIN rate WHERE player_id = $player_id")->fetch_assoc()['rating'];
+                        $rating = mysqli_query($db, "SELECT * FROM rating NATURAL JOIN rate WHERE player_id = $player_id AND game_name = '$game_name'")->fetch_assoc()['rating'];
 
                         $warning = "You have already rated this game by ".$rating.". You can update your choice!";
               ?>

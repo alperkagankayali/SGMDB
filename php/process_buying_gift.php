@@ -12,12 +12,12 @@
       $game_price = $_GET['game_price'];
       $receiver_id = $_GET['receiver_id'];
 
+      mysqli_query($db, "INSERT INTO gift (player_id1, player_id2, game_name) VALUES ($player_id, $receiver_id, '$game_name');");
 
-      $_SESSION['buygame'] = buyGame($game_name, $game_price, $receiver_id);
+      $_SESSION['buygame'] = buyGame($game_name, $game_price, $player_id, $receiver_id);
 
       //"<h3> You do not have enough balance! </h3> <a href = 'profile.php'> Go back to your profile </a>"
       // "<h3> You do not have any wallet! </h3> <a href = 'profile.php'> Go to your profile </a>"
-
 
       if($_SESSION['buygame'] =="<h3> Successful purchase! </h3> <a href = 'library.php'> Go back to your library </a>")
       {

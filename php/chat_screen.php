@@ -2,8 +2,6 @@
     include("db.php");
     session_start();
 
-    echo "<br><br><br>";
-
     // Access the id of the player 1 - sender player & player 2 - receiver player
     $sender_id = $_SESSION['player_id'];
     $receiver_id = $_GET['receiver_id'];

@@ -8,7 +8,7 @@
       $game_name = $_GET['game_name'];
       $game_price = $_GET['game_price'];
 
-      $_SESSION['buygame'] = buyGame($game_name, $game_price, $player_id);
+      $_SESSION['buygame'] = buyGame($game_name, $game_price, $player_id, $player_id);
 
       header("location: buying_result.php");
 

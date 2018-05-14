@@ -1,4 +1,4 @@
-<?php 
+<?php
 if (session_status() == PHP_SESSION_NONE) {
         include("db.php");
         session_start();
@@ -32,7 +32,6 @@ if(($_FILES['event_picture']['name'] != "")){
         if($fileError === 0){
             if($fileSize < 900000){
                 $FileNameNew = uniqid('', true).".".$fileActualExt;  
-                echo"upload successful!";
             }
             else{
                 echo 'Your file is too big';

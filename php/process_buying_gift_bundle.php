@@ -19,7 +19,6 @@
       //echo (array_values($array)[0]);
       $buying_result = array();
 
-      //var_dump($array);
 
 
       // Accessing receiver's username
@@ -27,7 +26,9 @@
 
       foreach($array as $game_name => $price){
             //echo $price;
-            $buying_result[$game_name] = buyGame($game_name, $price, $receiver_id);
+            mysqli_query($db, "INSERT INTO gift (player_id1, player_id2, game_name) VALUES ($player_id, $receiver_id, '$game_name');");
+
+            $buying_result[$game_name] = buyGame($game_name, $price, $player_id, $receiver_id);
 
             if($buying_result[$game_name] == "<h3> Successful purchase! </h3> <a href = 'library.php'> Go back to your library </a>"){
                   // ADDING NOTIFICATION
@@ -45,7 +46,7 @@
                   mysqli_query($db, "INSERT INTO notify (player_id, notification_id) VALUES ($receiver_id, $notification_id)");
             }
       }
-      
+
 
 
 

@@ -38,8 +38,8 @@
       		for($i = 0; $i < $game_count; $i++){
       			$game_name = $game_names->fetch_assoc();
 	            // Adding the game to the library
-	            $insert_to_library = "INSERT INTO library ( game_name, player_id)
-	                            VALUES('".$game_name['game_name']."', $player_id);";
+	            $insert_to_library = "INSERT INTO library ( game_name, player_id, player_id_by)
+	                            VALUES('".$game_name['game_name']."', $player_id, player_id_by);";
 
 	            // Executing the query
 	            mysqli_query($db, $insert_to_library);
