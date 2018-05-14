@@ -37,7 +37,7 @@ public class Driver
 
             String [] developerAttributes = {"developer_id-INT AUTO_INCREMENT", "developer_email-VARCHAR(255) UNIQUE", "developer_password-CHAR(255)", "developer_firstname-VARCHAR(255)", "developer_midname-VARCHAR(255)", "developer_lastname-VARCHAR(255)", "PRIMARY KEY(developer_id)" };
 
-            String [] gameAttributes = {"game_name-VARCHAR(255) NOT NULL", "game_price-FLOAT", "platform-VARCHAR(255)", "game_category-VARCHAR(255)", "game_logo-VARCHAR(255)", "system_requirements-VARCHAR(255)", "release_date-DATE", "company_name-VARCHAR(255)", "system_file-BLOB", "game_image-MEDIUMBLOB", "game_about-BLOB", "PRIMARY KEY(game_name)", "FOREIGN KEY(company_name) REFERENCES company(company_name)"};
+            String [] gameAttributes = {"game_name-VARCHAR(255) NOT NULL", "game_price-FLOAT", "platform-VARCHAR(255)", "game_category-VARCHAR(255)", "game_logo-VARCHAR(255)", "system_requirements-VARCHAR(255)", "release_date-DATE", "company_name-VARCHAR(255)", "system_file-MEDIUMBLOB", "game_image-MEDIUMBLOB", "game_about-MEDIUMBLOB", "PRIMARY KEY(game_name)", "FOREIGN KEY(company_name) REFERENCES company(company_name)"};
 
             String [] wishListAttributes = {"game_name-VARCHAR(255) NOT NULL", "player_id-INT NOT NULL", "PRIMARY KEY(player_id, game_name)", "FOREIGN KEY(player_id) REFERENCES player(player_id)", "FOREIGN KEY(game_name) REFERENCES game(game_name)"};
 
@@ -69,7 +69,7 @@ public class Driver
 
             String [] messageAttributes = {"player_id1-INT NOT NULL", "player_id2-INT NOT NULL", "message_date-DATE NOT NULL", "message_text-TEXT", "FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)"};
 
-            String [] eventAttributes = {"event_id-INT AUTO_INCREMENT","start_date-DATE", "end_date-DATE", "event_image-VARCHAR(255)", "event_type-VARCHAR(255)", "event_picture-BLOB", "PRIMARY KEY(event_id)"};
+            String [] eventAttributes = {"event_id-INT AUTO_INCREMENT","start_date-DATE", "end_date-DATE", "event_image-VARCHAR(255)", "event_type-VARCHAR(255)", "event_picture-MEDIUMBLOB", "PRIMARY KEY(event_id)"};
 
             String [] ratingAttributes = {"rating_id-INT AUTO_INCREMENT", "rating-INT", "rating_date-DATE", "PRIMARY KEY(rating_id)"};
 
@@ -86,6 +86,7 @@ public class Driver
             String [] discountAttributes = {"discount_id-INT AUTO_INCREMENT NOT NULL", "amount-FLOAT", "name-VARCHAR(255)", "PRIMARY KEY(discount_id)", "FOREIGN KEY(name) REFERENCES game(game_name)"};
 
             String [] giftAttributes = {"player_id1-INT NOT NULL", "player_id2-INT NOT NULL", "game_name-VARCHAR(255) NOT NULL", "PRIMARY KEY(player_id1, player_id2, game_name)","FOREIGN KEY(player_id1) REFERENCES player(player_id)", "FOREIGN KEY(player_id2) REFERENCES player(player_id)"};
+            	            
             
             	dropTable("gift");
             dropTable("contains");
@@ -115,8 +116,8 @@ public class Driver
             dropTable("notification");
             dropTable("event");
             dropTable("bundle");
-//
-//
+////
+////
             createTable("bundle", bundleAttributes);
             createTable("event", eventAttributes);
             createTable("notification", notificationAttributes);
@@ -153,7 +154,7 @@ public class Driver
                           + "BEGIN "
                           + "UPDATE stats SET level = level + 1 WHERE player_id = new.player_id; "
                           + ""
-                          + "INSERT INTO payment (payment_date, cost, wallet_id) VALUES (CURDATE(), (SELECT game_price FROM game WHERE game_name = new.game_name), (SELECT wallet_id FROM wallet WHERE player_id = new.player_id_by)); "
+                          + "INSERT INTO payment (payment_date, cost, wallet_id) VALUES (CURDATE(),  (SELECT game_price FROM game WHERE game_name = new.game_name), (SELECT wallet_id FROM wallet WHERE player_id = new.player_id_by)); "
                           + ""
                           + "INSERT INTO buyGame (player_id, game_name, payment_id) VALUES (new.player_id_by,  new.game_name, (SELECT LAST_INSERT_ID())); "
                           + ""
