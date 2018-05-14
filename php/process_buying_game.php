@@ -27,6 +27,16 @@
         global $wallet;
         global $db;
 
+        if(mysqli_num_rows(mysqli_query($db, "SELECT * FROM discount WHERE name = '$game_name'")) != 0)
+        {
+            $discount_amount = mysqli_query($db, "SELECT amount FROM discount WHERE name = '$game_name'")->fetch_assoc()['amount'];
+            $game_price2 = $game_price - $discount_amount;
+
+            mysqli_query($db, "UPDATE game SET game_price = $game_price2 WHERE game_name = '$game_name'");
+
+
+        }
+
         // Controls
         if($wallet_id == null)
         {
@@ -40,6 +50,14 @@
 
             // Executing the query
             $result = mysqli_query($db, $insert_to_library);
+
+            if(mysqli_num_rows(mysqli_query($db, "SELECT * FROM discount WHERE name = '$game_name'")) != 0)
+            {
+                $discount_amount = mysqli_query($db, "SELECT amount FROM discount WHERE name = '$game_name'")->fetch_assoc()['amount'];
+                $game_price2 = $game_price2 + $discount_amount;
+
+                mysqli_query($db, "UPDATE game SET game_price = $game_price2 WHERE game_name = '$game_name'");
+            }
 
             // SUCCESSFUL PURCHASE
             return "<h3> Successful purchase! </h3> <a href = 'library.php'> Go back to your library </a>";

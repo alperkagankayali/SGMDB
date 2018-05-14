@@ -310,7 +310,7 @@
 
           <hr>
 
-         <!-- USers grid -->
+         <!-- News grid -->
           <div class="w3-row white-font">
 
               <div class="w3-panel white-font">
@@ -331,7 +331,7 @@
                   echo "<p>". $news['txt'] ."</p>";
                   echo  "<div class=\"w3-row-padding\" style=\"margin:0 -16px\">";
                   $_SESSION['news_id'] = $news['news_id'];
-                  echo "<img src=";
+                  echo "<img style = 'width:90%'src=";
                   include("picture_load.php");
                   echo " class=\"w3-right\">";
                   echo "</div>";

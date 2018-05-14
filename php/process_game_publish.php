@@ -26,8 +26,7 @@
     if(in_array($fileActualExt, $allowed)){
         if($fileError === 0){
             if($fileSize < 900000){
-                $FileNameNew = uniqid('', true).".".$fileActualExt;  
-                echo"upload successful!";
+                $FileNameNew = uniqid('', true).".".$fileActualExt;
             }
             else{
                 echo 'Your file is too big';
@@ -55,8 +54,7 @@
     if(in_array($fileActualExt1, $allowed1)){
         if($fileError1 === 0){
             if($fileSize1 < 900000){
-                $FileNameNew1 = uniqid('', true).".".$fileActualExt1;  
-                echo"upload successful!";
+                $FileNameNew1 = uniqid('', true).".".$fileActualExt1;
             }
             else{
                 echo 'Your file is too big';
@@ -84,8 +82,7 @@
     if(in_array($fileActualExt2, $allowed2)){
         if($fileError2 === 0){
             if($fileSize2 < 900000){
-                $FileNameNew2 = uniqid('', true).".".$fileActualExt2;  
-                echo"upload successful!";
+                $FileNameNew2 = uniqid('', true).".".$fileActualExt2;
             }
             else{
                 echo 'Your file is too big';

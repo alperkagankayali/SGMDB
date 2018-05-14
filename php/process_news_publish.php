@@ -25,7 +25,6 @@
         if($fileError === 0){
             if($fileSize < 900000){
                 $FileNameNew = uniqid('', true).".".$fileActualExt;  
-                echo"upload successful!";
             }
             else{
                 echo 'Your file is too big';

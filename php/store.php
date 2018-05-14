@@ -229,19 +229,27 @@
           <div class="w3-container">
 
             <?php
-                  for($c = 0; $c < 3; $c++)
+                  $counter1 = 0;
+                  
+                  if($num_rows >= 3)
+                  {
+                     $counter1 = 3;
+                  }
+                  else
+                  {
+                      $counter1 = $num_rows;
+                  }
+                  for($c = 0; $c < $counter; $c++)
                   {
                      $top_games = $access_top_games->fetch_assoc();
 
                      $top_game_name = $top_games['game_name'];
                      $top_game_logo = $top_games['game_logo'];
                      $top_game_price = $top_games['game_price'];
-
-                     $_SESSION['game_name'] = $top_game_name;
             ?>
 
             <div class="w3-display-container mySlides">
-              <a href="game_information.php?game_name=<?php echo $top_game_name; ?>"><img src="<?php $_SESSION['game_name'] = $top_game_name; include('picture_load.php'); ?>" style="width:100%"></img></a>
+              <a href="game_information.php?game_name=<?php echo $top_game_name; ?>"><img src= <?php $_SESSION['game_name'] = $top_game_name; include("picture_load.php"); ?> style="width:100%"></img></a>
             </div>
 
             <?php

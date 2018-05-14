@@ -23,14 +23,6 @@
 
     // Result of the query
     $wallet = $wallet_result->fetch_assoc();
-    echo $payment_method;
-    echo $wallet['payment_method'];
-    echo $card_number;
-    echo $wallet['card_number'];
-    echo $expiration_date;
-    echo $wallet['expiration_date'];
-    echo $security_code;
-    echo $wallet['security_code'];
 
     if($payment_method == $wallet['payment_method'] && $card_number == $wallet['card_number'] && $expiration_date == $wallet['expiration_date'] && $security_code == $wallet['security_code'])
     {

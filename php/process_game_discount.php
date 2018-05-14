@@ -20,7 +20,7 @@ for($i = 0; $i < $counter; $i++){
 				$oldmoney = (double)$_POST['game_price'. $game_name_underscored];
 				$discount = (double)$money['game_price'];
 				$new_money = $oldmoney - $discount;
-				
+
 				//echo "upload successful! <br>";
 				$event_name = $_POST['event_name'. $game_name_underscored];
 				$event_query = "SELECT event_id, event_type, MAX(start_date) as recent FROM event WHERE event_type = '$event_name' GROUP BY event_type";
@@ -29,7 +29,7 @@ for($i = 0; $i < $counter; $i++){
 				$event = $eventquery->fetch_assoc();
 				if($counter > 0){
 					$discount_query = "INSERT INTO discount(discount_id, amount, name) VALUES (NULL, '$oldmoney', '$gn');";
-				
+
 					//The company will be able to make discounts more than one.
 					$resultdiscount = mysqli_query($db, $discount_query);
 					$event_id = $event['event_id'];
@@ -52,8 +52,8 @@ for($i = 0; $i < $counter; $i++){
 					echo "<h2>No Event is Found! Discount will be meaningless!</h2>";
 					echo "<a href=\"game_discount.php\">Go back to game discount page</a>";
 				}
-				
-				
+
+
 			}
 			else{
 				echo "<h2>Discount money is more than the game price!</h2>";
