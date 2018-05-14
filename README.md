@@ -25,5 +25,5 @@ Ozgur Ulusoy
 
 * [Proposal](https://drive.google.com/open?id=1s8QaVDDs9bvBjcTgf0m1TwTiGquKl0eL)
 * [Design](https://drive.google.com/open?id=10YqwDZZbO86-3yMp30mkuuOPpDiGNepL)
-* [Final] (https://drive.google.com/open?id=1aVWnS-oUfNG3ZCqlKmIh1vLBxrAD8BxV)
-* [User Manual] (https://drive.google.com/open?id=1x4HQdEM7VNdB4Q33L1_7ejux5U0jLrLp)
+* [Final](https://drive.google.com/open?id=1aVWnS-oUfNG3ZCqlKmIh1vLBxrAD8BxV)
+* [User Manual](https://drive.google.com/open?id=1x4HQdEM7VNdB4Q33L1_7ejux5U0jLrLp)
